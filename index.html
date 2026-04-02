@@ -9,8 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
+  <link rel="stylesheet" href="style.css">
       /* Warmed Dark Theme Variables */
       --bg-color: #171717;       /* neutral-900 */
       --card-bg: #262626;        /* neutral-800 */
@@ -306,6 +305,135 @@
       width: 100%;
       align-items: start;
       padding: 24px 72px 60px 72px;
+    }
+
+    .list-view-board {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: 8px 12px 40px 12px;
+      width: 100%;
+    }
+
+    .list-view-stage-section {
+      border-top: 1px solid var(--border-color);
+      padding: 8px 0 0 0;
+      margin: 0;
+    }
+
+    .list-view-stage-header {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 0 6px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .list-view-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+      padding: 6px 0;
+      border: 0;
+      background: transparent;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .list-view-item:hover {
+      background: rgba(168, 85, 247, 0.08);
+    }
+
+    .list-view-name {
+      color: var(--text-main);
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .list-view-fav-btn {
+      background: none;
+      border: 0;
+      color: #fbbf24;
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    body.compact-mode .dashboard-controls {
+      border: 0;
+      background: rgba(23,23,23,0.95);
+      box-shadow: none;
+      padding: 12px 20px;
+    }
+
+    body.compact-mode .grid-board {
+      gap: 8px;
+      padding: 18px 20px 30px 20px;
+    }
+
+    body.compact-mode .stage-column {
+      border: none;
+      background-color: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 0;
+    }
+
+    body.compact-mode .stage-header {
+      background: rgba(23, 23, 23, 0.92);
+      border: 0;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid rgba(167, 167, 167, 0.18);
+      padding: 10px 8px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      position: sticky;
+      top: var(--sticky-top);
+      z-index: 50;
+    }
+
+    body.compact-mode .day-section-header {
+      font-size: 1rem;
+      margin: 8px 0 8px 0;
+      font-weight: 600;
+      color: var(--text-main);
+      padding: 0 8px;
+    }
+
+    body.compact-mode .artist-list {
+      padding: 0;
+      gap: 2px;
+    }
+
+    body.compact-mode .artist-card {
+      border: none;
+      background: transparent;
+      box-shadow: none;
+      padding: 4px 0;
+      margin: 0;
+    }
+
+    body.compact-mode .artist-card .fav-btn,
+    body.compact-mode .artist-card .fav-btn:hover {
+      color: #fbbf24;
+      opacity: 0.8;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    body.compact-mode .artist-card:hover .fav-btn {
+      transform: scale(1.12);
+      opacity: 1;
+    }
+
+    body.compact-mode .grid-board {
+      gap: 8px;
+      padding: 12px 20px 60px 20px;
     }
 
     .stage-column {
@@ -611,6 +739,7 @@
         <button class="tab-btn" onclick="setDay('SATURDAY', this)">Saturday</button>
         <button class="tab-btn" onclick="setDay('SUNDAY', this)">Sunday</button>
         <button class="tab-btn" onclick="setDay('BY_STAGE', this)">By Stage</button>
+        <button class="tab-btn" onclick="setDay('COMPACT', this)">Compact View</button>
       </div>
       <button class="search-toggle" id="search-toggle" aria-label="Toggle search" onclick="toggleSearch()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="2"/><path d="M15 15L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -643,9 +772,7 @@
 
   <div id="main-content"></div>
 
-  <script>
-    const stages = ["Kinetic Field", "Circuit Grounds", "Cosmic Meadow", "Neon Garden", "Basspod", "Wasteland", "Quantum Valley", "Stereobloom", "Bionic Jungle"];
-    const lineupData = {
+  <script src="script.js"></script>
       "FRIDAY": ["Argy", "1991", "Jackie Hollander", "Adriatique", "Adventure Club (Throwback Set)", "Adrián Mills", "Cold Blue", "Abana b2b Juliet Mendoza", "Avalon Emerson", "The Chainsmokers", "BOU", "Max Dean b2b Luke Dean", "ANASTAZJA ", "ATLiens", "Cloudy", "Cosmic Gate", "Josh Baker", "Heidi Lawden b2b Masha Mar", "Charlotte de Witte", "I Hate Models", "MEDUZA³", "DJ Tennis b2b Chloé Caillet", "Culture Shock", "DØM1NA", "Darren Porter", "Luke Dean", "Massimiliano Pagliara", "Chris Lorenzo", "Level Up", "MPH", "Eli Brown", "Cyclops", "DYEN", "Darude", "Luuk van Dijk", "Paramida", "Fisher", "Levity", "Notion", "Joseph Capriati", "Deathpact ∞ Deathpact", "GRAVEDGR", "Gareth Emery", "Max Dean", "Robert Hood", "Korolova", "Nico Moreno", "Roddy Lima", "Mëstiza", "Ghengar", "Johannes Schuster", "Ilan Bluestone", "Obskür", "Salute b2b Chloé Caillet", "Laidback Luke b2b Chuckie", "Ray Volpe", "San Pacho", "Peggy Gou", "GorillaT", "KUKO", "Matty Ralph", "Omar+", "Stacy Christine", "Porter Robinson (DJ Set)", "The Outlaw", "Underworld", "", "HEYZ", "Rebekah", "Paul van Dyk", "Slamm", "The Carry Nation", "Sofi Tukker", "Wooli", "Walker & Royce b2b VNSSA", "", "Kai Wachi", "Serafina", "Pegassi", "Toman", "", "", "", "", "Westend", "", "MUZZ", "Stan Christ", "Sarah de Warren", "", "", "", "", "", "", "Riot", "", "", ""],
       "SATURDAY": ["Above & Beyond (Sunrise Set)", "Boys Noize", "BUNT. (In The Round)", "Ahmed Spins", "Avello b2b Dennett", "Alyssa Jolee", "Andrew Rayel", "Bolo (Sunrise Set)", "Bad Boombox b2b Ollie Lishman", "AR/CO", "DJ Mandy", "DJ Gigola b2b MCR-T", "Josh Baker b2b Kettama b2b Prospa", "Delta Heavy", "Audiofreq b3b Code Black b3b Toneshifterz", "Astrix", "CID", "Bashkka b2b Sedef Adasi", "Hardwell", "Kettama", "Frost Children", "Luciano", "Doctor P b3b Flux Pavilion b3b FuntCase", "Cutdwn", "Billy Gillies", "Discip", "Baugruppe90", "Hayla", "Lilly Palmer", "Hannah Laing", "Mink", "Eptic b2b Space Laces", "Da Tweekaz", "Maddix", "Dreya V", "Benwal", "John Summit", "Peggy Gou b2b KI/KI", "Interplanetary Criminal", "Prospa", "Fallen with MC Dino", "Dead X", "Maria Healy", "HNTR", "Club Angel", "Kaskade", "RØZ", "Malugi", "Silvie Loto", "Getter", "Lady Faith b2b LNY TNZ", "Mathame", "Noizu", "HAAi b2b Luke Alessi", "Steve Aoki", "Sammy Virji", "Snow Strippers", "", "HOL!", "Lil Texas", "Paul Oakenfold", "OMNOM", "MCR-T", "Sub Focus", "Tiësto", "The Prodigy", "", "Hybrid Minds", "Mish", "Superstrings", "Slugg", "Player Dave", "Subtronics", "", "VTSS (In The Round)", "", "Mary Droppinz", "Rob Gee b2b Lenny Dee", "T78", "Wax Motif", "Spray", "", "", "", "", "Viperactive", "The Saints", "Thomas Schumacher", "", "", "", "", "", "", "YDG", "", "", ""],
       "SUNDAY": ["Armin Van Buuren (Sunrise Set)", "ANNA", "Alison Wonderland", "999999999", "A.M.C w/ Phantom", "Clawz", "Cassian", "Chris Lorenzo b2b Bullet Tooth", "Alves", "Cloonee", "Beltran", "Black Tiger Sex Machine", "Adiel", "ÆON:MODE (Sunrise Set)", "DJ Isaac", "Cristoph", "Hamdi", "Beltran b2b Simas", "Funk Tribu", "Chris Stussy", "Dabin", "DJ Gigola", "Ahee b2b Liquid Stranger", "Restricted", "Eli & Fur", "KLO", "DJ Tennis b2b Red Axes", "Griz b2b Wooli", "Kevin de Vries", "Gravagerz", "Frankie Bones", "Boogie T b2b Distinct Motive", "Rooler", "Innellea", "LU.RE", "ISAbella", "Layton Giordani", "Linska", "Nico Moreno b2b Holy Priest", "Indira Paganotto", "Eazybaked", "SIHK", "KREAM", "Morgan Seatree", "Kinahau", "Martin Garrix", "Solomun", "Nostalgix", "KI/KI", "Infekt b2b Samplifire", "Sub Zero Project", "Massano", "Murphy’s Law", "Tiga", "Ship Wrek", "Vintage Culture", "San Holo (Wholesome Riddim Set)", "Klangkuenstler", "Nightstalker with MC Dino", "The Purge", "Rebūke", "Sidney Charles b2b Bushbaby", "", "Trace", "", "Seven Lions", "", "Peekaboo", "Vieze Asbak", "Shingo Nakamura", "Silva Bumpa", "", "Zedd", "", "William Black", "", "Sippy", "Warface", "Tinlicker (DJ Set)", "Skream", "", "", "", "", "", "Virtual Riot", "Yosuf", "Warung", "", "", "", "", "", "", "Whethan", "", "", ""]
@@ -667,9 +794,10 @@
     function updateSearchToggleState() {
       const top = document.getElementById('top-controls');
       if (!top) return;
+
       if (window.innerWidth <= 768) {
-        top.classList.remove('needs-search-toggle');
-        top.classList.remove('search-active');
+        // Mobile always uses the toggle layout; preserve active open state
+        top.classList.add('needs-search-toggle');
         return;
       }
 
@@ -706,6 +834,7 @@
       currentDay = day;
       document.querySelectorAll(".tabs button").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
+      document.body.classList.toggle('compact-mode', day === 'COMPACT');
       window.scrollTo({ top: 0, behavior: 'smooth' });
       renderBoard();
     }
@@ -829,10 +958,30 @@
     function renderBoard() {
       const main = document.getElementById("main-content"); main.innerHTML = "";
       const q = document.getElementById("search-input").value.toLowerCase();
-      if (currentDay === 'ALL_DAYS') ['FRIDAY', 'SATURDAY', 'SUNDAY'].forEach(d => renderGrid(d, q, main, true));
-      else if (currentDay === 'BY_STAGE') renderByStage(q, main);
-      else renderGrid(currentDay, q, main, false);
+      if (currentDay === 'COMPACT') {
+        renderCompactView(q, main);
+      } else if (currentDay === 'ALL_DAYS') {
+        ['FRIDAY', 'SATURDAY', 'SUNDAY'].forEach(d => renderGrid(d, q, main, true));
+      } else if (currentDay === 'BY_STAGE') {
+        renderByStage(q, main);
+      } else {
+        renderGrid(currentDay, q, main, false);
+      }
       setTimeout(updateStickyHeight, 10);
+    }
+
+    function renderCompactView(q, container) {
+      ['FRIDAY', 'SATURDAY', 'SUNDAY'].forEach(day => {
+        renderGrid(day, q, container, true);
+      });
+
+      // If all sections were filtered out, show empty state
+      if (container.children.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'empty-state';
+        empty.textContent = 'No artists';
+        container.appendChild(empty);
+      }
     }
 
     function renderGrid(day, q, container, header) {
