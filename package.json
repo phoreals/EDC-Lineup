@@ -1,0 +1,12 @@
+{
+  "name": "edc-lineup",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:css": "sass style.scss style.css --style=expanded",
+    "build:css:compressed": "sass style.scss style.css --style=compressed"
+  },
+  "devDependencies": {
+    "sass": "^1.98.0"
+  }
+}
