@@ -111,6 +111,11 @@
       flex: 1;
     }
 
+    .tabs-wrapper {
+      position: relative;
+      overflow: hidden;
+    }
+
     .tabs {
       display: flex;
       gap: 0; 
@@ -118,6 +123,37 @@
       scrollbar-width: none; 
     }
     
+    .tab-fade,
+    .filters-scroll-area .scroll-fade {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 48px;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .tab-fade.left,
+    .filters-scroll-area .scroll-fade.left {
+      left: 0;
+      background: linear-gradient(to right, rgba(23, 23, 23, 1), rgba(23, 23, 23, 0));
+    }
+
+    .tab-fade.right,
+    .filters-scroll-area .scroll-fade.right {
+      right: 0;
+      background: linear-gradient(to left, rgba(23, 23, 23, 1), rgba(23, 23, 23, 0));
+    }
+
+    .tabs-wrapper.scrollable-left .tab-fade.left,
+    .tabs-wrapper.scrollable-right .tab-fade.right,
+    .filters-scroll-area.scrollable-left .scroll-fade.left,
+    .filters-scroll-area.scrollable-right .scroll-fade.right {
+      opacity: 1;
+    }
+
     .tabs::-webkit-scrollbar { display: none; }
 
     .tab-btn {
@@ -185,18 +221,32 @@
       position: relative;
     }
 
+    .filters-scroll-area::before,
     .filters-scroll-area::after {
       content: '';
       position: absolute;
       top: 0;
-      right: 0;
-      bottom: 0; 
+      bottom: 0;
       width: 48px;
-      background: linear-gradient(to right, rgba(23, 23, 23, 0), rgba(23, 23, 23, 0.95) 85%);
-      pointer-events: none; 
+      pointer-events: none;
       z-index: 2;
-      opacity: var(--fade-opacity);
+      opacity: 0;
       transition: opacity 0.3s ease;
+    }
+
+    .filters-scroll-area::before {
+      left: 0;
+      background: linear-gradient(to right, rgba(23, 23, 23, 1), rgba(23, 23, 23, 0));
+    }
+
+    .filters-scroll-area::after {
+      right: 0;
+      background: linear-gradient(to left, rgba(23, 23, 23, 1), rgba(23, 23, 23, 0));
+    }
+
+    .filters-scroll-area.scrollable-left::before,
+    .filters-scroll-area.scrollable-right::after {
+      opacity: 1;
     }
 
     .filters-container {
@@ -544,7 +594,8 @@
         width: 100%;
         margin-left: 0;
         background: rgba(23, 23, 23, 0.95);
-        padding: 10px 12px;
+        padding: 10px 0;
+        max-width: none;
       }
 
       .top-controls.search-active {
@@ -554,6 +605,12 @@
 
       .top-controls.search-active .search-back {
         display: inline-flex;
+        transition: opacity 0.3s ease;
+      }
+
+      .top-controls.search-active .search-back:hover {
+        background: hsla(271, 91%, 65%, 0.5);
+        transition: opacity 0.3s ease;
       }
 
       .top-controls.search-active .tabs,
@@ -572,6 +629,10 @@
 
       .top-controls.search-active .search-clear {
         display: inline-flex;
+      }
+
+      .top-controls.search-active .tabs-wrapper {
+        display: none;
       }
 
       .artist-list { gap: 6px; padding: 12px; }
@@ -605,12 +666,16 @@
 
   <div class="dashboard-controls" id="dashboard-controls">
     <div class="top-controls" id="top-controls">
-      <div class="tabs" id="day-tabs">
-        <button class="tab-btn active" onclick="setDay('ALL_DAYS', this)">All Days</button>
-        <button class="tab-btn" onclick="setDay('FRIDAY', this)">Friday</button>
-        <button class="tab-btn" onclick="setDay('SATURDAY', this)">Saturday</button>
-        <button class="tab-btn" onclick="setDay('SUNDAY', this)">Sunday</button>
-        <button class="tab-btn" onclick="setDay('BY_STAGE', this)">By Stage</button>
+      <div class="tabs-wrapper" id="day-tabs-wrapper">
+        <div class="tabs" id="day-tabs">
+          <button class="tab-btn active" onclick="setDay('ALL_DAYS', this)">All Days</button>
+          <button class="tab-btn" onclick="setDay('FRIDAY', this)">Friday</button>
+          <button class="tab-btn" onclick="setDay('SATURDAY', this)">Saturday</button>
+          <button class="tab-btn" onclick="setDay('SUNDAY', this)">Sunday</button>
+          <button class="tab-btn" onclick="setDay('BY_STAGE', this)">By Stage</button>
+        </div>
+        <div class="tab-fade left"></div>
+        <div class="tab-fade right"></div>
       </div>
       <button class="search-toggle" id="search-toggle" aria-label="Toggle search" onclick="toggleSearch()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="2"/><path d="M15 15L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -636,6 +701,8 @@
           <div class="vertical-rule" id="vertical-rule"></div>
           <div class="filters-group" id="stage-filters-list"></div>
         </div>
+        <div class="scroll-fade left"></div>
+        <div class="scroll-fade right"></div>
       </div>
       <div class="filter-actions" id="filter-actions"></div>
     </div>
@@ -660,6 +727,7 @@
       updateSearchClearButton();
       updateSearchToggleState();
       document.getElementById('filters-container').addEventListener('scroll', checkScroll);
+      document.getElementById('day-tabs').addEventListener('scroll', checkScroll);
       window.addEventListener('resize', () => { updateStickyHeight(); checkScroll(); updateSearchToggleState(); });
       setTimeout(() => { updateStickyHeight(); checkScroll(); updateSearchToggleState(); }, 50);
     }
@@ -669,7 +737,6 @@
       if (!top) return;
       if (window.innerWidth <= 768) {
         top.classList.remove('needs-search-toggle');
-        top.classList.remove('search-active');
         return;
       }
 
@@ -696,10 +763,26 @@
     }
 
     function checkScroll() {
-      const c = document.getElementById('filters-container'), a = document.getElementById('filters-scroll-area');
-      const isScrollable = c.scrollWidth > c.clientWidth;
-      const isAtEnd = Math.ceil(c.scrollLeft + c.clientWidth) >= c.scrollWidth - 2;
-      document.documentElement.style.setProperty('--fade-opacity', (isScrollable && !isAtEnd) ? '1' : '0');
+      const c = document.getElementById('filters-container');
+      const a = document.getElementById('filters-scroll-area');
+      const t = document.getElementById('day-tabs');
+      const tw = document.getElementById('day-tabs-wrapper');
+      const isScrollable = c && c.scrollWidth > c.clientWidth;
+      const isAtStart = c && c.scrollLeft <= 2;
+      const isAtEnd = c && Math.ceil(c.scrollLeft + c.clientWidth) >= c.scrollWidth - 2;
+
+      if (a) {
+        a.classList.toggle('scrollable-left', isScrollable && !isAtStart);
+        a.classList.toggle('scrollable-right', isScrollable && !isAtEnd);
+      }
+
+      if (t && tw) {
+        const tabsScrollable = t.scrollWidth > t.clientWidth;
+        const tabsAtStart = t.scrollLeft <= 2;
+        const tabsAtEnd = Math.ceil(t.scrollLeft + t.clientWidth) >= t.scrollWidth - 2;
+        tw.classList.toggle('scrollable-left', tabsScrollable && !tabsAtStart);
+        tw.classList.toggle('scrollable-right', tabsScrollable && !tabsAtEnd);
+      }
     }
 
     function setDay(day, btn) {
@@ -754,17 +837,6 @@
       renderBoard();
       updateStickyHeight();
       checkScroll();
-    }
-
-    function hideSearch() {
-      const top = document.getElementById('top-controls');
-      if (!top) return;
-      top.classList.remove('search-active');
-      const input = document.getElementById('search-input');
-      if (!input) return;
-      input.value = '';
-      updateSearchClearButton();
-      renderBoard();
     }
 
     function clearSearch() {
