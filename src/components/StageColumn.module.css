@@ -1,0 +1,42 @@
+/* Original: border: 1px solid --border-color, bg: --bg-color,
+   border-radius: 20px */
+.column {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-surface);
+  border-radius: 20px;
+}
+
+/* Original: padding: 16px, font-weight: 700, font-size: 16px,
+   border-bottom: 1px solid --border-color, sticky top: --sticky-top,
+   border-top-left-radius: 20px, border-top-right-radius: 20px */
+.header {
+  padding: var(--space-4);
+  font-weight: 700;
+  font-size: var(--text-base);
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-default);
+  background-color: var(--bg-surface);
+  position: sticky;
+  top: var(--sticky-top);
+  z-index: 50;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+/* Original: display flex, flex-direction column, gap: 8px, padding: 16px */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+}
+
+/* ── Mobile ─────────────────────────── */
+@media (max-width: 768px) {
+  .list {
+    gap: 6px;
+    padding: 12px;
+  }
+}

@@ -1,0 +1,34 @@
+/* Original: .day-section-header — font-size: 2rem, font-weight: 700,
+   padding: 40px 72px 10px 72px */
+.dayHeader {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  padding: var(--space-10) var(--page-gutter) 10px var(--page-gutter);
+  margin: 0;
+  background: var(--bg-page);
+}
+
+/* Original: .grid-board — grid, auto-fill minmax(280px,1fr),
+   gap: 32px, padding: 24px 72px 60px 72px */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 32px;
+  width: 100%;
+  align-items: start;
+  padding: 24px var(--page-gutter) 60px var(--page-gutter);
+}
+
+/* ── Mobile ─────────────────────────── */
+@media (max-width: 768px) {
+  .dayHeader {
+    font-size: 1.5rem;
+    padding: 24px var(--page-gutter-mobile) 10px var(--page-gutter-mobile);
+  }
+
+  .grid {
+    padding: 20px var(--page-gutter-mobile) 60px var(--page-gutter-mobile);
+    gap: 16px;
+  }
+}
