@@ -1,0 +1,83 @@
+/* Original: padding: 8px 16px, border-radius: 16px,
+   background: transparent, border: 1px solid --border-color,
+   display flex, justify-content space-between, align-items center */
+.card {
+  padding: var(--space-2) var(--space-4);
+  border-radius: 16px;
+  background: transparent;
+  border: 1px solid var(--border-default);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  background: rgba(168, 85, 247, 0.05);
+  border-color: var(--color-brand);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* Original: .artist-card.favorited — bg rgba(168,85,247,0.05), border #a855f7 */
+.card.favorited {
+  background: rgba(168, 85, 247, 0.05);
+  border-color: var(--color-brand);
+}
+
+/* Original: .artist-card.favorited .artist-name — font-weight 600, color #d8b4fe */
+.card.favorited .name {
+  font-weight: 600;
+  color: var(--text-accent);
+}
+
+/* ── Artist name ──────────────────────── */
+.name {
+  font-size: inherit;
+  color: var(--text-primary);
+  flex: 1;
+  line-height: var(--leading-snug);
+}
+
+/* ── Star / fav button ─────────────────── */
+/* Original: background none, border none, padding 4px,
+   font-size 18px, color #525252 */
+.star {
+  background: none;
+  border: none;
+  padding: 4px;
+  font-size: 18px;
+  color: var(--color-star-inactive);
+  line-height: 1;
+  flex-shrink: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Original: .artist-card.favorited .fav-btn — color #a855f7 */
+.card.favorited .star {
+  color: var(--color-star-active);
+}
+
+/* ── Mobile ─────────────────────────── */
+@media (max-width: 768px) {
+  /* Original mobile: padding: 2px 12px, border-radius: 12px */
+  .card {
+    padding: 2px 12px;
+    border-radius: 12px;
+  }
+
+  /* Original mobile: .artist-name font-size: 0.9rem */
+  .name {
+    font-size: 0.9rem;
+  }
+
+  /* Original mobile: .fav-btn font-size: 16px */
+  .star {
+    font-size: 16px;
+  }
+}
