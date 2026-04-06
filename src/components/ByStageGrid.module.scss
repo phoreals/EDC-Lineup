@@ -49,6 +49,10 @@
   }
 }
 
+.daySection {
+  gap: var(--grid-gap);
+}
+
 .dayLabel {
   font-size: var(--text-13px);
   font-weight: 600;

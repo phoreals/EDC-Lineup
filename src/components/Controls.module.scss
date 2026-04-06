@@ -108,6 +108,16 @@
     transform-origin: center;
   }
 
+  &:hover {
+    color: var(--text-primary);
+    
+
+    &::after { 
+      background: var(--gradient-brand); 
+      transform: none;
+    }
+  }
+
   &.active {
     color: var(--text-primary);
 

@@ -28,7 +28,7 @@ export function ByStageGrid({ query, activeStages, favOnly, favorites, onToggle 
               {segments.length === 0
                 ? <p style={{ padding: '12px', color: 'var(--text-muted)', fontSize: '14px' }}>No artists</p>
                 : segments.map(({ day, artists }, i) => (
-                    <div key={day}>
+                    <div key={day} className={styles.daySection}>
                       {i > 0 && <hr className={styles.dayRule} />}
                       <div className={styles.dayLabel}>{toTitle(day)}</div>
                       {artists.map(name => (
