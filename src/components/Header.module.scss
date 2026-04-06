@@ -1,0 +1,26 @@
+@use '../styles/primitives' as p;
+
+.header {
+  padding: var(--space-10) var(--page-gutter) 20px var(--page-gutter);
+  text-align: center;
+
+  h1 {
+    font-size: var(--text-4xl);
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  @media (max-width: p.$bp-mobile) {
+    padding: 30px var(--page-gutter-mobile) 10px var(--page-gutter-mobile);
+  }
+}

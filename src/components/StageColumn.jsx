@@ -1,5 +1,5 @@
 import { ArtistCard } from './ArtistCard';
-import styles from './StageColumn.module.css';
+import styles from './StageColumn.module.scss';
 
 export function StageColumn({ stage, artists, favorites, onToggle }) {
   if (!artists.length) return null;
@@ -9,12 +9,7 @@ export function StageColumn({ stage, artists, favorites, onToggle }) {
       <div className={styles.header}>{stage}</div>
       <div className={styles.list}>
         {artists.map(name => (
-          <ArtistCard
-            key={name}
-            name={name}
-            isFav={favorites.has(name)}
-            onToggle={onToggle}
-          />
+          <ArtistCard key={name} name={name} isFav={favorites.has(name)} onToggle={onToggle} />
         ))}
       </div>
     </div>

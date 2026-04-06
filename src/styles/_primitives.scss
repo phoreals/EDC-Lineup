@@ -1,0 +1,83 @@
+// =============================================================
+// LAYER 1 — Primitive tokens
+// All raw values are emitted as CSS custom properties on :root.
+// The only SCSS variable kept is $bp-mobile — media queries
+// cannot consume CSS custom properties.
+// =============================================================
+
+$bp-mobile: 768px; // SCSS-only: used in @media queries
+
+:root {
+  // ── Colors — Neutrals ───────────────────────────────────────
+  --color-neutral-950:          #171717;
+  --color-neutral-800:          #262626;
+  --color-neutral-700:          #404040;
+  --color-neutral-600:          #525252;
+  --color-neutral-400:          #a3a3a3;
+  --color-neutral-100:          #f5f5f5;
+  --color-neutral-950-alpha-95: rgba(23, 23, 23, 0.95);
+  --color-neutral-950-alpha-0:  rgba(23, 23, 23, 0);
+
+  // ── Colors — Purples ────────────────────────────────────────
+  --color-purple-500:           #a855f7;
+  --color-purple-400:           #d8b4fe;
+  --color-purple-500-alpha-20:  rgba(168, 85, 247, 0.2);
+  --color-purple-500-alpha-12:  rgba(168, 85, 247, 0.12);
+  --color-purple-500-alpha-05:  rgba(168, 85, 247, 0.05);
+
+  // ── Colors — Accent ─────────────────────────────────────────
+  --color-orange-400:           #f97316;
+  --color-blue-500:             #3b82f6;
+  --color-amber-400:            #fbbf24;
+  --color-amber-600:            #d97706;
+
+  // ── Colors — Danger ─────────────────────────────────────────
+  --color-red-500:              #ef4444;
+  --color-red-500-alpha-10:     rgba(239, 68, 68, 0.1);
+  --color-red-500-alpha-30:     rgba(239, 68, 68, 0.3);
+
+  // ── Colors — Misc ───────────────────────────────────────────
+  --color-purple-hsl-hover:     hsla(271, 91%, 65%, 0.5);
+  --color-white-alpha-06:       rgba(255, 255, 255, 0.06);
+
+  // ── Spacing — 8pt grid ──────────────────────────────────────
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-18: 72px;
+  --space-grid-bottom:  60px;
+  --space-by-stage-top: 30px;
+
+  // ── Typography ──────────────────────────────────────────────
+  --font-primary:  'Space Grotesk', sans-serif;
+  --text-sm:       14px;
+  --text-base:     16px;
+  --text-lg:       1.1rem;
+  --text-2xl:      2rem;
+  --text-4xl:      2.5rem;
+  --text-13px:     13px;
+  --text-0-9rem:   0.9rem;
+
+  // ── Border radius ───────────────────────────────────────────
+  --radius-sm:     8px;
+  --radius-md:     10px;
+  --radius-card:   16px;
+  --radius-column: 20px;
+
+  // ── Motion ──────────────────────────────────────────────────
+  --duration-base: 0.2s;
+  --duration-slow: 0.3s;
+  --ease-default:  ease;
+
+  // ── Layout ──────────────────────────────────────────────────
+  --page-gutter:        72px;
+  --page-gutter-mobile: 20px;
+  --grid-gap:           32px;
+  --grid-min-col:       280px;
+}

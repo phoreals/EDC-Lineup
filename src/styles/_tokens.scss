@@ -1,0 +1,51 @@
+@use 'primitives'; // ensures Layer 1 :root vars are emitted first
+
+// =============================================================
+// LAYER 2 — Semantic tokens
+// These reference Layer 1 CSS custom properties by intent.
+// Emitted as CSS custom properties so components use var(--...).
+// =============================================================
+
+:root {
+  // ── Backgrounds ─────────────────────────────────────────────
+  --bg-page:           var(--color-neutral-950);
+  --bg-surface:        var(--color-neutral-950);
+  --bg-surface-raised: var(--color-neutral-800);
+  --bg-overlay:        var(--color-neutral-950-alpha-95);
+  --bg-hover:          var(--color-purple-500-alpha-05);
+  --bg-favorited:      var(--color-purple-500-alpha-05);
+
+  // ── Text ────────────────────────────────────────────────────
+  --text-primary: var(--color-neutral-100);
+  --text-muted:   var(--color-neutral-400);
+  --text-accent:  var(--color-purple-400);
+  --text-inverse: var(--color-neutral-950);
+
+  // ── Borders ─────────────────────────────────────────────────
+  --border-default: var(--color-neutral-700);
+  --border-brand:   var(--color-purple-500);
+
+  // ── Brand ───────────────────────────────────────────────────
+  --color-brand:      var(--color-purple-500);
+  --color-brand-glow: var(--color-purple-500-alpha-20);
+  --color-brand-dim:  var(--color-purple-500-alpha-12);
+
+  // ── Gradients ───────────────────────────────────────────────
+  --gradient-brand:     linear-gradient(135deg, var(--color-purple-500) 0%, var(--color-orange-400) 100%);
+  --gradient-brand-alt: linear-gradient(135deg, var(--color-purple-500) 0%, var(--color-blue-500) 100%);
+  --gradient-fav:       linear-gradient(135deg, var(--color-amber-400) 0%, var(--color-amber-600) 100%);
+  --gradient-fade-l:    linear-gradient(to right, var(--color-neutral-950), var(--color-neutral-950-alpha-0));
+  --gradient-fade-r:    linear-gradient(to left,  var(--color-neutral-950), var(--color-neutral-950-alpha-0));
+
+  // ── Stars ───────────────────────────────────────────────────
+  --color-star-active:   var(--color-purple-500);
+  --color-star-inactive: var(--color-neutral-600);
+
+  // ── Danger ──────────────────────────────────────────────────
+  --color-danger:        var(--color-red-500);
+  --color-danger-bg:     var(--color-red-500-alpha-10);
+  --color-danger-border: var(--color-red-500-alpha-30);
+
+  // ── Runtime (written by JS) ──────────────────────────────────
+  --sticky-top: 140px;
+}

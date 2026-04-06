@@ -1,44 +1,28 @@
 import { STAGES, getArtistsByStage, toTitle } from '../data/lineup';
 import { StageColumn } from './StageColumn';
-import styles from './DayGrid.module.css';
+import styles from './DayGrid.module.scss';
 
-export function DayGrid({
-  day,
-  query,
-  activeStages,
-  favOnly,
-  favorites,
-  onToggle,
-  showDayHeader = false,
-}) {
+export function DayGrid({ day, query, activeStages, favOnly, favorites, onToggle, showDayHeader }) {
   const byStage = getArtistsByStage(day);
 
   const columns = STAGES
-    .filter(s => activeStages.size === 0 || activeStages.has(s))
-    .map(s => {
-      let list = byStage[s];
-      if (favOnly) list = list.filter(a => favorites.has(a));
-      if (query) list = list.filter(a => a.toLowerCase().includes(query));
-      return { stage: s, list };
+    .filter(stage => activeStages.size === 0 || activeStages.has(stage))
+    .map(stage => {
+      let artists = byStage[stage];
+      if (favOnly) artists = artists.filter(a => favorites.has(a));
+      if (query)   artists = artists.filter(a => a.toLowerCase().includes(query));
+      return { stage, artists };
     })
-    .filter(c => (query || favOnly) ? c.list.length > 0 : true);
+    .filter(({ artists }) => (query || favOnly) ? artists.length > 0 : true);
 
   if (!columns.length) return null;
 
   return (
     <>
-      {showDayHeader && (
-        <h2 className={styles.dayHeader}>{toTitle(day)}</h2>
-      )}
+      {showDayHeader && <div className={styles.dayHeader}>{toTitle(day)}</div>}
       <div className={styles.grid}>
-        {columns.map(({ stage, list }) => (
-          <StageColumn
-            key={stage}
-            stage={stage}
-            artists={list}
-            favorites={favorites}
-            onToggle={onToggle}
-          />
+        {columns.map(({ stage, artists }) => (
+          <StageColumn key={stage} stage={stage} artists={artists} favorites={favorites} onToggle={onToggle} />
         ))}
       </div>
     </>
