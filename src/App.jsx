@@ -5,6 +5,7 @@ import { Header } from './components/Header';
 import { Controls } from './components/Controls';
 import { DayGrid } from './components/DayGrid';
 import { ByStageGrid } from './components/ByStageGrid';
+import { CompactGrid } from './components/CompactGrid';
 
 export default function App() {
   const [activeDay, setActiveDay] = useState('ALL_DAYS');
@@ -28,6 +29,14 @@ export default function App() {
 
   const normalizedQuery = query.toLowerCase().trim();
 
+  const gridProps = {
+    query: normalizedQuery,
+    activeStages,
+    favOnly,
+    favorites,
+    onToggle: toggleFavorite,
+  };
+
   return (
     <>
       <Header />
@@ -46,36 +55,15 @@ export default function App() {
 
       <main>
         {activeDay === 'BY_STAGE' ? (
-          <ByStageGrid
-            query={normalizedQuery}
-            activeStages={activeStages}
-            favOnly={favOnly}
-            favorites={favorites}
-            onToggle={toggleFavorite}
-          />
+          <ByStageGrid {...gridProps} />
+        ) : activeDay === 'COMPACT' ? (
+          <CompactGrid {...gridProps} />
         ) : activeDay === 'ALL_DAYS' ? (
           DAYS.map(day => (
-            <DayGrid
-              key={day}
-              day={day}
-              query={normalizedQuery}
-              activeStages={activeStages}
-              favOnly={favOnly}
-              favorites={favorites}
-              onToggle={toggleFavorite}
-              showDayHeader
-            />
+            <DayGrid key={day} day={day} showDayHeader {...gridProps} />
           ))
         ) : (
-          <DayGrid
-            day={activeDay}
-            query={normalizedQuery}
-            activeStages={activeStages}
-            favOnly={favOnly}
-            favorites={favorites}
-            onToggle={toggleFavorite}
-            showDayHeader={false}
-          />
+          <DayGrid day={activeDay} {...gridProps} />
         )}
       </main>
     </>

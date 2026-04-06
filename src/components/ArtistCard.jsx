@@ -1,4 +1,4 @@
-import styles from './ArtistCard.module.css';
+import styles from './ArtistCard.module.scss';
 
 export function ArtistCard({ name, isFav, onToggle }) {
   return (
@@ -12,9 +12,7 @@ export function ArtistCard({ name, isFav, onToggle }) {
       aria-label={`${name}${isFav ? ' — favorited' : ''}`}
     >
       <span className={styles.name}>{name}</span>
-      <span className={styles.star} aria-hidden="true">
-        {isFav ? '★' : '☆'}
-      </span>
+      <span className={styles.star} aria-hidden="true">{isFav ? '★' : '☆'}</span>
     </div>
   );
 }

@@ -1,6 +1,5 @@
-/* =============================================================
-   GLOBAL BASE — reset, body, typography foundation
-   ============================================================= */
+@use 'primitives';
+@use 'tokens'; // ensures both :root blocks are emitted
 
 *,
 *::before,
@@ -21,8 +20,4 @@ body {
 button {
   font-family: var(--font-primary);
   cursor: pointer;
-}
-
-#root {
-  min-height: 100vh;
 }

@@ -88,12 +88,9 @@ export const LINEUP = {
 
 /** Returns { [stageName]: string[] } for a given day */
 export function getArtistsByStage(day) {
-  const map = {};
-  STAGES.forEach(s => (map[s] = []));
+  const map = Object.fromEntries(STAGES.map(s => [s, []]));
   LINEUP[day].forEach((artist, i) => {
-    if (artist && artist.trim()) {
-      map[STAGES[i % STAGES.length]].push(artist);
-    }
+    if (artist?.trim()) map[STAGES[i % STAGES.length]].push(artist);
   });
   return map;
 }

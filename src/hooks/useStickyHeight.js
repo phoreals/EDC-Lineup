@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react';
 
 /**
- * Measures the height of the referenced element and writes it
- * to --sticky-top on :root so sticky stage headers offset correctly.
+ * Attaches a ResizeObserver to the returned ref and writes the
+ * element's height to --sticky-top on :root, keeping sticky
+ * stage headers correctly offset below the controls bar.
  */
 export function useStickyHeight() {
   const ref = useRef(null);

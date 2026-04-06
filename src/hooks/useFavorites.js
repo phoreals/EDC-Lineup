@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 
 const STORAGE_KEY = 'edc-lineup-favorites';
 
-function readFromStorage() {
+function readStorage() {
   try {
     return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
   } catch {
@@ -11,7 +11,7 @@ function readFromStorage() {
 }
 
 export function useFavorites() {
-  const [favorites, setFavorites] = useState(readFromStorage);
+  const [favorites, setFavorites] = useState(readStorage);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify([...favorites]));
@@ -25,7 +25,5 @@ export function useFavorites() {
     });
   }, []);
 
-  const has = useCallback(name => favorites.has(name), [favorites]);
-
-  return { favorites, toggle, has };
+  return { favorites, toggle };
 }

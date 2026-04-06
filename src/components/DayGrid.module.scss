@@ -1,0 +1,29 @@
+@use '../styles/primitives' as p;
+
+.dayHeader {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  padding: var(--space-10) var(--page-gutter) 10px var(--page-gutter);
+  margin: 0;
+  background: var(--bg-page);
+
+  @media (max-width: p.$bp-mobile) {
+    font-size: 1.5rem;
+    padding: 24px var(--page-gutter-mobile) 10px var(--page-gutter-mobile);
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--grid-min-col), 1fr));
+  gap: var(--grid-gap);
+  width: 100%;
+  align-items: start;
+  padding: var(--space-6) var(--page-gutter) var(--space-grid-bottom) var(--page-gutter);
+
+  @media (max-width: p.$bp-mobile) {
+    padding: var(--space-5) var(--page-gutter-mobile) var(--space-grid-bottom) var(--page-gutter-mobile);
+    gap: var(--space-4);
+  }
+}

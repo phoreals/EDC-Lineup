@@ -1,0 +1,352 @@
+@use '../styles/primitives' as p;
+
+// ── Mixins ────────────────────────────────────────────────────
+@mixin scroll-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--space-12);
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-default);
+}
+
+@mixin icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color var(--duration-base) var(--ease-default),
+              color       var(--duration-base) var(--ease-default),
+              background  var(--duration-slow) var(--ease-default);
+}
+
+// ── Controls bar ──────────────────────────────────────────────
+.controls {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--bg-overlay);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: var(--space-4) var(--page-gutter);
+  border-bottom: 1px solid var(--border-default);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+  @media (max-width: p.$bp-mobile) {
+    padding: 12px var(--page-gutter-mobile);
+  }
+}
+
+// ── Top row ───────────────────────────────────────────────────
+.topRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-4);
+  position: relative;
+
+  @media (max-width: p.$bp-mobile) {
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+}
+
+// ── Tabs ──────────────────────────────────────────────────────
+.tabsWrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.tabs {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar { display: none; }
+
+  @media (max-width: p.$bp-mobile) {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.tab {
+  background-color: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 10px var(--space-4);
+  font-size: var(--text-base);
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  transition: color var(--duration-base) var(--ease-default);
+  white-space: nowrap;
+  font-family: var(--font-primary);
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--text-muted);
+    transform: scaleX(0);
+    transition: transform    var(--duration-base) var(--ease-default),
+                background   var(--duration-base) var(--ease-default);
+    transform-origin: center;
+  }
+
+  &.active {
+    color: var(--text-primary);
+
+    &::after {
+      transform: scaleX(1);
+      background: var(--gradient-brand);
+    }
+  }
+}
+
+// ── Scroll fades — tabs ───────────────────────────────────────
+// Activated by JS adding .fadeLeftVisible / .fadeRightVisible to .tabsWrapper
+.tabFadeLeft,
+.tabFadeRight {
+  @include scroll-fade;
+}
+
+.tabFadeLeft  { left: 0;  background: var(--gradient-fade-l); }
+.tabFadeRight { right: 0; background: var(--gradient-fade-r); }
+
+:global(.scrolledLeft)  .tabFadeLeft  { opacity: 1; }
+:global(.scrolledRight) .tabFadeRight { opacity: 1; }
+
+// ── Search box ────────────────────────────────────────────────
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background-color: var(--bg-surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 0 var(--space-3);
+  height: 40px;
+  transition: all var(--duration-base) var(--ease-default);
+
+  &:focus-within {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 2px var(--color-brand-glow);
+  }
+
+  &.desktop {
+    min-width: 250px;
+
+    @media (max-width: p.$bp-mobile) {
+      display: none;
+    }
+  }
+
+  &.mobile {
+    flex: 1;
+    min-width: 0;
+    display: none;
+
+    &.open { display: flex; }
+  }
+}
+
+.searchIcon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.searchInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-primary);
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  min-width: 0;
+
+  &::placeholder { color: var(--text-muted); }
+}
+
+.clearInput {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  opacity: 0.6;
+  transition: opacity var(--duration-base) var(--ease-default);
+  cursor: pointer;
+
+  &:hover { opacity: 1; }
+}
+
+// ── Search toggle ─────────────────────────────────────────────
+.searchToggle {
+  @include icon-btn;
+  display: none;
+  background: none;
+  border: 1px solid var(--border-default);
+  color: var(--text-primary);
+  padding: 0;
+  margin-left: var(--space-2);
+
+  &:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+
+  @media (max-width: p.$bp-mobile) {
+    display: inline-flex;
+  }
+}
+
+// ── Back button ───────────────────────────────────────────────
+.backBtn {
+  @include icon-btn;
+  background: transparent;
+  color: var(--text-primary);
+
+  &:hover { background: var(--color-purple-hsl-hover); }
+}
+
+// ── Filters row ───────────────────────────────────────────────
+.filtersRow {
+  display: flex;
+  width: 100%;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+}
+
+// .filtersTrack wraps the scrollable pill area
+.filtersTrack {
+  flex: 1;
+  min-width: 0;
+  position: relative; // for the pseudo-element fades
+}
+
+// Pill container — scrolls horizontally when needed
+.filtersInner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+
+  @media (max-width: p.$bp-mobile) {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar { display: none; }
+  }
+}
+
+// ── Scroll fades — filters ────────────────────────────────────
+// On desktop filters wrap so no fade needed; on mobile they scroll.
+// JS adds .scrolledLeft / .scrolledRight to .filtersTrack.
+.filterFadeLeft,
+.filterFadeRight {
+  @include scroll-fade;
+}
+
+.filterFadeLeft  { left: 0;  background: var(--gradient-fade-l); }
+.filterFadeRight { right: 0; background: var(--gradient-fade-r); }
+
+:global(.scrolledLeft)  .filterFadeLeft  { opacity: 1; }
+:global(.scrolledRight) .filterFadeRight { opacity: 1; }
+
+.divider {
+  width: 1px;
+  height: 20px;
+  background-color: var(--border-default);
+  flex-shrink: 0;
+}
+
+// ── Pills ─────────────────────────────────────────────────────
+.pill {
+  padding: 6px 14px;
+  border-radius: var(--radius-column);
+  background-color: var(--bg-surface-raised);
+  border: 1px solid var(--border-default);
+  font-size: var(--text-13px);
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease-default);
+  color: var(--text-muted);
+  white-space: nowrap;
+  font-family: var(--font-primary);
+
+  &:hover {
+    border-color: var(--color-brand);
+    color: var(--text-primary);
+  }
+
+  &.active {
+    background: var(--gradient-brand-alt);
+    color: var(--text-inverse);
+    border-color: transparent;
+    font-weight: 600;
+  }
+
+  &.fav.active {
+    background: var(--gradient-fav);
+    color: var(--text-inverse);
+  }
+}
+
+// ── Clear button ──────────────────────────────────────────────
+.clearBtn {
+  font-size: var(--text-13px);
+  padding: 6px 14px;
+  color: var(--color-danger);
+  background: transparent;
+  border: 1px solid var(--color-danger-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease-default),
+              opacity var(--duration-base) var(--ease-default);
+  white-space: nowrap;
+  font-family: var(--font-primary);
+  flex-shrink: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  &:hover {
+    background: var(--color-danger-bg);
+    border-color: var(--color-danger);
+  }
+
+  @media (max-width: p.$bp-mobile) {
+    display: none;
+
+    &.visible { display: block; }
+  }
+}
