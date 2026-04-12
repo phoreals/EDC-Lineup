@@ -34,8 +34,8 @@ export const LINEUP = {
     'HEYZ', 'Rebekah', 'Paul van Dyk', 'Slamm', 'The Carry Nation',
     'Sofi Tukker', 'Wooli', 'Walker & Royce b2b VNSSA', '',
     'Kai Wachi', 'Serafina', 'Pegassi', 'Toman', '', '', '', '',
-    'Westend', '', 'MUZZ', 'Stan Christ', 'Sarah de Warren',
-    '', '', '', '', '', '', 'Riot', '', '', '',
+    'Westend', 'MUZZ', '', 'Stan Christ', 'Sarah de Warren',
+    '', '', '', '', '', 'Riot', '', '', '', '',
   ],
   SATURDAY: [
     'Above & Beyond (Sunrise Set)', 'Boys Noize', 'BUNT. (In The Round)',
