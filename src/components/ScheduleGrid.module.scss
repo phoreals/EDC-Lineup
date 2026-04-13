@@ -1,0 +1,241 @@
+@use '../styles/primitives' as p;
+
+$time-gutter-w: 56px;
+$stage-col-w:   160px;
+$header-h:      48px;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--sticky-top));
+  overflow: hidden;
+  padding-top: var(--space-3);
+
+  @media (max-width: p.$bp-mobile) {
+    padding-top: var(--space-2);
+  }
+}
+
+// ── Day switcher ──────────────────────────────────────────────
+.daySwitcher {
+  display: flex;
+  gap: var(--space-2);
+  padding: 0 var(--page-gutter) var(--space-3);
+  flex-shrink: 0;
+
+  @media (max-width: p.$bp-mobile) {
+    padding: 0 var(--space-3) var(--space-2);
+  }
+}
+
+.dayBtn {
+  font-family: var(--font-primary);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  padding: var(--space-1) var(--space-4);
+  border-radius: var(--radius-column);
+  border: 1px solid var(--border-default);
+  background: var(--bg-surface-raised);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease-default);
+
+  &:hover {
+    border-color: var(--color-brand);
+    color: var(--text-primary);
+  }
+
+  &.dayBtnActive {
+    background: var(--gradient-brand);
+    border-color: transparent;
+    color: var(--text-inverse);
+  }
+}
+
+// ── Header row ────────────────────────────────────────────────
+.headerOuter {
+  display: flex;
+  flex-shrink: 0;
+  height: $header-h;
+  overflow: hidden; // clips; JS syncs scrollLeft to body
+}
+
+.headerGutter {
+  width: $time-gutter-w;
+  flex-shrink: 0;
+  background: var(--bg-page);
+  border-right: 1px solid var(--border-default);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.headerScroll {
+  display: flex;
+  overflow: hidden; // non-interactive — scrolled by JS
+  pointer-events: none;
+}
+
+.stageHeader {
+  width: $stage-col-w;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: var(--font-primary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.25;
+  padding: var(--space-1) var(--space-2);
+  border-bottom: 2px solid;
+  background: var(--bg-page);
+
+  @media (max-width: p.$bp-mobile) {
+    width: 120px;
+    font-size: 9px;
+  }
+}
+
+// ── Scrollable body ───────────────────────────────────────────
+.body {
+  flex: 1;
+  display: flex;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-default) transparent;
+
+  &::-webkit-scrollbar        { width: 5px; height: 5px; }
+  &::-webkit-scrollbar-thumb  { background: var(--border-default); border-radius: 4px; }
+  &::-webkit-scrollbar-track  { background: transparent; }
+}
+
+// ── Time gutter ───────────────────────────────────────────────
+.timeGutter {
+  width: $time-gutter-w;
+  flex-shrink: 0;
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  background: var(--bg-page);
+  border-right: 1px solid var(--border-default);
+}
+
+.timeLabel {
+  position: absolute;
+  right: var(--space-2);
+  transform: translateY(-50%);
+  font-family: var(--font-primary);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+  pointer-events: none;
+
+  @media (max-width: p.$bp-mobile) {
+    font-size: 9px;
+    right: var(--space-1);
+  }
+}
+
+// ── Grid area ─────────────────────────────────────────────────
+.grid {
+  position: relative;
+  display: flex;
+}
+
+.hourLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px solid var(--border-default);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.halfLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  pointer-events: none;
+  z-index: 0;
+}
+
+// ── Stage column ──────────────────────────────────────────────
+.stageCol {
+  width: $stage-col-w;
+  flex-shrink: 0;
+  position: relative;
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+
+  @media (max-width: p.$bp-mobile) {
+    width: 120px;
+  }
+}
+
+// ── Set block ─────────────────────────────────────────────────
+.block {
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  border-radius: 6px;
+  border: 1px solid;
+  padding: 4px 6px;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  transition: filter var(--duration-base) var(--ease-default),
+              transform var(--duration-base) var(--ease-default);
+  z-index: 1;
+
+  &:hover {
+    filter: brightness(1.3);
+    transform: scaleX(1.02);
+    z-index: 5;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 1px;
+    z-index: 5;
+  }
+
+  &.blockFav {
+    border-width: 2px;
+  }
+}
+
+.blockName {
+  font-family: var(--font-primary);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.25;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  @media (max-width: p.$bp-mobile) {
+    font-size: 10px;
+  }
+}
+
+.blockTime {
+  font-family: var(--font-primary);
+  font-size: 9px;
+  font-weight: 500;
+  opacity: 0.7;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.blockStar {
+  position: absolute;
+  top: 3px;
+  right: 4px;
+  font-size: 9px;
+  opacity: 0.9;
+}
