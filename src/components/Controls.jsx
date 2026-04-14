@@ -11,6 +11,7 @@ const TABS = [
   { id: 'SUNDAY',    label: 'Sunday' },
   { id: 'BY_STAGE',  label: 'By Stage' },
   { id: 'COMPACT',   label: 'Compact' },
+  { id: 'SCHEDULE',  label: 'Schedule' },
 ];
 
 // Attaches a scroll listener to a ref'd element and toggles

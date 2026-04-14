@@ -6,6 +6,10 @@ import { Controls } from './components/Controls';
 import { DayGrid } from './components/DayGrid';
 import { ByStageGrid } from './components/ByStageGrid';
 import { CompactGrid } from './components/CompactGrid';
+import { ScheduleGrid } from './components/ScheduleGrid';
+
+// Schedule view is a fixed-height viewport — suppress main scroll
+const SCHEDULE_DAYS = new Set(['SCHEDULE', 'FRIDAY_SCH', 'SATURDAY_SCH', 'SUNDAY_SCH']);
 
 export default function App() {
   const [activeDay, setActiveDay] = useState('ALL_DAYS');
@@ -37,6 +41,8 @@ export default function App() {
     onToggle: toggleFavorite,
   };
 
+  const isScheduleView = activeDay === 'SCHEDULE';
+
   return (
     <>
       <Header />
@@ -53,8 +59,10 @@ export default function App() {
         onClearFilters={handleClearFilters}
       />
 
-      <main>
-        {activeDay === 'BY_STAGE' ? (
+      <main style={isScheduleView ? { overflow: 'hidden' } : undefined}>
+        {activeDay === 'SCHEDULE' ? (
+          <ScheduleGrid day="FRIDAY" {...gridProps} />
+        ) : activeDay === 'BY_STAGE' ? (
           <ByStageGrid {...gridProps} />
         ) : activeDay === 'COMPACT' ? (
           <CompactGrid {...gridProps} />

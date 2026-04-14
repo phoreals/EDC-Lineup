@@ -1,6 +1,11 @@
 @use '../styles/primitives' as p;
 
+// .column is the container — its children (including ArtistCard)
+// can query it with @container stage-col.
 .column {
+  container-type: inline-size;
+  container-name: stage-col;
+
   display: flex;
   flex-direction: column;
   border: 1px solid var(--border-default);
@@ -22,13 +27,14 @@
   border-top-right-radius: var(--radius-column);
 }
 
+// List tightens when column is narrow (≤260px)
 .list {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
   padding: var(--space-4);
 
-  @media (max-width: p.$bp-mobile) {
+  @container stage-col (max-width: 260px) {
     gap: 6px;
     padding: 12px;
   }

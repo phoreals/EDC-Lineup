@@ -1,6 +1,5 @@
 @use '../styles/primitives' as p;
 
-// Top-level grid — padding matches DayGrid exactly
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(var(--grid-min-col), 1fr));
@@ -15,7 +14,11 @@
   }
 }
 
+// .column is a container so its children (ArtistCard) can query it
 .column {
+  container-type: inline-size;
+  container-name: stage-col; // same name — ArtistCard's @container targets this
+
   display: flex;
   flex-direction: column;
   border: 1px solid var(--border-default);
@@ -43,7 +46,7 @@
   gap: var(--space-2);
   padding: var(--space-4);
 
-  @media (max-width: p.$bp-mobile) {
+  @container stage-col (max-width: 260px) {
     gap: 6px;
     padding: 12px;
   }
