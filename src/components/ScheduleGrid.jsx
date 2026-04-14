@@ -3,11 +3,13 @@ import { STAGES } from '../data/lineup';
 import { SCHEDULE } from '../data/schedule';
 import styles from './ScheduleGrid.module.scss';
 
+// ── Constants ─────────────────────────────────────────────────
 const FESTIVAL_START_MIN = 17 * 60 + 30;
-const FESTIVAL_END_MIN   = 24 * 60 + 5 * 60 + 30;
-const TOTAL_MIN          = FESTIVAL_END_MIN - FESTIVAL_START_MIN; // 720
-const PX_PER_MIN         = 96 / 60; // 96px per hour
+const FESTIVAL_END_MIN   = 24 * 60 + 5 * 60 + 30; // 29:30
+const TOTAL_MIN          = FESTIVAL_END_MIN - FESTIVAL_START_MIN; // 720 min
+const PX_PER_MIN         = 96 / 60;   // 96px per hour
 const TOTAL_HEIGHT       = TOTAL_MIN * PX_PER_MIN;
+const NARROW_BREAKPOINT  = 600;
 
 export const STAGE_COLORS = {
   'Kinetic Field':   { bg: 'rgba(244,114,182,0.15)', border: '#f472b6', text: '#fce7f3' },
@@ -21,6 +23,7 @@ export const STAGE_COLORS = {
   'Bionic Jungle':   { bg: 'rgba(129,140,248,0.15)', border: '#818cf8', text: '#e0e7ff' },
 };
 
+// ── Helpers ───────────────────────────────────────────────────
 function parseTime(str) {
   const [h, m] = str.split(':').map(Number);
   return h * 60 + m;
@@ -28,11 +31,13 @@ function parseTime(str) {
 
 function fmtLabel(absMin) {
   const totalMin = absMin % (24 * 60);
-  const h = Math.floor(totalMin / 60);
-  const m = totalMin % 60;
-  const ampm = h < 12 ? 'am' : 'pm';
+  const h  = Math.floor(totalMin / 60);
+  const m  = totalMin % 60;
+  const ap = h < 12 ? 'am' : 'pm';
   const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
-  return m === 0 ? `${h12}${ampm}` : `${h12}:${m.toString().padStart(2,'0')}${ampm}`;
+  return m === 0
+    ? `${h12}${ap}`
+    : `${h12}:${m.toString().padStart(2, '0')}${ap}`;
 }
 
 const TICKS = Array.from({ length: TOTAL_MIN / 30 + 1 }, (_, i) => {
@@ -42,6 +47,7 @@ const TICKS = Array.from({ length: TOTAL_MIN / 30 + 1 }, (_, i) => {
   return { offsetMin, absMin, isHour, label: isHour ? fmtLabel(absMin) : null };
 });
 
+// ── SetBlock ──────────────────────────────────────────────────
 function SetBlock({ slot, stage, isFav, onToggle }) {
   const startAbsMin = parseTime(slot.start);
   const offsetMin   = startAbsMin - FESTIVAL_START_MIN;
@@ -54,13 +60,13 @@ function SetBlock({ slot, stage, isFav, onToggle }) {
     <div
       className={`${styles.block} ${isFav ? styles.blockFav : ''}`}
       style={{
-        top: `${top}px`,
-        height: `${Math.max(height - 2, 20)}px`,
-        background: isFav
+        top:         `${top}px`,
+        height:      `${Math.max(height - 2, 18)}px`,
+        background:  isFav
           ? `linear-gradient(160deg, ${color.border}44, ${color.border}22)`
           : color.bg,
-        borderColor: isFav ? color.border : color.border + '88',
-        color: color.text,
+        borderColor: isFav ? color.border : `${color.border}88`,
+        color:       color.text,
       }}
       onClick={() => onToggle(slot.artist)}
       role="button"
@@ -75,27 +81,34 @@ function SetBlock({ slot, stage, isFav, onToggle }) {
   );
 }
 
+// ── ScheduleGrid ──────────────────────────────────────────────
 export function ScheduleGrid({ day, query, activeStages, favOnly, favorites, onToggle }) {
+  const wrapperRef      = useRef(null);
   const bodyRef         = useRef(null);
   const headerScrollRef = useRef(null);
+  const [isNarrow, setIsNarrow] = useState(false);
 
-  // Internal day state — defaults to the passed day or Friday
-  const initialDay = ['FRIDAY','SATURDAY','SUNDAY'].includes(day) ? day : 'FRIDAY';
+  // Internal day picker state
+  const initialDay = ['FRIDAY', 'SATURDAY', 'SUNDAY'].includes(day) ? day : 'FRIDAY';
   const [scheduleDay, setScheduleDay] = useState(initialDay);
-
-  // Sync when the external day prop changes
   useEffect(() => {
-    if (['FRIDAY','SATURDAY','SUNDAY'].includes(day)) setScheduleDay(day);
+    if (['FRIDAY', 'SATURDAY', 'SUNDAY'].includes(day)) setScheduleDay(day);
   }, [day]);
 
   const dayData = SCHEDULE[scheduleDay] || {};
 
-  const visibleStages = useMemo(() =>
-    STAGES.filter(s => activeStages.size === 0 || activeStages.has(s)),
-    [activeStages]
-  );
+  // ResizeObserver on wrapper → toggle narrow mode
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      setIsNarrow(entry.contentRect.width <= NARROW_BREAKPOINT);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
-  // Sync horizontal scroll between header row and body
+  // Sync header scroll to body horizontal scroll
   useEffect(() => {
     const body = bodyRef.current;
     const hdr  = headerScrollRef.current;
@@ -105,21 +118,26 @@ export function ScheduleGrid({ day, query, activeStages, favOnly, favorites, onT
     return () => body.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Scroll to 7:30pm on mount / day change
+  // Scroll to ~7:30pm on mount / day change
   useEffect(() => {
     if (bodyRef.current) {
       const offset = (19 * 60 + 30 - FESTIVAL_START_MIN) * PX_PER_MIN - 24;
-      bodyRef.current.scrollTop = Math.max(0, offset);
+      bodyRef.current.scrollTop  = Math.max(0, offset);
       bodyRef.current.scrollLeft = 0;
     }
   }, [scheduleDay]);
+
+  const visibleStages = useMemo(
+    () => STAGES.filter(s => activeStages.size === 0 || activeStages.has(s)),
+    [activeStages]
+  );
 
   const filteredSlots = useMemo(() => {
     const result = {};
     visibleStages.forEach(stage => {
       result[stage] = (dayData[stage] || []).filter(slot => {
         if (favOnly && !favorites.has(slot.artist)) return false;
-        if (query && !slot.artist.toLowerCase().includes(query)) return false;
+        if (query  && !slot.artist.toLowerCase().includes(query)) return false;
         return true;
       });
     });
@@ -127,11 +145,11 @@ export function ScheduleGrid({ day, query, activeStages, favOnly, favorites, onT
   }, [dayData, visibleStages, favOnly, favorites, query]);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} ref={wrapperRef}>
 
       {/* ── Day switcher ── */}
       <div className={styles.daySwitcher}>
-        {['FRIDAY','SATURDAY','SUNDAY'].map(d => (
+        {['FRIDAY', 'SATURDAY', 'SUNDAY'].map(d => (
           <button
             key={d}
             className={`${styles.dayBtn} ${scheduleDay === d ? styles.dayBtnActive : ''}`}
@@ -162,8 +180,13 @@ export function ScheduleGrid({ day, query, activeStages, favOnly, favorites, onT
       </div>
 
       {/* ── Scrollable body ── */}
-      <div className={styles.body} ref={bodyRef}>
-
+      {/* data-narrow lets SCSS target this element for compact sizing,
+          since container queries don't reliably pierce overflow:auto roots */}
+      <div
+        className={styles.body}
+        ref={bodyRef}
+        data-narrow={isNarrow ? 'true' : undefined}
+      >
         {/* Sticky time gutter */}
         <div className={styles.timeGutter}>
           {TICKS.filter(t => t.isHour).map(t => (
@@ -177,7 +200,7 @@ export function ScheduleGrid({ day, query, activeStages, favOnly, favorites, onT
           ))}
         </div>
 
-        {/* Positioned grid */}
+        {/* Positioned stage grid */}
         <div className={styles.grid} style={{ height: `${TOTAL_HEIGHT}px` }}>
           {TICKS.map(t => (
             <div
@@ -186,7 +209,6 @@ export function ScheduleGrid({ day, query, activeStages, favOnly, favorites, onT
               style={{ top: `${t.offsetMin * PX_PER_MIN}px` }}
             />
           ))}
-
           {visibleStages.map(stage => (
             <div key={stage} className={styles.stageCol}>
               {filteredSlots[stage]?.map(slot => (
