@@ -1,5 +1,10 @@
 @use '../styles/primitives' as p;
 
+// ArtistCard queries its nearest named container (stage-col from
+// StageColumn, or ByStageGrid's equivalent). When the column is
+// narrow the card and text compact down. This is semantically
+// correct: we care about the column width, not the viewport width.
+
 .card {
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-card);
@@ -25,15 +30,11 @@
     background: var(--bg-favorited);
     border-color: var(--color-brand);
 
-    .name {
-      font-weight: 600;
-      color: var(--text-accent);
-    }
-
-    .star { color: var(--color-star-active); }
+    .name  { font-weight: 600; color: var(--text-accent); }
+    .star  { color: var(--color-star-active); }
   }
 
-  @media (max-width: p.$bp-mobile) {
+  @container stage-col (max-width: 260px) {
     padding: 2px 12px;
     border-radius: 12px;
   }
@@ -45,7 +46,7 @@
   flex: 1;
   line-height: 1.3;
 
-  @media (max-width: p.$bp-mobile) {
+  @container stage-col (max-width: 260px) {
     font-size: var(--text-0-9rem);
   }
 }
@@ -61,7 +62,7 @@
   pointer-events: none;
   user-select: none;
 
-  @media (max-width: p.$bp-mobile) {
+  @container stage-col (max-width: 260px) {
     font-size: 16px;
   }
 }

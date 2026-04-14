@@ -42,6 +42,9 @@
 
 // ── Stage column — no card, no border, just a list ───────────────────
 .column {
+  container-type: inline-size;
+  container-name: compact-col;
+
   display: flex;
   flex-direction: column;
 }
@@ -113,7 +116,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
 
-  @media (max-width: p.$bp-mobile) {
+  @container compact-col (max-width: 150px) {
     font-size: 11px;
   }
 }

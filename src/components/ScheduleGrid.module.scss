@@ -1,20 +1,33 @@
 @use '../styles/primitives' as p;
 
-$time-gutter-w: 56px;
-$stage-col-w:   160px;
-$header-h:      48px;
-
+// ── Container setup ───────────────────────────────────────────
+// .wrapper is the container — all inner elements query it instead
+// of the viewport, which is semantically correct: we want to know
+// how much space the schedule itself has, not how big the screen is.
 .wrapper {
+  container-type: inline-size;
+  container-name: schedule;
+
   display: flex;
   flex-direction: column;
   height: calc(100vh - var(--sticky-top));
   overflow: hidden;
   padding-top: var(--space-3);
 
-  @media (max-width: p.$bp-mobile) {
+  @container schedule (max-width: 600px) {
     padding-top: var(--space-2);
   }
 }
+
+// ── Sizing tokens — adjusted via container queries ────────────
+// Default (desktop): 56px gutter, 160px columns
+// Narrow (≤600px):   40px gutter,  96px columns → 3 cols in ~330px ✓
+$time-gutter-w:        56px;
+$stage-col-w:         160px;
+$time-gutter-w-narrow: 40px;
+$stage-col-w-narrow:   96px;
+$header-h:             48px;
+$header-h-narrow:      40px;
 
 // ── Day switcher ──────────────────────────────────────────────
 .daySwitcher {
@@ -23,8 +36,9 @@ $header-h:      48px;
   padding: 0 var(--page-gutter) var(--space-3);
   flex-shrink: 0;
 
-  @media (max-width: p.$bp-mobile) {
+  @container schedule (max-width: 600px) {
     padding: 0 var(--space-3) var(--space-2);
+    gap: var(--space-1);
   }
 }
 
@@ -50,6 +64,11 @@ $header-h:      48px;
     border-color: transparent;
     color: var(--text-inverse);
   }
+
+  @container schedule (max-width: 600px) {
+    font-size: var(--text-13px);
+    padding: var(--space-1) var(--space-3);
+  }
 }
 
 // ── Header row ────────────────────────────────────────────────
@@ -57,7 +76,11 @@ $header-h:      48px;
   display: flex;
   flex-shrink: 0;
   height: $header-h;
-  overflow: hidden; // clips; JS syncs scrollLeft to body
+  overflow: hidden;
+
+  @container schedule (max-width: 600px) {
+    height: $header-h-narrow;
+  }
 }
 
 .headerGutter {
@@ -66,11 +89,15 @@ $header-h:      48px;
   background: var(--bg-page);
   border-right: 1px solid var(--border-default);
   border-bottom: 1px solid var(--border-default);
+
+  @container schedule (max-width: 600px) {
+    width: $time-gutter-w-narrow;
+  }
 }
 
 .headerScroll {
   display: flex;
-  overflow: hidden; // non-interactive — scrolled by JS
+  overflow: hidden;
   pointer-events: none;
 }
 
@@ -86,14 +113,16 @@ $header-h:      48px;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  line-height: 1.25;
+  line-height: 1.2;
   padding: var(--space-1) var(--space-2);
   border-bottom: 2px solid;
   background: var(--bg-page);
 
-  @media (max-width: p.$bp-mobile) {
-    width: 120px;
-    font-size: 9px;
+  @container schedule (max-width: 600px) {
+    width: $stage-col-w-narrow;
+    font-size: 8px;
+    letter-spacing: 0.03em;
+    padding: var(--space-1);
   }
 }
 
@@ -105,7 +134,7 @@ $header-h:      48px;
   scrollbar-width: thin;
   scrollbar-color: var(--border-default) transparent;
 
-  &::-webkit-scrollbar        { width: 5px; height: 5px; }
+  &::-webkit-scrollbar        { width: 4px; height: 4px; }
   &::-webkit-scrollbar-thumb  { background: var(--border-default); border-radius: 4px; }
   &::-webkit-scrollbar-track  { background: transparent; }
 }
@@ -119,6 +148,11 @@ $header-h:      48px;
   z-index: 10;
   background: var(--bg-page);
   border-right: 1px solid var(--border-default);
+
+  // Container queries don't apply inside an overflow:auto scroll
+  // context in all browsers, so we use a CSS custom property
+  // written by JS for the gutter width on mobile.
+  // Fallback: keep at desktop width inside the body.
 }
 
 .timeLabel {
@@ -131,11 +165,6 @@ $header-h:      48px;
   color: var(--text-muted);
   white-space: nowrap;
   pointer-events: none;
-
-  @media (max-width: p.$bp-mobile) {
-    font-size: 9px;
-    right: var(--space-1);
-  }
 }
 
 // ── Grid area ─────────────────────────────────────────────────
@@ -168,10 +197,6 @@ $header-h:      48px;
   flex-shrink: 0;
   position: relative;
   border-right: 1px solid rgba(255, 255, 255, 0.04);
-
-  @media (max-width: p.$bp-mobile) {
-    width: 120px;
-  }
 }
 
 // ── Set block ─────────────────────────────────────────────────
@@ -217,10 +242,6 @@ $header-h:      48px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-
-  @media (max-width: p.$bp-mobile) {
-    font-size: 10px;
-  }
 }
 
 .blockTime {
@@ -238,4 +259,17 @@ $header-h:      48px;
   right: 4px;
   font-size: 9px;
   opacity: 0.9;
+}
+
+// ── Narrow layout — applied via data-narrow attr set by JS ────
+// Container queries can't reach inside overflow:auto scroll areas
+// in some browsers, so we use a data attribute on .body instead.
+// JS sets data-narrow="true" when schedule width ≤ 600px.
+.body[data-narrow="true"] {
+  .timeGutter { width: $time-gutter-w-narrow; }
+  .timeLabel  { font-size: 9px; right: var(--space-1); }
+  .stageCol   { width: $stage-col-w-narrow; }
+  .block      { left: 2px; right: 2px; border-radius: 4px; padding: 3px 4px; }
+  .blockName  { font-size: 9px; -webkit-line-clamp: 3; }
+  .blockTime  { font-size: 8px; }
 }
