@@ -40,33 +40,42 @@ $bp-mobile: 768px; // SCSS-only: used in @media queries
   --color-purple-hsl-hover:     hsla(271, 91%, 65%, 0.5);
   --color-white-alpha-06:       rgba(255, 255, 255, 0.06);
 
-  // ── Spacing — 8pt grid ──────────────────────────────────────
-  --space-1:  4px;
-  --space-2:  8px;
-  --space-3:  12px;
-  --space-4:  16px;
-  --space-5:  20px;
-  --space-6:  24px;
-  --space-8:  32px;
-  --space-10: 40px;
-  --space-12: 48px;
-  --space-18: 72px;
-  --space-grid-bottom:  60px;
-  --space-by-stage-top: 30px;
+  // ── Spacing — 8pt grid (with 4pt sub-grid) ─────────────────
+  --space-0-5:  2px;
+  --space-1:    4px;
+  --space-1-5:  6px;
+  --space-2:    8px;
+  --space-3:    12px;
+  --space-4:    16px;
+  --space-5:    20px;
+  --space-6:    24px;
+  --space-8:    32px;
+  --space-9:    36px;
+  --space-10:   40px;
+  --space-12:   48px;
+  --space-14:   56px;
+  --space-18:   72px;
+  --space-grid-bottom:  64px;
+  --space-by-stage-top: 32px;
 
-  // ── Typography ──────────────────────────────────────────────
-  --font-primary:  'Space Grotesk', sans-serif;
-  --text-sm:       14px;
-  --text-base:     16px;
-  --text-lg:       1.1rem;
-  --text-2xl:      2rem;
-  --text-4xl:      2.5rem;
-  --text-13px:     13px;
-  --text-0-9rem:   0.9rem;
+  // ── Typography — 4pt sub-grid ──────────────────────────────
+  --font-primary:   'Space Grotesk', sans-serif;
+  --text-2xs:       8px;
+  --text-xs:        10px;
+  --text-xs-plus:   11px;
+  --text-sm:        12px;
+  --text-sm-plus:   14px;
+  --text-base:      16px;
+  --text-lg:        18px;
+  --text-xl:        20px;
+  --text-2xl:       24px;
+  --text-3xl:       32px;
+  --text-4xl:       40px;
 
   // ── Border radius ───────────────────────────────────────────
+  --radius-xs:     4px;
   --radius-sm:     8px;
-  --radius-md:     10px;
+  --radius-md:     12px;
   --radius-card:   16px;
   --radius-column: 20px;
 
@@ -76,8 +85,12 @@ $bp-mobile: 768px; // SCSS-only: used in @media queries
   --ease-default:  ease;
 
   // ── Layout ──────────────────────────────────────────────────
-  --page-gutter:        72px;
-  --page-gutter-mobile: 16px;
-  --grid-gap:           32px;
-  --grid-min-col:       280px;
+  --page-gutter:                72px;
+  --page-gutter-mobile:         16px;
+  --grid-gap:                   32px;
+  --grid-min-col:               280px;
+  --grid-min-col-compact:       160px;
+  --grid-min-col-compact-mobile: 140px;
+  --icon-btn:                   36px;
+  --search-height:              40px;
 }

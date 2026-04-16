@@ -47,8 +47,8 @@
   padding: var(--space-4);
 
   @container stage-col (max-width: 260px) {
-    gap: 6px;
-    padding: 12px;
+    gap: var(--space-1-5);
+    padding: var(--space-3);
   }
 }
 
@@ -59,16 +59,16 @@
 }
 
 .dayLabel {
-  font-size: var(--text-13px);
+  font-size: var(--text-sm);
   font-weight: 600;
   color: var(--text-muted);
   letter-spacing: 1px;
-  margin: 0 0 4px 4px;
+  margin: 0 0 var(--space-1) var(--space-1);
 }
 
 .dayRule {
   height: 1px;
   background-color: var(--color-white-alpha-06);
-  margin: 12px 4px 4px 4px;
+  margin: var(--space-3) var(--space-1) var(--space-1) var(--space-1);
   border: none;
 }

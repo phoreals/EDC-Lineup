@@ -1,6 +1,6 @@
 import styles from './ArtistCard.module.scss';
 
-export function ArtistCard({ name, isFav, onToggle }) {
+export function ArtistCard({ name, time, isFav, onToggle }) {
   return (
     <div
       className={`${styles.card} ${isFav ? styles.favorited : ''}`}
@@ -9,9 +9,12 @@ export function ArtistCard({ name, isFav, onToggle }) {
       tabIndex={0}
       onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onToggle(name)}
       aria-pressed={isFav}
-      aria-label={`${name}${isFav ? ' — favorited' : ''}`}
+      aria-label={`${name}${time ? ` ${time}` : ''}${isFav ? ' — favorited' : ''}`}
     >
-      <span className={styles.name}>{name}</span>
+      <div className={styles.info}>
+        <span className={styles.name}>{name}</span>
+        {time && <span className={styles.time}>{time}</span>}
+      </div>
       <span className={styles.star} aria-hidden="true">{isFav ? '★' : '☆'}</span>
     </div>
   );

@@ -70,4 +70,22 @@ describe('ArtistCard', () => {
       'Fisher — favorited',
     );
   });
+
+  it('renders time when provided', () => {
+    render(<ArtistCard name="Argy" time="5:30pm–6:30pm" isFav={false} onToggle={() => {}} />);
+    expect(screen.getByText('5:30pm–6:30pm')).toBeInTheDocument();
+  });
+
+  it('does not render time when not provided', () => {
+    render(<ArtistCard name="Argy" isFav={false} onToggle={() => {}} />);
+    expect(screen.queryByText(/[ap]m/)).not.toBeInTheDocument();
+  });
+
+  it('includes time in aria-label when provided', () => {
+    render(<ArtistCard name="Argy" time="5:30pm–6:30pm" isFav={false} onToggle={() => {}} />);
+    expect(screen.getByRole('button')).toHaveAttribute(
+      'aria-label',
+      'Argy 5:30pm–6:30pm',
+    );
+  });
 });
