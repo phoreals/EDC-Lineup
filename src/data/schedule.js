@@ -2,6 +2,30 @@
 // Times in HH:MM (24h; hours >23 wrap to next day, e.g. 25:00 = 1:00am)
 // Duration in minutes: 60 | 75 | 90 | 120
 
+/** Convert "19:30" → "7:30pm", handles >24h wrapping */
+export function formatTime(time24) {
+  const [h, m] = time24.split(':').map(Number);
+  const h12 = ((h - 1) % 12) + 1;
+  const suffix = (h % 24) < 12 ? 'am' : 'pm';
+  return m === 0 ? `${h12}${suffix}` : `${h12}:${String(m).padStart(2, '0')}${suffix}`;
+}
+
+function addMinutes(time24, minutes) {
+  const [h, m] = time24.split(':').map(Number);
+  const total = h * 60 + m + minutes;
+  return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, '0')}`;
+}
+
+/** Returns formatted time range string or null */
+export function getSetTime(day, stage, artist) {
+  const sets = SCHEDULE[day]?.[stage];
+  if (!sets) return null;
+  const set = sets.find(s => s.artist === artist);
+  if (!set) return null;
+  const end = addMinutes(set.start, set.duration);
+  return `${formatTime(set.start)}–${formatTime(end)}`;
+}
+
 export const SCHEDULE = {
   FRIDAY: {
     'Kinetic Field': [
