@@ -43,14 +43,14 @@ function CompactStageColumn({ stage, artists, favorites, onToggle }) {
   );
 }
 
-export function CompactGrid({ query, activeStages, favOnly, favorites, onToggle }) {
+export function CompactGrid({ query, activeStages, favOnly, favorites, onToggle, visibleDays }) {
   const stageList = activeStages.size > 0
     ? STAGES.filter(s => activeStages.has(s))
     : STAGES;
 
   return (
     <>
-      {DAYS.map(day => {
+      {(visibleDays || DAYS).map(day => {
         const byStage = getArtistsByStage(day);
 
         const columns = stageList

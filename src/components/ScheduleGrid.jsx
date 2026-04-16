@@ -82,18 +82,16 @@ function SetBlock({ slot, stage, isFav, onToggle }) {
 }
 
 // ── ScheduleGrid ──────────────────────────────────────────────
-export function ScheduleGrid({ day, query, activeStages, favOnly, favorites, onToggle }) {
+export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, favorites, onToggle }) {
   const wrapperRef      = useRef(null);
   const bodyRef         = useRef(null);
   const headerScrollRef = useRef(null);
   const [isNarrow, setIsNarrow] = useState(false);
 
-  // Internal day picker state
-  const initialDay = ['FRIDAY', 'SATURDAY', 'SUNDAY'].includes(day) ? day : 'FRIDAY';
-  const [scheduleDay, setScheduleDay] = useState(initialDay);
-  useEffect(() => {
-    if (['FRIDAY', 'SATURDAY', 'SUNDAY'].includes(day)) setScheduleDay(day);
-  }, [day]);
+  // Derive the displayed day from the global filter
+  const scheduleDay = activeFilterDays && activeFilterDays.size === 1
+    ? [...activeFilterDays][0]
+    : 'FRIDAY';
 
   const dayData = SCHEDULE[scheduleDay] || {};
 
@@ -146,19 +144,6 @@ export function ScheduleGrid({ day, query, activeStages, favOnly, favorites, onT
 
   return (
     <div className={styles.wrapper} ref={wrapperRef}>
-
-      {/* ── Day switcher ── */}
-      <div className={styles.daySwitcher}>
-        {['FRIDAY', 'SATURDAY', 'SUNDAY'].map(d => (
-          <button
-            key={d}
-            className={`${styles.dayBtn} ${scheduleDay === d ? styles.dayBtnActive : ''}`}
-            onClick={() => setScheduleDay(d)}
-          >
-            {d.charAt(0) + d.slice(1).toLowerCase()}
-          </button>
-        ))}
-      </div>
 
       {/* ── Fixed stage header row ── */}
       <div className={styles.headerOuter}>

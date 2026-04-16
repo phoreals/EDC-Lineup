@@ -9,7 +9,7 @@ vi.mock('../../hooks/useStickyHeight', () => ({
 }));
 
 const defaultProps = {
-  activeDay: 'ALL_DAYS',
+  activeDay: 'SCHEDULE',
   onDayChange: vi.fn(),
   query: '',
   onQueryChange: vi.fn(),
@@ -18,6 +18,10 @@ const defaultProps = {
   favOnly: false,
   onFavToggle: vi.fn(),
   onClearFilters: vi.fn(),
+  activeFilterDays: new Set(),
+  onFilterDayToggle: vi.fn(),
+  compactMode: false,
+  onCompactToggle: vi.fn(),
 };
 
 beforeEach(() => {
@@ -27,20 +31,23 @@ beforeEach(() => {
 describe('Controls', () => {
   it('renders all tabs', () => {
     render(<Controls {...defaultProps} />);
-    expect(screen.getByText('All Days')).toBeInTheDocument();
-    expect(screen.getByText('Friday')).toBeInTheDocument();
-    expect(screen.getByText('Saturday')).toBeInTheDocument();
-    expect(screen.getByText('Sunday')).toBeInTheDocument();
-    expect(screen.getByText('By Stage')).toBeInTheDocument();
-    expect(screen.getByText('Compact')).toBeInTheDocument();
     expect(screen.getByText('Schedule')).toBeInTheDocument();
+    expect(screen.getByText('List View')).toBeInTheDocument();
+    expect(screen.getByText('By Stage')).toBeInTheDocument();
+  });
+
+  it('renders day filter pills', () => {
+    render(<Controls {...defaultProps} />);
+    expect(screen.getByText('Fri')).toBeInTheDocument();
+    expect(screen.getByText('Sat')).toBeInTheDocument();
+    expect(screen.getByText('Sun')).toBeInTheDocument();
   });
 
   it('calls onDayChange when a tab is clicked', async () => {
     const user = userEvent.setup();
     render(<Controls {...defaultProps} />);
-    await user.click(screen.getByText('Friday'));
-    expect(defaultProps.onDayChange).toHaveBeenCalledWith('FRIDAY');
+    await user.click(screen.getByText('List View'));
+    expect(defaultProps.onDayChange).toHaveBeenCalledWith('LIST');
   });
 
   it('renders the desktop search input', () => {

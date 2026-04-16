@@ -3,7 +3,7 @@ import { getSetTime } from '../data/schedule';
 import { ArtistCard } from './ArtistCard';
 import styles from './ByStageGrid.module.scss';
 
-export function ByStageGrid({ query, activeStages, favOnly, favorites, onToggle }) {
+export function ByStageGrid({ query, activeStages, favOnly, favorites, onToggle, visibleDays }) {
   const stageList = activeStages.size > 0
     ? STAGES.filter(s => activeStages.has(s))
     : STAGES;
@@ -11,7 +11,7 @@ export function ByStageGrid({ query, activeStages, favOnly, favorites, onToggle 
   return (
     <div className={styles.grid}>
       {stageList.map(stage => {
-        const segments = DAYS
+        const segments = (visibleDays || DAYS)
           .map(day => {
             let names = getArtistsByStage(day)[stage];
             if (favOnly) names = names.filter(a => favorites.has(a));
