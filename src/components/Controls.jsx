@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { STAGES } from '../data/lineup';
 import { useStickyHeight } from '../hooks/useStickyHeight';
-import { IconSearch, IconBack } from './Icons';
+import { IconSearch, IconBack, IconFilter } from './Icons';
 import styles from './Controls.module.scss';
 
 const TABS = [
@@ -58,6 +58,7 @@ export function Controls({
   onClearFilters,
 }) {
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const controlsRef  = useStickyHeight();
   const mobileInputRef = useRef(null);
 
@@ -155,14 +156,27 @@ export function Controls({
         )}
 
         {!mobileSearchOpen && (
-          <button className={styles.searchToggle} onClick={openMobileSearch} aria-label="Open search">
-            <IconSearch />
-          </button>
+          <>
+            <button className={styles.searchToggle} onClick={openMobileSearch} aria-label="Open search">
+              <IconSearch />
+            </button>
+            <button
+              className={`${styles.filterToggle} ${filtersOpen ? styles.active : ''}`}
+              onClick={() => setFiltersOpen(v => !v)}
+              aria-label={filtersOpen ? 'Hide filters' : 'Show filters'}
+              aria-expanded={filtersOpen}
+            >
+              <IconFilter />
+              {!filtersOpen && activeStages.size + (favOnly ? 1 : 0) > 0 && (
+                <span className={styles.badge}>{activeStages.size + (favOnly ? 1 : 0)}</span>
+              )}
+            </button>
+          </>
         )}
       </div>
 
       {/* ── Filters row ── */}
-      <div className={styles.filtersRow}>
+      <div className={`${styles.filtersRow} ${filtersOpen ? styles.open : ''}`}>
         <div className={styles.filtersTrack} ref={filtersTrackRef}>
           <div className={styles.filtersInner} ref={filtersScrollRef}>
             <button

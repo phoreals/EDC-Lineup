@@ -1,4 +1,5 @@
 import { STAGES, DAYS, getArtistsByStage, toTitle } from '../data/lineup';
+import { getSetTime } from '../data/schedule';
 import { ArtistCard } from './ArtistCard';
 import styles from './ByStageGrid.module.scss';
 
@@ -12,10 +13,10 @@ export function ByStageGrid({ query, activeStages, favOnly, favorites, onToggle 
       {stageList.map(stage => {
         const segments = DAYS
           .map(day => {
-            let artists = getArtistsByStage(day)[stage];
-            if (favOnly) artists = artists.filter(a => favorites.has(a));
-            if (query)   artists = artists.filter(a => a.toLowerCase().includes(query));
-            return { day, artists };
+            let names = getArtistsByStage(day)[stage];
+            if (favOnly) names = names.filter(a => favorites.has(a));
+            if (query)   names = names.filter(a => a.toLowerCase().includes(query));
+            return { day, artists: names.map(name => ({ name, time: getSetTime(day, stage, name) })) };
           })
           .filter(s => s.artists.length > 0);
 
@@ -31,8 +32,8 @@ export function ByStageGrid({ query, activeStages, favOnly, favorites, onToggle 
                     <div key={day} className={styles.daySection}>
                       {i > 0 && <hr className={styles.dayRule} />}
                       <div className={styles.dayLabel}>{toTitle(day)}</div>
-                      {artists.map(name => (
-                        <ArtistCard key={name} name={name} isFav={favorites.has(name)} onToggle={onToggle} />
+                      {artists.map(({ name, time }) => (
+                        <ArtistCard key={name} name={name} time={time} isFav={favorites.has(name)} onToggle={onToggle} />
                       ))}
                     </div>
                   ))

@@ -1,7 +1,8 @@
 import { STAGES, DAYS, getArtistsByStage, toTitle } from '../data/lineup';
+import { getSetTime } from '../data/schedule';
 import styles from './CompactGrid.module.scss';
 
-function CompactCard({ name, isFav, onToggle }) {
+function CompactCard({ name, time, isFav, onToggle }) {
   return (
     <div
       className={`${styles.card} ${isFav ? styles.favorited : ''}`}
@@ -10,9 +11,10 @@ function CompactCard({ name, isFav, onToggle }) {
       tabIndex={0}
       onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onToggle(name)}
       aria-pressed={isFav}
-      aria-label={`${name}${isFav ? ' — favorited' : ''}`}
+      aria-label={`${name}${time ? ` ${time}` : ''}${isFav ? ' — favorited' : ''}`}
     >
       <span className={styles.name}>{name}</span>
+      {time && <span className={styles.time}>{time}</span>}
       {isFav && <span className={styles.star} aria-hidden="true">★</span>}
     </div>
   );
@@ -27,10 +29,11 @@ function CompactStageColumn({ stage, artists, favorites, onToggle }) {
         <span className={styles.stageName}>{stage}</span>
       </div>
       <div className={styles.list}>
-        {artists.map(name => (
+        {artists.map(({ name, time }) => (
           <CompactCard
             key={name}
             name={name}
+            time={time}
             isFav={favorites.has(name)}
             onToggle={onToggle}
           />
@@ -52,9 +55,10 @@ export function CompactGrid({ query, activeStages, favOnly, favorites, onToggle 
 
         const columns = stageList
           .map(stage => {
-            let artists = byStage[stage];
-            if (favOnly) artists = artists.filter(a => favorites.has(a));
-            if (query)   artists = artists.filter(a => a.toLowerCase().includes(query));
+            let names = byStage[stage];
+            if (favOnly) names = names.filter(a => favorites.has(a));
+            if (query)   names = names.filter(a => a.toLowerCase().includes(query));
+            const artists = names.map(name => ({ name, time: getSetTime(day, stage, name) }));
             return { stage, artists };
           })
           .filter(({ artists }) => artists.length > 0);
