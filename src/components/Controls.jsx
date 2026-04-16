@@ -1,17 +1,19 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { STAGES } from '../data/lineup';
 import { useStickyHeight } from '../hooks/useStickyHeight';
-import { IconSearch, IconBack, IconFilter } from './Icons';
+import { IconSearch, IconBack, IconFilter, IconCompact, IconList } from './Icons';
 import styles from './Controls.module.scss';
 
 const TABS = [
-  { id: 'ALL_DAYS',  label: 'All Days' },
-  { id: 'FRIDAY',    label: 'Friday' },
-  { id: 'SATURDAY',  label: 'Saturday' },
-  { id: 'SUNDAY',    label: 'Sunday' },
-  { id: 'BY_STAGE',  label: 'By Stage' },
-  { id: 'COMPACT',   label: 'Compact' },
   { id: 'SCHEDULE',  label: 'Schedule' },
+  { id: 'LIST',      label: 'List View' },
+  { id: 'BY_STAGE',  label: 'By Stage' },
+];
+
+const DAY_FILTERS = [
+  { id: 'FRIDAY',    label: 'Fri' },
+  { id: 'SATURDAY',  label: 'Sat' },
+  { id: 'SUNDAY',    label: 'Sun' },
 ];
 
 // Attaches a scroll listener to a ref'd element and toggles
@@ -56,6 +58,10 @@ export function Controls({
   favOnly,
   onFavToggle,
   onClearFilters,
+  activeFilterDays,
+  onFilterDayToggle,
+  compactMode,
+  onCompactToggle,
 }) {
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -172,6 +178,32 @@ export function Controls({
               )}
             </button>
           </>
+        )}
+      </div>
+
+      {/* ── Day filter row ── */}
+      <div className={styles.dayFilterRow}>
+        <div className={styles.dayPills}>
+          {DAY_FILTERS.map(({ id, label }) => (
+            <button
+              key={id}
+              className={`${styles.dayPill} ${activeFilterDays.has(id) ? styles.active : ''}`}
+              onClick={() => onFilterDayToggle(id)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        {activeDay === 'LIST' && (
+          <button
+            className={styles.compactToggle}
+            onClick={onCompactToggle}
+            aria-label={compactMode ? 'Switch to list view' : 'Switch to compact view'}
+            title={compactMode ? 'List view' : 'Compact view'}
+          >
+            {compactMode ? <IconList size={14} /> : <IconCompact size={14} />}
+            <span className={styles.compactLabel}>{compactMode ? 'List' : 'Compact'}</span>
+          </button>
         )}
       </div>
 

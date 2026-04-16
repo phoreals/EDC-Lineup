@@ -288,6 +288,81 @@
   line-height: 1;
 }
 
+// ── Day filter row ────────────────────────────────────────
+.dayFilterRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.dayPills {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.dayPill {
+  font-family: var(--font-primary);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  padding: var(--space-1) var(--space-4);
+  border-radius: var(--radius-column);
+  border: 1px solid var(--border-default);
+  background: var(--bg-surface-raised);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease-default);
+
+  &:hover {
+    border-color: var(--color-brand);
+    color: var(--text-primary);
+  }
+
+  &.active {
+    background: var(--gradient-brand);
+    border-color: transparent;
+    color: var(--text-inverse);
+  }
+
+  @media (max-width: p.$bp-mobile) {
+    font-size: var(--text-xs-plus);
+    padding: var(--space-1) var(--space-3);
+  }
+}
+
+.compactToggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1-5);
+  font-family: var(--font-primary);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-column);
+  border: 1px solid var(--border-default);
+  background: var(--bg-surface-raised);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease-default);
+  white-space: nowrap;
+
+  &:hover {
+    border-color: var(--color-brand);
+    color: var(--text-primary);
+  }
+
+  @media (max-width: p.$bp-mobile) {
+    font-size: var(--text-xs-plus);
+    padding: var(--space-1) var(--space-2);
+  }
+}
+
+.compactLabel {
+  @media (max-width: p.$bp-mobile) {
+    display: none;
+  }
+}
+
 // ── Filters row ───────────────────────────────────────────────
 .filtersRow {
   display: flex;

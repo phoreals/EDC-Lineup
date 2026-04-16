@@ -9,16 +9,26 @@ import { CompactGrid } from './components/CompactGrid';
 import { ScheduleGrid } from './components/ScheduleGrid';
 
 export default function App() {
-  const [activeDay, setActiveDay] = useState('ALL_DAYS');
+  const [activeDay, setActiveDay] = useState('SCHEDULE');
   const [query, setQuery] = useState('');
   const [activeStages, setActiveStages] = useState(new Set());
   const [favOnly, setFavOnly] = useState(false);
+  const [activeFilterDays, setActiveFilterDays] = useState(new Set());
+  const [compactMode, setCompactMode] = useState(false);
   const { favorites, toggle: toggleFavorite } = useFavorites();
 
   const handleStageToggle = useCallback(stage => {
     setActiveStages(prev => {
       const next = new Set(prev);
       next.has(stage) ? next.delete(stage) : next.add(stage);
+      return next;
+    });
+  }, []);
+
+  const handleFilterDayToggle = useCallback(day => {
+    setActiveFilterDays(prev => {
+      const next = new Set(prev);
+      next.has(day) ? next.delete(day) : next.add(day);
       return next;
     });
   }, []);
@@ -38,6 +48,10 @@ export default function App() {
     onToggle: toggleFavorite,
   };
 
+  const visibleDays = activeFilterDays.size > 0
+    ? DAYS.filter(d => activeFilterDays.has(d))
+    : DAYS;
+
   const isScheduleView = activeDay === 'SCHEDULE';
 
   return (
@@ -54,21 +68,23 @@ export default function App() {
         favOnly={favOnly}
         onFavToggle={() => setFavOnly(v => !v)}
         onClearFilters={handleClearFilters}
+        activeFilterDays={activeFilterDays}
+        onFilterDayToggle={handleFilterDayToggle}
+        compactMode={compactMode}
+        onCompactToggle={() => setCompactMode(v => !v)}
       />
 
       <main style={isScheduleView ? { overflow: 'hidden' } : undefined}>
         {activeDay === 'SCHEDULE' ? (
-          <ScheduleGrid day="FRIDAY" {...gridProps} />
+          <ScheduleGrid activeFilterDays={activeFilterDays} {...gridProps} />
         ) : activeDay === 'BY_STAGE' ? (
-          <ByStageGrid {...gridProps} />
-        ) : activeDay === 'COMPACT' ? (
-          <CompactGrid {...gridProps} />
-        ) : activeDay === 'ALL_DAYS' ? (
-          DAYS.map(day => (
-            <DayGrid key={day} day={day} showDayHeader {...gridProps} />
-          ))
+          <ByStageGrid visibleDays={visibleDays} {...gridProps} />
+        ) : compactMode ? (
+          <CompactGrid visibleDays={visibleDays} {...gridProps} />
         ) : (
-          <DayGrid day={activeDay} {...gridProps} />
+          visibleDays.map(day => (
+            <DayGrid key={day} day={day} showDayHeader={visibleDays.length > 1} {...gridProps} />
+          ))
         )}
       </main>
     </>
