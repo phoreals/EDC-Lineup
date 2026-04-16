@@ -8,9 +8,6 @@ import { ByStageGrid } from './components/ByStageGrid';
 import { CompactGrid } from './components/CompactGrid';
 import { ScheduleGrid } from './components/ScheduleGrid';
 
-// Schedule view is a fixed-height viewport — suppress main scroll
-const SCHEDULE_DAYS = new Set(['SCHEDULE', 'FRIDAY_SCH', 'SATURDAY_SCH', 'SUNDAY_SCH']);
-
 export default function App() {
   const [activeDay, setActiveDay] = useState('ALL_DAYS');
   const [query, setQuery] = useState('');

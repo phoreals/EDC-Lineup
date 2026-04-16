@@ -35,7 +35,7 @@
   padding: var(--space-4);
 
   @container stage-col (max-width: 260px) {
-    gap: 6px;
-    padding: 12px;
+    gap: var(--space-1-5);
+    padding: var(--space-3);
   }
 }
