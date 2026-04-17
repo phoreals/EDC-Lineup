@@ -12,15 +12,15 @@ const TOTAL_HEIGHT       = TOTAL_MIN * PX_PER_MIN;
 const NARROW_BREAKPOINT  = 600;
 
 export const STAGE_COLORS = {
-  'Kinetic Field':   { bg: '#251b22', border: '#f472b6', text: '#fce7f3' },
-  'Circuit Grounds': { bg: '#162327', border: '#22d3ee', text: '#cffafe' },
-  'Cosmic Meadow':   { bg: '#182420', border: '#34d399', text: '#d1fae5' },
-  'Neon Garden':     { bg: '#251d16', border: '#fb923c', text: '#ffedd5' },
-  'Basspod':         { bg: '#201a29', border: '#a855f7', text: '#ede9fe' },
-  'Wasteland':       { bg: '#251a1a', border: '#f87171', text: '#fee2e2' },
-  'Quantum Valley':  { bg: '#191f2b', border: '#60a5fa', text: '#dbeafe' },
-  'Stereobloom':     { bg: '#1e2416', border: '#a3e635', text: '#ecfccb' },
-  'Bionic Jungle':   { bg: '#1c1d2d', border: '#818cf8', text: '#e0e7ff' },
+  'Kinetic Field':   { bg: 'var(--stage-kinetic-bg)',   border: 'var(--stage-kinetic-border)',   text: 'var(--stage-kinetic-text)' },
+  'Circuit Grounds': { bg: 'var(--stage-circuit-bg)',   border: 'var(--stage-circuit-border)',   text: 'var(--stage-circuit-text)' },
+  'Cosmic Meadow':   { bg: 'var(--stage-cosmic-bg)',    border: 'var(--stage-cosmic-border)',    text: 'var(--stage-cosmic-text)' },
+  'Neon Garden':     { bg: 'var(--stage-neon-bg)',      border: 'var(--stage-neon-border)',      text: 'var(--stage-neon-text)' },
+  'Basspod':         { bg: 'var(--stage-basspod-bg)',   border: 'var(--stage-basspod-border)',   text: 'var(--stage-basspod-text)' },
+  'Wasteland':       { bg: 'var(--stage-wasteland-bg)', border: 'var(--stage-wasteland-border)', text: 'var(--stage-wasteland-text)' },
+  'Quantum Valley':  { bg: 'var(--stage-quantum-bg)',   border: 'var(--stage-quantum-border)',   text: 'var(--stage-quantum-text)' },
+  'Stereobloom':     { bg: 'var(--stage-stereo-bg)',    border: 'var(--stage-stereo-border)',    text: 'var(--stage-stereo-text)' },
+  'Bionic Jungle':   { bg: 'var(--stage-bionic-bg)',    border: 'var(--stage-bionic-border)',    text: 'var(--stage-bionic-text)' },
 };
 
 // ── Helpers ───────────────────────────────────────────────────
@@ -63,9 +63,11 @@ function SetBlock({ slot, stage, isFav, onToggle }) {
         top:         `${top}px`,
         height:      `${Math.max(height - 2, 18)}px`,
         background:  isFav
-          ? color.border
+          ? `color-mix(in srgb, ${color.border} 40%, var(--color-neutral-950))`
           : color.bg,
-        borderColor: isFav ? color.border : `${color.border}88`,
+        borderColor: isFav
+          ? color.border
+          : `color-mix(in srgb, ${color.border} 53%, transparent)`,
         color:       color.text,
       }}
       onClick={() => onToggle(slot.artist)}
