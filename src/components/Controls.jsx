@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { STAGES } from '../data/lineup';
 import { useStickyHeight } from '../hooks/useStickyHeight';
-import { IconSearch, IconBack, IconFilter, IconCompact, IconList, IconColumns } from './Icons';
+import { IconSearch, IconBack, IconFilter, IconCompact, IconList, IconColumns, IconChevronDown } from './Icons';
 import styles from './Controls.module.scss';
 
 const TABS = [
@@ -284,7 +284,8 @@ export function Controls({
                 aria-expanded={modeDropdown.open}
               >
                 <currentMode.Icon size={14} />
-                <span>{currentMode.label}</span>
+                <span className={styles.modeDropdownLabel}>{currentMode.label}</span>
+                <IconChevronDown />
               </button>
 
               {modeDropdown.open && (
@@ -295,8 +296,11 @@ export function Controls({
                       className={`${styles.dropdownItem} ${listMode === id ? styles.active : ''}`}
                       onClick={() => { onListModeChange(id); modeDropdown.setOpen(false); }}
                     >
-                      <Icon size={14} />
-                      <span>{label}</span>
+                      <span className={styles.dropdownItemLeft}>
+                        <Icon size={14} />
+                        <span>{label}</span>
+                      </span>
+                      {listMode === id && <span className={styles.checkmark}>✓</span>}
                     </button>
                   ))}
                 </div>
