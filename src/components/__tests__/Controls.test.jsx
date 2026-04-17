@@ -20,8 +20,8 @@ const defaultProps = {
   onClearFilters: vi.fn(),
   activeFilterDays: new Set(),
   onFilterDayToggle: vi.fn(),
-  compactMode: false,
-  onCompactToggle: vi.fn(),
+  listMode: 'list',
+  onListModeChange: vi.fn(),
 };
 
 beforeEach(() => {
@@ -33,7 +33,6 @@ describe('Controls', () => {
     render(<Controls {...defaultProps} />);
     expect(screen.getByText('Schedule')).toBeInTheDocument();
     expect(screen.getByText('List View')).toBeInTheDocument();
-    expect(screen.getByText('By Stage')).toBeInTheDocument();
   });
 
   it('renders day filter pills', () => {

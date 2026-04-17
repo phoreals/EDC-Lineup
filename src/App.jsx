@@ -14,7 +14,7 @@ export default function App() {
   const [activeStages, setActiveStages] = useState(new Set());
   const [favOnly, setFavOnly] = useState(false);
   const [activeFilterDays, setActiveFilterDays] = useState(new Set());
-  const [compactMode, setCompactMode] = useState(false);
+  const [listMode, setListMode] = useState('list');
   const { favorites, toggle: toggleFavorite } = useFavorites();
 
   const handleStageToggle = useCallback(stage => {
@@ -70,16 +70,16 @@ export default function App() {
         onClearFilters={handleClearFilters}
         activeFilterDays={activeFilterDays}
         onFilterDayToggle={handleFilterDayToggle}
-        compactMode={compactMode}
-        onCompactToggle={() => setCompactMode(v => !v)}
+        listMode={listMode}
+        onListModeChange={setListMode}
       />
 
       <main style={isScheduleView ? { overflow: 'hidden' } : undefined}>
         {activeDay === 'SCHEDULE' ? (
           <ScheduleGrid activeFilterDays={activeFilterDays} {...gridProps} />
-        ) : activeDay === 'BY_STAGE' ? (
+        ) : listMode === 'byStage' ? (
           <ByStageGrid visibleDays={visibleDays} {...gridProps} />
-        ) : compactMode ? (
+        ) : listMode === 'compact' ? (
           <CompactGrid visibleDays={visibleDays} {...gridProps} />
         ) : (
           visibleDays.map(day => (
