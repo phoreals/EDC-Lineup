@@ -248,15 +248,20 @@ export function Controls({
       {/* ── Day filter row ── */}
       <div className={styles.dayFilterRow}>
         <div className={styles.dayPills}>
-          {DAY_FILTERS.map(({ id, label }) => (
-            <button
-              key={id}
-              className={`${styles.dayPill} ${activeFilterDays.has(id) ? styles.active : ''}`}
-              onClick={() => onFilterDayToggle(id)}
-            >
-              {label}
-            </button>
-          ))}
+          {DAY_FILTERS.map(({ id, label }) => {
+            const isActive = activeDay === 'SCHEDULE'
+              ? (activeFilterDays.size === 0 ? id === 'FRIDAY' : activeFilterDays.has(id))
+              : activeFilterDays.has(id);
+            return (
+              <button
+                key={id}
+                className={`${styles.dayPill} ${isActive ? styles.active : ''}`}
+                onClick={() => onFilterDayToggle(id, activeDay === 'SCHEDULE')}
+              >
+                {label}
+              </button>
+            );
+          })}
         </div>
         {activeDay === 'LIST' && (
           <>

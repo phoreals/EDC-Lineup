@@ -5,11 +5,11 @@ React + Vite app for browsing the EDC 2026 festival lineup. Filter by day or sta
 ## Features
 
 - **Schedule View** — timeline grid showing all stages with set times, fluid sizing via `clamp()` and container queries
-- **List View** — artists grouped by stage per day, with 3 sub-modes:
-  - **List** — full artist cards with set times
-  - **Compact** — dense 2-line layout (time + name)
-  - **By Stage** — full-width stage sections with Fri/Sat/Sun day columns
-- **Day Filters** — Friday / Saturday / Sunday toggles on every page
+- **List View** — artists displayed in 3 sub-modes:
+  - **A to Z** — all artists sorted alphabetically with letter headers, showing stage and set time
+  - **By Day** — artists grouped by stage under each day
+  - **By Stage** — artists grouped by day under each stage, with stages side by side when space allows
+- **Day Filters** — Friday / Saturday / Sunday; single-select toggle on Schedule, multi-select on List View
 - **Stage Filters** — dropdown checklist to filter by stage or favorites
 - **Search** — instant artist search across all views
 - **Favorites** — star artists to highlight them; persisted to localStorage
@@ -39,11 +39,12 @@ Runtime values like `--sticky-top` are written by JS.
 ```
 src/
 ├── components/
+│   ├── AlphaGrid.jsx / .module.scss     # A to Z alphabetical view
 │   ├── ArtistCard.jsx / .module.scss    # Individual artist entry
-│   ├── ByStageGrid.jsx / .module.scss   # By-stage view with day columns
-│   ├── CompactGrid.jsx / .module.scss   # Compact 2-line artist list
+│   ├── ByStageGrid.jsx / .module.scss   # By Stage view with day columns per stage
+│   ├── CompactGrid.jsx / .module.scss   # By Day view (compact artist list)
 │   ├── Controls.jsx / .module.scss      # Nav tabs, day filters, dropdowns
-│   ├── DayGrid.jsx / .module.scss       # List view grid per day
+│   ├── DayGrid.jsx / .module.scss       # Day grid (legacy)
 │   ├── Header.jsx / .module.scss        # Page header
 │   ├── Icons.jsx                        # SVG icon components
 │   ├── ScheduleGrid.jsx / .module.scss  # Timeline schedule view

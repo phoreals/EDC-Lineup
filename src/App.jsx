@@ -25,12 +25,16 @@ export default function App() {
     });
   }, []);
 
-  const handleFilterDayToggle = useCallback(day => {
-    setActiveFilterDays(prev => {
-      const next = new Set(prev);
-      next.has(day) ? next.delete(day) : next.add(day);
-      return next;
-    });
+  const handleFilterDayToggle = useCallback((day, singleSelect) => {
+    if (singleSelect) {
+      setActiveFilterDays(new Set([day]));
+    } else {
+      setActiveFilterDays(prev => {
+        const next = new Set(prev);
+        next.has(day) ? next.delete(day) : next.add(day);
+        return next;
+      });
+    }
   }, []);
 
   const handleClearFilters = useCallback(() => {
