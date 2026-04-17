@@ -7,7 +7,7 @@ import styles from './ScheduleGrid.module.scss';
 const FESTIVAL_START_MIN = 17 * 60 + 30;
 const FESTIVAL_END_MIN   = 24 * 60 + 5 * 60 + 30; // 29:30
 const TOTAL_MIN          = FESTIVAL_END_MIN - FESTIVAL_START_MIN; // 720 min
-const PX_PER_MIN         = 96 / 60;   // 96px per hour
+const PX_PER_MIN         = 72 / 60;   // 72px per hour
 const TOTAL_HEIGHT       = TOTAL_MIN * PX_PER_MIN;
 const NARROW_BREAKPOINT  = 600;
 

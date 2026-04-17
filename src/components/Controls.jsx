@@ -11,9 +11,9 @@ const TABS = [
 ];
 
 const DAY_FILTERS = [
-  { id: 'FRIDAY',    label: 'Fri' },
-  { id: 'SATURDAY',  label: 'Sat' },
-  { id: 'SUNDAY',    label: 'Sun' },
+  { id: 'FRIDAY',    label: 'Friday' },
+  { id: 'SATURDAY',  label: 'Saturday' },
+  { id: 'SUNDAY',    label: 'Sunday' },
 ];
 
 // Attaches a scroll listener to a ref'd element and toggles
@@ -162,7 +162,7 @@ export function Controls({
         )}
 
         {!mobileSearchOpen && (
-          <>
+          <div className={styles.mobileActions}>
             <button className={styles.searchToggle} onClick={openMobileSearch} aria-label="Open search">
               <IconSearch />
             </button>
@@ -177,7 +177,7 @@ export function Controls({
                 <span className={styles.badge}>{activeStages.size + (favOnly ? 1 : 0)}</span>
               )}
             </button>
-          </>
+          </div>
         )}
       </div>
 
