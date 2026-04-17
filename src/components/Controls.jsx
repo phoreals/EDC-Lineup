@@ -209,33 +209,34 @@ export function Controls({
 
           {filterDropdown.open && (
             <div className={styles.dropdown}>
-              <div className={styles.dropdownBody}>
+              <button
+                className={`${styles.dropdownItem} ${favOnly ? styles.active : ''}`}
+                onClick={onFavToggle}
+              >
+                <span>★ Favorited</span>
+                {favOnly && <span className={styles.checkmark}>✓</span>}
+              </button>
+
+              <div className={styles.divider} />
+
+              {STAGES.map(stage => (
                 <button
-                  className={`${styles.pill} ${styles.fav} ${favOnly ? styles.active : ''}`}
-                  onClick={onFavToggle}
+                  key={stage}
+                  className={`${styles.dropdownItem} ${activeStages.has(stage) ? styles.active : ''}`}
+                  onClick={() => onStageToggle(stage)}
                 >
-                  ★ Favorited
+                  <span>{stage}</span>
+                  {activeStages.has(stage) && <span className={styles.checkmark}>✓</span>}
                 </button>
-
-                <div className={styles.divider} />
-
-                {STAGES.map(stage => (
-                  <button
-                    key={stage}
-                    className={`${styles.pill} ${activeStages.has(stage) ? styles.active : ''}`}
-                    onClick={() => onStageToggle(stage)}
-                  >
-                    {stage}
-                  </button>
-                ))}
-              </div>
+              ))}
 
               {hasFilters && (
-                <div className={styles.dropdownFooter}>
-                  <button className={styles.dropdownClear} onClick={onClearFilters}>
-                    Clear All
+                <>
+                  <div className={styles.divider} />
+                  <button className={styles.dropdownItem} onClick={onClearFilters}>
+                    <span className={styles.clearText}>Clear All</span>
                   </button>
-                </div>
+                </>
               )}
             </div>
           )}
