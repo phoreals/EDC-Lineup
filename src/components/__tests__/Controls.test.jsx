@@ -63,38 +63,45 @@ describe('Controls', () => {
     expect(defaultProps.onQueryChange).toHaveBeenCalled();
   });
 
-  it('renders stage filter pills', () => {
+  it('opens filter dropdown and shows stage pills', async () => {
+    const user = userEvent.setup();
     render(<Controls {...defaultProps} />);
+    await user.click(screen.getByLabelText('Filters'));
     expect(screen.getByText('Kinetic Field')).toBeInTheDocument();
     expect(screen.getByText('Basspod')).toBeInTheDocument();
     expect(screen.getByText('Neon Garden')).toBeInTheDocument();
   });
 
-  it('calls onStageToggle when a stage pill is clicked', async () => {
+  it('calls onStageToggle when a stage pill is clicked in dropdown', async () => {
     const user = userEvent.setup();
     render(<Controls {...defaultProps} />);
+    await user.click(screen.getByLabelText('Filters'));
     await user.click(screen.getByText('Basspod'));
     expect(defaultProps.onStageToggle).toHaveBeenCalledWith('Basspod');
   });
 
-  it('renders the favorites toggle', () => {
+  it('shows favorites toggle in filter dropdown', async () => {
+    const user = userEvent.setup();
     render(<Controls {...defaultProps} />);
+    await user.click(screen.getByLabelText('Filters'));
     expect(screen.getByText(/Favorited/)).toBeInTheDocument();
   });
 
   it('calls onFavToggle when favorites pill is clicked', async () => {
     const user = userEvent.setup();
     render(<Controls {...defaultProps} />);
+    await user.click(screen.getByLabelText('Filters'));
     await user.click(screen.getByText(/Favorited/));
     expect(defaultProps.onFavToggle).toHaveBeenCalled();
   });
 
-  it('calls onClearFilters when Clear is clicked', async () => {
+  it('shows Clear All when filters are active', async () => {
     const user = userEvent.setup();
     render(
       <Controls {...defaultProps} activeStages={new Set(['Basspod'])} />,
     );
-    await user.click(screen.getByText('Clear'));
+    await user.click(screen.getByLabelText('Filters'));
+    await user.click(screen.getByText('Clear All'));
     expect(defaultProps.onClearFilters).toHaveBeenCalled();
   });
 });
