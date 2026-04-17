@@ -180,7 +180,7 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
         data-scrolled-left={scrolledLeft ? 'true' : undefined}
       >
         {/* Sticky time gutter */}
-        <div className={styles.timeGutter}>
+        <div className={styles.timeGutter} style={{ height: `${TOTAL_HEIGHT}px` }}>
           {TICKS.filter(t => t.isHour).map(t => (
             <div
               key={t.offsetMin}
