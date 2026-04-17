@@ -15,18 +15,6 @@
   padding-top: var(--space-3);
   position: relative;
 
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 64px;
-    background: linear-gradient(to bottom, transparent, var(--color-neutral-950));
-    pointer-events: none;
-    z-index: 20;
-  }
-
   @container schedule (max-width: 600px) {
     padding-top: var(--space-2);
   }
