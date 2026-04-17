@@ -87,6 +87,7 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
   const bodyRef         = useRef(null);
   const headerScrollRef = useRef(null);
   const [isNarrow, setIsNarrow] = useState(false);
+  const [scrolledLeft, setScrolledLeft] = useState(false);
 
   // Derive the displayed day from the global filter
   const scheduleDay = activeFilterDays && activeFilterDays.size === 1
@@ -106,12 +107,15 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
     return () => ro.disconnect();
   }, []);
 
-  // Sync header scroll to body horizontal scroll
+  // Sync header scroll to body horizontal scroll + track scrolledLeft
   useEffect(() => {
     const body = bodyRef.current;
     const hdr  = headerScrollRef.current;
     if (!body || !hdr) return;
-    const onScroll = () => { hdr.scrollLeft = body.scrollLeft; };
+    const onScroll = () => {
+      hdr.scrollLeft = body.scrollLeft;
+      setScrolledLeft(body.scrollLeft > 2);
+    };
     body.addEventListener('scroll', onScroll, { passive: true });
     return () => body.removeEventListener('scroll', onScroll);
   }, []);
@@ -171,6 +175,7 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
         className={styles.body}
         ref={bodyRef}
         data-narrow={isNarrow ? 'true' : undefined}
+        data-scrolled-left={scrolledLeft ? 'true' : undefined}
       >
         {/* Sticky time gutter */}
         <div className={styles.timeGutter}>
