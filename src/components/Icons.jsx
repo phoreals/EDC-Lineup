@@ -56,3 +56,15 @@ export function IconList({ size = 16 }) {
     </svg>
   );
 }
+
+export function IconColumns({ size = 16 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+      aria-hidden="true">
+      <rect x="3" y="3" width="5" height="18" rx="1" />
+      <rect x="10" y="3" width="5" height="18" rx="1" />
+      <rect x="17" y="3" width="5" height="18" rx="1" />
+    </svg>
+  );
+}

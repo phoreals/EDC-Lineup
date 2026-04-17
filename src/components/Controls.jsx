@@ -1,14 +1,19 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { STAGES } from '../data/lineup';
 import { useStickyHeight } from '../hooks/useStickyHeight';
-import { IconSearch, IconBack, IconFilter, IconCompact, IconList } from './Icons';
+import { IconSearch, IconBack, IconFilter, IconCompact, IconList, IconColumns } from './Icons';
 import { createPortal } from 'react-dom';
 import styles from './Controls.module.scss';
 
 const TABS = [
   { id: 'SCHEDULE',  label: 'Schedule' },
   { id: 'LIST',      label: 'List View' },
-  { id: 'BY_STAGE',  label: 'By Stage' },
+];
+
+const LIST_MODES = [
+  { id: 'list',     label: 'List',     Icon: IconList },
+  { id: 'compact',  label: 'Compact',  Icon: IconCompact },
+  { id: 'byStage',  label: 'By Stage', Icon: IconColumns },
 ];
 
 const DAY_FILTERS = [
@@ -61,8 +66,8 @@ export function Controls({
   onClearFilters,
   activeFilterDays,
   onFilterDayToggle,
-  compactMode,
-  onCompactToggle,
+  listMode,
+  onListModeChange,
 }) {
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -196,15 +201,20 @@ export function Controls({
           ))}
         </div>
         {activeDay === 'LIST' && (
-          <button
-            className={styles.compactToggle}
-            onClick={onCompactToggle}
-            aria-label={compactMode ? 'Switch to list view' : 'Switch to compact view'}
-            title={compactMode ? 'List view' : 'Compact view'}
-          >
-            {compactMode ? <IconList size={14} /> : <IconCompact size={14} />}
-            <span className={styles.compactLabel}>{compactMode ? 'List' : 'Compact'}</span>
-          </button>
+          <div className={styles.modeToggle}>
+            {LIST_MODES.map(({ id, label, Icon }) => (
+              <button
+                key={id}
+                className={`${styles.modeBtn} ${listMode === id ? styles.active : ''}`}
+                onClick={() => onListModeChange(id)}
+                aria-label={label}
+                title={label}
+              >
+                <Icon size={14} />
+                <span className={styles.modeLabel}>{label}</span>
+              </button>
+            ))}
+          </div>
         )}
       </div>
 
