@@ -1,32 +1,24 @@
 @use '../styles/primitives' as p;
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--grid-min-col), 1fr));
-  gap: var(--grid-gap);
-  width: 100%;
-  align-items: start;
+.wrapper {
   padding: var(--space-6) var(--page-gutter) var(--space-grid-bottom) var(--page-gutter);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
 
   @media (max-width: p.$bp-mobile) {
     padding: var(--space-5) var(--page-gutter-mobile) var(--space-grid-bottom) var(--page-gutter-mobile);
-    gap: var(--space-4);
+    gap: var(--space-6);
   }
 }
 
-// .column is a container so its children (ArtistCard) can query it
-.column {
-  container-type: inline-size;
-  container-name: stage-col; // same name — ArtistCard's @container targets this
-
-  display: flex;
-  flex-direction: column;
+.stage {
   border: 1px solid var(--border-default);
-  background-color: var(--bg-surface);
   border-radius: var(--radius-column);
+  background-color: var(--bg-surface);
 }
 
-.columnHeader {
+.stageHeader {
   padding: var(--space-4);
   font-weight: 700;
   font-size: var(--text-base);
@@ -36,26 +28,40 @@
   position: sticky;
   top: var(--sticky-top);
   z-index: 50;
-  border-top-left-radius: var(--radius-column);
-  border-top-right-radius: var(--radius-column);
+  border-radius: var(--radius-column) var(--radius-column) 0 0;
 }
 
-.list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  padding: var(--space-4);
+.dayColumns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0;
+  border-radius: 0 0 var(--radius-column) var(--radius-column);
+  overflow: hidden;
 
-  @container stage-col (max-width: 260px) {
-    gap: var(--space-1-5);
-    padding: var(--space-3);
+  @media (max-width: p.$bp-mobile) {
+    grid-template-columns: 1fr;
   }
 }
 
-.daySection {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
+.dayColumn {
+  container-type: inline-size;
+  container-name: stage-col;
+  padding: var(--space-4);
+  border-right: 1px solid var(--border-default);
+
+  &:last-child {
+    border-right: none;
+  }
+
+  @media (max-width: p.$bp-mobile) {
+    border-right: none;
+    border-bottom: 1px solid var(--border-default);
+    padding: var(--space-3);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
 }
 
 .dayLabel {
@@ -63,12 +69,15 @@
   font-weight: 600;
   color: var(--text-muted);
   letter-spacing: 1px;
-  margin: 0 0 var(--space-1) var(--space-1);
+  margin-bottom: var(--space-2);
 }
 
-.dayRule {
-  height: 1px;
-  background-color: var(--color-white-alpha-06);
-  margin: var(--space-3) var(--space-1) var(--space-1) var(--space-1);
-  border: none;
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+
+  @container stage-col (max-width: 260px) {
+    gap: var(--space-1-5);
+  }
 }

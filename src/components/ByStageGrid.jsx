@@ -9,7 +9,7 @@ export function ByStageGrid({ query, activeStages, favOnly, favorites, onToggle,
     : STAGES;
 
   return (
-    <div className={styles.grid}>
+    <div className={styles.wrapper}>
       {stageList.map(stage => {
         const segments = (visibleDays || DAYS)
           .map(day => {
@@ -23,23 +23,24 @@ export function ByStageGrid({ query, activeStages, favOnly, favorites, onToggle,
         if (!segments.length && (query || favOnly)) return null;
 
         return (
-          <div key={stage} className={styles.column}>
-            <div className={styles.columnHeader}>{stage}</div>
-            <div className={styles.list}>
+          <section key={stage} className={styles.stage}>
+            <div className={styles.stageHeader}>{stage}</div>
+            <div className={styles.dayColumns}>
               {segments.length === 0
                 ? <p style={{ padding: '12px', color: 'var(--text-muted)', fontSize: '14px' }}>No artists</p>
-                : segments.map(({ day, artists }, i) => (
-                    <div key={day} className={styles.daySection}>
-                      {i > 0 && <hr className={styles.dayRule} />}
+                : segments.map(({ day, artists }) => (
+                    <div key={day} className={styles.dayColumn}>
                       <div className={styles.dayLabel}>{toTitle(day)}</div>
-                      {artists.map(({ name, time }) => (
-                        <ArtistCard key={name} name={name} time={time} isFav={favorites.has(name)} onToggle={onToggle} />
-                      ))}
+                      <div className={styles.list}>
+                        {artists.map(({ name, time }) => (
+                          <ArtistCard key={name} name={name} time={time} isFav={favorites.has(name)} onToggle={onToggle} />
+                        ))}
+                      </div>
                     </div>
                   ))
               }
             </div>
-          </div>
+          </section>
         );
       })}
     </div>
