@@ -14,26 +14,22 @@
   }
 }
 
-// ── Stage header ───────────────────────────────────────────────────
+// ── Stage header — bold section title (like By Day's day header) ───
 .stageHeader {
-  padding: var(--space-1) 0 0 0;
-  margin-bottom: var(--space-2);
-  border-top: 1px solid var(--border-default);
-  position: sticky;
-  top: var(--sticky-top);
-  z-index: 50;
-  background-color: var(--bg-page);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+  padding: var(--space-8) 0 var(--space-3) 0;
+  margin: 0;
+  background: var(--bg-page);
+
+  @media (max-width: p.$bp-mobile) {
+    font-size: var(--text-xl);
+    padding: var(--space-6) 0 var(--space-2) 0;
+  }
 }
 
 .stageName {
-  font-size: var(--text-xs);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   display: block;
 }
 
@@ -59,9 +55,13 @@
 
 .dayLabel {
   font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--text-muted);
-  opacity: 0.7;
-  margin-bottom: var(--space-1);
+  margin-bottom: var(--space-2);
+  padding: var(--space-1) 0 0 0;
+  border-top: 1px solid var(--border-default);
 }
 
 // ── Artist list ────────────────────────────────────────────────────
