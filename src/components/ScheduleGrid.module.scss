@@ -133,6 +133,9 @@ $header-h:       clamp(40px, 5cqi + 16px, 48px);
   z-index: 15;
   background: var(--bg-page);
   border-right: 1px solid var(--border-default);
+  // Negative margin + padding trick: extend bg into the grid's bottom margin area
+  margin-bottom: calc(-1 * var(--space-grid-bottom, 64px));
+  padding-bottom: var(--space-grid-bottom, 64px);
 
   // Gradient fade on the right edge — fades artist cards
   // before they reach the time labels. Only visible when scrolled.
@@ -173,6 +176,7 @@ $header-h:       clamp(40px, 5cqi + 16px, 48px);
   position: relative;
   display: flex;
   z-index: 1;
+  margin-bottom: var(--space-grid-bottom, 64px);
 }
 
 .hourLine {
