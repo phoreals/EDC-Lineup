@@ -191,15 +191,11 @@ export function Controls({
         )}
 
         {!mobileSearchOpen && (
-          <div className={styles.mobileActions}>
+          <div className={styles.actionGroup}>
             <button className={styles.searchToggle} onClick={openMobileSearch} aria-label="Open search">
               <IconSearch />
             </button>
-          </div>
-        )}
-
-        {/* ── Filter dropdown ── */}
-        <div className={styles.filterDropdownWrap} ref={filterDropdown.ref}>
+            <div className={styles.filterDropdownWrap} ref={filterDropdown.ref}>
           <button
             className={`${styles.filterBtn} ${filterDropdown.open ? styles.active : ''}`}
             onClick={() => filterDropdown.setOpen(v => !v)}
@@ -244,7 +240,9 @@ export function Controls({
               )}
             </div>
           )}
-        </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* ── Day filter row ── */}
