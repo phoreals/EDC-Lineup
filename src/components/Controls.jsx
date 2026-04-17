@@ -2,6 +2,7 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import { STAGES } from '../data/lineup';
 import { useStickyHeight } from '../hooks/useStickyHeight';
 import { IconSearch, IconBack, IconFilter, IconCompact, IconList } from './Icons';
+import { createPortal } from 'react-dom';
 import styles from './Controls.module.scss';
 
 const TABS = [
@@ -207,8 +208,8 @@ export function Controls({
         )}
       </div>
 
-      {/* ── Filters row ── */}
-      <div className={`${styles.filtersRow} ${filtersOpen ? styles.open : ''}`}>
+      {/* ── Filters row (desktop only) ── */}
+      <div className={styles.filtersRow}>
         <div className={styles.filtersTrack} ref={filtersTrackRef}>
           <div className={styles.filtersInner} ref={filtersScrollRef}>
             <button
@@ -242,6 +243,65 @@ export function Controls({
           Clear
         </button>
       </div>
+
+      {/* ── Active filters summary (mobile only) ── */}
+      {hasFilters && !filtersOpen && (
+        <div className={styles.activePillsSummary}>
+          {favOnly && (
+            <span className={`${styles.summaryPill} ${styles.fav}`}>★ Favorited</span>
+          )}
+          {[...activeStages].map(stage => (
+            <span key={stage} className={styles.summaryPill}>{stage}</span>
+          ))}
+        </div>
+      )}
+
+      {/* ── Filter overlay (mobile only) ── */}
+      {filtersOpen && createPortal(
+        <div className={styles.overlay} role="dialog" aria-label="Filters">
+          <div className={styles.overlayPanel}>
+            <div className={styles.overlayHeader}>
+              <h2 className={styles.overlayTitle}>Filters</h2>
+              <button className={styles.overlayClose} onClick={() => setFiltersOpen(false)} aria-label="Close filters">
+                ×
+              </button>
+            </div>
+            <div className={styles.overlayBody}>
+              <button
+                className={`${styles.overlayPill} ${styles.fav} ${favOnly ? styles.active : ''}`}
+                onClick={onFavToggle}
+              >
+                ★ Favorited
+              </button>
+
+              <div className={styles.overlayDivider} />
+
+              {STAGES.map(stage => (
+                <button
+                  key={stage}
+                  className={`${styles.overlayPill} ${activeStages.has(stage) ? styles.active : ''}`}
+                  onClick={() => onStageToggle(stage)}
+                >
+                  {stage}
+                </button>
+              ))}
+            </div>
+            <div className={styles.overlayFooter}>
+              <button
+                className={styles.overlayClear}
+                onClick={onClearFilters}
+                disabled={!hasFilters}
+              >
+                Clear All
+              </button>
+              <button className={styles.overlayDone} onClick={() => setFiltersOpen(false)}>
+                Done
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 }
