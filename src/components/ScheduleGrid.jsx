@@ -12,15 +12,15 @@ const TOTAL_HEIGHT       = TOTAL_MIN * PX_PER_MIN;
 const NARROW_BREAKPOINT  = 600;
 
 export const STAGE_COLORS = {
-  'Kinetic Field':   { bg: '#2d1e28', border: '#f472b6', text: '#fce7f3' },
-  'Circuit Grounds': { bg: '#172a2e', border: '#22d3ee', text: '#cffafe' },
-  'Cosmic Meadow':   { bg: '#1a2b25', border: '#34d399', text: '#d1fae5' },
-  'Neon Garden':     { bg: '#2c2018', border: '#fb923c', text: '#ffedd5' },
-  'Basspod':         { bg: '#241c30', border: '#a855f7', text: '#ede9fe' },
-  'Wasteland':       { bg: '#2c1c1c', border: '#f87171', text: '#fee2e2' },
-  'Quantum Valley':  { bg: '#1b2333', border: '#60a5fa', text: '#dbeafe' },
-  'Stereobloom':     { bg: '#222b18', border: '#a3e635', text: '#ecfccb' },
-  'Bionic Jungle':   { bg: '#1f2036', border: '#818cf8', text: '#e0e7ff' },
+  'Kinetic Field':   { bg: '#251b22', border: '#f472b6', text: '#fce7f3' },
+  'Circuit Grounds': { bg: '#162327', border: '#22d3ee', text: '#cffafe' },
+  'Cosmic Meadow':   { bg: '#182420', border: '#34d399', text: '#d1fae5' },
+  'Neon Garden':     { bg: '#251d16', border: '#fb923c', text: '#ffedd5' },
+  'Basspod':         { bg: '#201a29', border: '#a855f7', text: '#ede9fe' },
+  'Wasteland':       { bg: '#251a1a', border: '#f87171', text: '#fee2e2' },
+  'Quantum Valley':  { bg: '#191f2b', border: '#60a5fa', text: '#dbeafe' },
+  'Stereobloom':     { bg: '#1e2416', border: '#a3e635', text: '#ecfccb' },
+  'Bionic Jungle':   { bg: '#1c1d2d', border: '#818cf8', text: '#e0e7ff' },
 };
 
 // ── Helpers ───────────────────────────────────────────────────
