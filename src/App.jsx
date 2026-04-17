@@ -3,7 +3,7 @@ import { DAYS } from './data/lineup';
 import { useFavorites } from './hooks/useFavorites';
 import { Header } from './components/Header';
 import { Controls } from './components/Controls';
-import { DayGrid } from './components/DayGrid';
+import { AlphaGrid } from './components/AlphaGrid';
 import { ByStageGrid } from './components/ByStageGrid';
 import { CompactGrid } from './components/CompactGrid';
 import { ScheduleGrid } from './components/ScheduleGrid';
@@ -82,9 +82,7 @@ export default function App() {
         ) : listMode === 'compact' ? (
           <CompactGrid visibleDays={visibleDays} {...gridProps} />
         ) : (
-          visibleDays.map(day => (
-            <DayGrid key={day} day={day} showDayHeader {...gridProps} />
-          ))
+          <AlphaGrid visibleDays={visibleDays} {...gridProps} />
         )}
       </main>
     </>

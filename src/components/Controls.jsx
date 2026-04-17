@@ -10,8 +10,8 @@ const TABS = [
 ];
 
 const LIST_MODES = [
-  { id: 'list',     label: 'List',     Icon: IconList },
-  { id: 'compact',  label: 'Compact',  Icon: IconCompact },
+  { id: 'list',     label: 'A to Z',   Icon: IconList },
+  { id: 'compact',  label: 'By Day',   Icon: IconCompact },
   { id: 'byStage',  label: 'By Stage', Icon: IconColumns },
 ];
 
