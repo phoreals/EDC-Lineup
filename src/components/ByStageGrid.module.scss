@@ -2,12 +2,14 @@
 
 .wrapper {
   padding: var(--space-4) var(--page-gutter) var(--space-grid-bottom) var(--page-gutter);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: var(--space-4) var(--space-6);
+  align-items: start;
 
   @media (max-width: p.$bp-mobile) {
     padding: var(--space-3) var(--page-gutter-mobile) var(--space-grid-bottom) var(--page-gutter-mobile);
+    grid-template-columns: 1fr;
     gap: var(--space-3);
   }
 }
