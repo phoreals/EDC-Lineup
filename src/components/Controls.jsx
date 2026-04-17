@@ -153,23 +153,6 @@ export function Controls({
           </div>
         )}
 
-        {/* Desktop search — hidden on mobile via CSS */}
-        <div className={`${styles.searchBox} ${styles.desktop}`}>
-          <span className={styles.searchIcon}><IconSearch /></span>
-          <input
-            className={styles.searchInput}
-            placeholder="Search artists..."
-            value={query}
-            onChange={e => onQueryChange(e.target.value)}
-            aria-label="Search artists"
-          />
-          {query && (
-            <button className={styles.clearInput} onClick={() => onQueryChange('')} aria-label="Clear search">
-              ×
-            </button>
-          )}
-        </div>
-
         {/* Mobile search box — only mounted when open */}
         {mobileSearchOpen && (
           <div className={`${styles.searchBox} ${styles.mobile} ${styles.open}`}>
@@ -192,6 +175,22 @@ export function Controls({
 
         {!mobileSearchOpen && (
           <div className={styles.actionGroup}>
+            {/* Desktop search — hidden on mobile via CSS */}
+            <div className={`${styles.searchBox} ${styles.desktop}`}>
+              <span className={styles.searchIcon}><IconSearch /></span>
+              <input
+                className={styles.searchInput}
+                placeholder="Search artists..."
+                value={query}
+                onChange={e => onQueryChange(e.target.value)}
+                aria-label="Search artists"
+              />
+              {query && (
+                <button className={styles.clearInput} onClick={() => onQueryChange('')} aria-label="Clear search">
+                  ×
+                </button>
+              )}
+            </div>
             <button className={styles.searchToggle} onClick={openMobileSearch} aria-label="Open search">
               <IconSearch />
             </button>
