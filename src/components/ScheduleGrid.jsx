@@ -63,7 +63,7 @@ function SetBlock({ slot, stage, isFav, onToggle }) {
         top:         `${top}px`,
         height:      `${Math.max(height - 2, 18)}px`,
         background:  isFav
-          ? `linear-gradient(160deg, ${color.border}88, ${color.border}55)`
+          ? color.border
           : color.bg,
         borderColor: isFav ? color.border : `${color.border}88`,
         color:       color.text,
