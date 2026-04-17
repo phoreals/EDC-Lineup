@@ -9,6 +9,7 @@ const FESTIVAL_END_MIN   = 24 * 60 + 5 * 60 + 30; // 29:30
 const TOTAL_MIN          = FESTIVAL_END_MIN - FESTIVAL_START_MIN; // 720 min
 const PX_PER_MIN         = 72 / 60;   // 72px per hour
 const TOTAL_HEIGHT       = TOTAL_MIN * PX_PER_MIN;
+const BOTTOM_PAD         = 64;
 const NARROW_BREAKPOINT  = 600;
 
 export const STAGE_COLORS = {
@@ -180,7 +181,7 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
         data-scrolled-left={scrolledLeft ? 'true' : undefined}
       >
         {/* Sticky time gutter */}
-        <div className={styles.timeGutter}>
+        <div className={styles.timeGutter} style={{ minHeight: `${TOTAL_HEIGHT + BOTTOM_PAD}px` }}>
           {TICKS.filter(t => t.isHour).map(t => (
             <div
               key={t.offsetMin}
