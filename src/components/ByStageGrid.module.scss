@@ -1,29 +1,18 @@
 @use '../styles/primitives' as p;
 
-// ── Single grid for all stages ─────────────────────────────────────
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--grid-min-col-compact), 1fr));
-  gap: var(--space-4) var(--space-3);
-  width: 100%;
-  align-items: start;
+.wrapper {
   padding: var(--space-4) var(--page-gutter) var(--space-grid-bottom) var(--page-gutter);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 
   @media (max-width: p.$bp-mobile) {
-    grid-template-columns: repeat(auto-fill, minmax(var(--grid-min-col-compact-mobile), 1fr));
     padding: var(--space-3) var(--page-gutter-mobile) var(--space-grid-bottom) var(--page-gutter-mobile);
-    gap: var(--space-3) var(--space-2);
+    gap: var(--space-3);
   }
 }
 
-// ── Stage column ───────────────────────────────────────────────────
-.column {
-  container-type: inline-size;
-  container-name: bystage-col;
-  display: flex;
-  flex-direction: column;
-}
-
+// ── Stage header ───────────────────────────────────────────────────
 .stageHeader {
   padding: var(--space-1) 0 0 0;
   margin-bottom: var(--space-2);
@@ -46,13 +35,24 @@
   display: block;
 }
 
-// ── Day sub-section within a stage ─────────────────────────────────
-.daySection {
-  margin-bottom: var(--space-2);
+// ── Day columns — side by side ─────────────────────────────────────
+.dayColumns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--grid-min-col-compact), 1fr));
+  gap: var(--space-3);
+  align-items: start;
 
-  &:last-child {
-    margin-bottom: 0;
+  @media (max-width: p.$bp-mobile) {
+    grid-template-columns: repeat(auto-fit, minmax(var(--grid-min-col-compact-mobile), 1fr));
+    gap: var(--space-2);
   }
+}
+
+.dayColumn {
+  container-type: inline-size;
+  container-name: bystage-col;
+  display: flex;
+  flex-direction: column;
 }
 
 .dayLabel {

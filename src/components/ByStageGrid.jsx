@@ -20,38 +20,12 @@ function CompactCard({ name, time, isFav, onToggle }) {
   );
 }
 
-function StageColumn({ stage, segments, favorites, onToggle }) {
-  return (
-    <div className={styles.column}>
-      <div className={styles.stageHeader}>
-        <span className={styles.stageName}>{stage}</span>
-      </div>
-      {segments.map(({ day, artists }) => (
-        <div key={day} className={styles.daySection}>
-          <div className={styles.dayLabel}>{toTitle(day)}</div>
-          <div className={styles.list}>
-            {artists.map(({ name, time }) => (
-              <CompactCard
-                key={name}
-                name={name}
-                time={time}
-                isFav={favorites.has(name)}
-                onToggle={onToggle}
-              />
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 export function ByStageGrid({ query, activeStages, favOnly, favorites, onToggle, visibleDays }) {
   const stageList = activeStages.size > 0
     ? STAGES.filter(s => activeStages.has(s))
     : STAGES;
 
-  const columns = stageList
+  const stages = stageList
     .map(stage => {
       const segments = (visibleDays || DAYS)
         .map(day => {
@@ -67,18 +41,34 @@ export function ByStageGrid({ query, activeStages, favOnly, favorites, onToggle,
     })
     .filter(({ segments }) => segments.length > 0);
 
-  if (!columns.length) return null;
+  if (!stages.length) return null;
 
   return (
-    <div className={styles.grid}>
-      {columns.map(({ stage, segments }) => (
-        <StageColumn
-          key={stage}
-          stage={stage}
-          segments={segments}
-          favorites={favorites}
-          onToggle={onToggle}
-        />
+    <div className={styles.wrapper}>
+      {stages.map(({ stage, segments }) => (
+        <section key={stage}>
+          <div className={styles.stageHeader}>
+            <span className={styles.stageName}>{stage}</span>
+          </div>
+          <div className={styles.dayColumns}>
+            {segments.map(({ day, artists }) => (
+              <div key={day} className={styles.dayColumn}>
+                <div className={styles.dayLabel}>{toTitle(day)}</div>
+                <div className={styles.list}>
+                  {artists.map(({ name, time }) => (
+                    <CompactCard
+                      key={name}
+                      name={name}
+                      time={time}
+                      isFav={favorites.has(name)}
+                      onToggle={onToggle}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
       ))}
     </div>
   );
