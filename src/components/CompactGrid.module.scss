@@ -76,18 +76,18 @@
 .list {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 0;
 }
 
-// ── Compact artist row ───────────────────────────────────────────────
+// ── Compact artist row (2-line) ──────────────────────────────────────
 .card {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-1) 0;
+  flex-direction: column;
+  padding: var(--space-1-5) 0;
   border-radius: var(--radius-xs);
   cursor: pointer;
   transition: background var(--duration-base) var(--ease-default);
+  position: relative;
 
   &:hover {
     background: var(--bg-hover);
@@ -112,9 +112,7 @@
   font-size: var(--text-sm);
   color: var(--text-primary);
   line-height: 1.3;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  padding-right: var(--space-4);
 
   @container compact-col (max-width: 150px) {
     font-size: var(--text-xs-plus);
@@ -124,15 +122,15 @@
 .time {
   font-size: var(--text-xs);
   color: var(--text-muted);
-  flex-shrink: 0;
-  margin-left: var(--space-1);
+  line-height: 1.3;
 }
 
 .star {
+  position: absolute;
+  top: var(--space-1-5);
+  right: var(--space-1);
   font-size: var(--text-xs);
   color: var(--color-star-active);
-  flex-shrink: 0;
-  margin-left: var(--space-1);
   pointer-events: none;
   user-select: none;
 }

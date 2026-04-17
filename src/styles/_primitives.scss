@@ -9,36 +9,73 @@ $bp-mobile: 768px; // SCSS-only: used in @media queries
 
 :root {
   // ── Colors — Neutrals ───────────────────────────────────────
-  --color-neutral-950:          #171717;
-  --color-neutral-800:          #262626;
-  --color-neutral-700:          #404040;
-  --color-neutral-600:          #525252;
-  --color-neutral-400:          #a3a3a3;
-  --color-neutral-100:          #f5f5f5;
-  --color-neutral-950-alpha-95: rgba(23, 23, 23, 0.95);
-  --color-neutral-950-alpha-0:  rgba(23, 23, 23, 0);
+  --color-neutral-950:          hsla(0, 0%, 9%, 1);
+  --color-neutral-800:          hsla(0, 0%, 15%, 1);
+  --color-neutral-700:          hsla(0, 0%, 25%, 1);
+  --color-neutral-600:          hsla(0, 0%, 32%, 1);
+  --color-neutral-400:          hsla(0, 0%, 64%, 1);
+  --color-neutral-100:          hsla(0, 0%, 96%, 1);
+  --color-neutral-950-alpha-95: hsla(0, 0%, 9%, 0.95);
+  --color-neutral-950-alpha-0:  hsla(0, 0%, 9%, 0);
 
   // ── Colors — Purples ────────────────────────────────────────
-  --color-purple-500:           #a855f7;
-  --color-purple-400:           #d8b4fe;
-  --color-purple-500-alpha-20:  rgba(168, 85, 247, 0.2);
-  --color-purple-500-alpha-12:  rgba(168, 85, 247, 0.12);
-  --color-purple-500-alpha-05:  rgba(168, 85, 247, 0.05);
+  --color-purple-500:           hsla(271, 91%, 65%, 1);
+  --color-purple-400:           hsla(270, 95%, 85%, 1);
+  --color-purple-500-alpha-20:  hsla(271, 91%, 65%, 0.2);
+  --color-purple-500-alpha-12:  hsla(271, 91%, 65%, 0.12);
+  --color-purple-500-alpha-05:  hsla(271, 91%, 65%, 0.05);
 
   // ── Colors — Accent ─────────────────────────────────────────
-  --color-orange-400:           #f97316;
-  --color-blue-500:             #3b82f6;
-  --color-amber-400:            #fbbf24;
-  --color-amber-600:            #d97706;
+  --color-orange-400:           hsla(25, 95%, 53%, 1);
+  --color-blue-500:             hsla(217, 91%, 60%, 1);
+  --color-amber-400:            hsla(43, 96%, 56%, 1);
+  --color-amber-600:            hsla(38, 92%, 43%, 1);
 
   // ── Colors — Danger ─────────────────────────────────────────
-  --color-red-500:              #ef4444;
-  --color-red-500-alpha-10:     rgba(239, 68, 68, 0.1);
-  --color-red-500-alpha-30:     rgba(239, 68, 68, 0.3);
+  --color-red-500:              hsla(0, 84%, 60%, 1);
+  --color-red-500-alpha-10:     hsla(0, 84%, 60%, 0.1);
+  --color-red-500-alpha-30:     hsla(0, 84%, 60%, 0.3);
 
   // ── Colors — Misc ───────────────────────────────────────────
   --color-purple-hsl-hover:     hsla(271, 91%, 65%, 0.5);
-  --color-white-alpha-06:       rgba(255, 255, 255, 0.06);
+  --color-white-alpha-06:       hsla(0, 0%, 100%, 0.06);
+
+  // ── Colors — Stage palette ─────────────────────────────────
+  --stage-kinetic-bg:            hsla(335, 28%, 13%, 1);
+  --stage-kinetic-border:        hsla(330, 86%, 70%, 1);
+  --stage-kinetic-text:          hsla(326, 78%, 95%, 1);
+
+  --stage-circuit-bg:            hsla(192, 24%, 12%, 1);
+  --stage-circuit-border:        hsla(187, 79%, 53%, 1);
+  --stage-circuit-text:          hsla(185, 96%, 90%, 1);
+
+  --stage-cosmic-bg:             hsla(156, 20%, 12%, 1);
+  --stage-cosmic-border:         hsla(160, 60%, 52%, 1);
+  --stage-cosmic-text:           hsla(152, 68%, 91%, 1);
+
+  --stage-neon-bg:               hsla(28, 27%, 12%, 1);
+  --stage-neon-border:           hsla(27, 96%, 61%, 1);
+  --stage-neon-text:             hsla(27, 100%, 92%, 1);
+
+  --stage-basspod-bg:            hsla(270, 23%, 13%, 1);
+  --stage-basspod-border:        hsla(271, 91%, 65%, 1);
+  --stage-basspod-text:          hsla(269, 79%, 95%, 1);
+
+  --stage-wasteland-bg:          hsla(0, 22%, 13%, 1);
+  --stage-wasteland-border:      hsla(0, 91%, 68%, 1);
+  --stage-wasteland-text:        hsla(0, 93%, 94%, 1);
+
+  --stage-quantum-bg:            hsla(220, 24%, 13%, 1);
+  --stage-quantum-border:        hsla(217, 94%, 68%, 1);
+  --stage-quantum-text:          hsla(214, 95%, 93%, 1);
+
+  --stage-stereo-bg:             hsla(83, 24%, 11%, 1);
+  --stage-stereo-border:         hsla(82, 78%, 55%, 1);
+  --stage-stereo-text:           hsla(79, 89%, 90%, 1);
+
+  --stage-bionic-bg:             hsla(236, 23%, 14%, 1);
+  --stage-bionic-border:         hsla(235, 90%, 73%, 1);
+  --stage-bionic-text:           hsla(226, 100%, 94%, 1);
 
   // ── Spacing — 8pt grid (with 4pt sub-grid) ─────────────────
   --space-0-5:  2px;
@@ -88,9 +125,11 @@ $bp-mobile: 768px; // SCSS-only: used in @media queries
   --page-gutter:                72px;
   --page-gutter-mobile:         16px;
   --grid-gap:                   32px;
-  --grid-min-col:               280px;
-  --grid-min-col-compact:       160px;
-  --grid-min-col-compact-mobile: 140px;
+  --grid-min-col:               240px;
+  --grid-min-col-compact:       120px;
+  --grid-min-col-compact-mobile: 105px;
   --icon-btn:                   36px;
-  --search-height:              40px;
+  --search-height:              36px;
+  --control-height:             32px;
+  --control-height-mobile:      28px;
 }

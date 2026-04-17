@@ -32,15 +32,14 @@
   }
 }
 
-// ── Sizing tokens — adjusted via container queries ────────────
-// Default (desktop): 56px gutter, 160px columns
-// Narrow (≤600px):   40px gutter,  96px columns → 3 cols in ~330px ✓
-$time-gutter-w:        56px;
-$stage-col-w:         160px;
-$time-gutter-w-narrow: 40px;
-$stage-col-w-narrow:   96px;
-$header-h:             48px;
-$header-h-narrow:      40px;
+// ── Sizing tokens — fluid via clamp() ─────────────────────────
+// Stage columns scale smoothly from 96px (narrow) to 160px (wide)
+// Time gutter scales from 40px to 56px
+// Header scales from 40px to 48px
+// Using 100cqi (container inline size) for smooth container-based scaling
+$time-gutter-w:  clamp(40px, 6cqi + 16px, 56px);
+$stage-col-w:    clamp(96px, 12cqi + 24px, 160px);
+$header-h:       clamp(40px, 5cqi + 16px, 48px);
 
 // ── Day switcher ──────────────────────────────────────────────
 .daySwitcher {
@@ -90,10 +89,6 @@ $header-h-narrow:      40px;
   flex-shrink: 0;
   height: $header-h;
   overflow: hidden;
-
-  @container schedule (max-width: 600px) {
-    height: $header-h-narrow;
-  }
 }
 
 .headerGutter {
@@ -102,10 +97,6 @@ $header-h-narrow:      40px;
   background: var(--bg-page);
   border-right: 1px solid var(--border-default);
   border-bottom: 1px solid var(--border-default);
-
-  @container schedule (max-width: 600px) {
-    width: $time-gutter-w-narrow;
-  }
 }
 
 .headerScroll {
@@ -122,7 +113,7 @@ $header-h-narrow:      40px;
   justify-content: center;
   text-align: center;
   font-family: var(--font-primary);
-  font-size: var(--text-xs-plus);
+  font-size: clamp(var(--text-2xs), 1cqi + 4px, var(--text-xs-plus));
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -130,13 +121,6 @@ $header-h-narrow:      40px;
   padding: var(--space-1) var(--space-2);
   border-bottom: var(--space-0-5) solid;
   background: var(--bg-page);
-
-  @container schedule (max-width: 600px) {
-    width: $stage-col-w-narrow;
-    font-size: var(--text-2xs);
-    letter-spacing: 0.03em;
-    padding: var(--space-1);
-  }
 }
 
 // ── Scrollable body ───────────────────────────────────────────
@@ -259,7 +243,7 @@ $header-h-narrow:      40px;
   }
 
   &.blockFav {
-    border-width: var(--space-0-5);
+    border-width: 1px;
   }
 }
 
@@ -291,14 +275,10 @@ $header-h-narrow:      40px;
   opacity: 0.9;
 }
 
-// ── Narrow layout — applied via data-narrow attr set by JS ────
-// Container queries can't reach inside overflow:auto scroll areas
-// in some browsers, so we use a data attribute on .body instead.
-// JS sets data-narrow="true" when schedule width ≤ 600px.
+// ── Narrow refinements — font sizes scale with container ──────
+// Column widths are now fluid via clamp(), so only text needs adjustment.
 .body[data-narrow="true"] {
-  .timeGutter { width: $time-gutter-w-narrow; }
   .timeLabel  { font-size: var(--text-xs); right: var(--space-1); }
-  .stageCol   { width: $stage-col-w-narrow; }
   .block      { left: var(--space-0-5); right: var(--space-0-5); border-radius: var(--radius-xs); padding: var(--space-1); }
   .blockName  { font-size: var(--text-xs); -webkit-line-clamp: 3; }
   .blockTime  { font-size: var(--text-2xs); }

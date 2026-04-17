@@ -133,7 +133,6 @@
 }
 
 // ── Scroll fades — tabs ───────────────────────────────────────
-// Activated by JS adding .fadeLeftVisible / .fadeRightVisible to .tabsWrapper
 .tabFadeLeft,
 .tabFadeRight {
   @include scroll-fade;
@@ -215,15 +214,15 @@
   &:hover { opacity: 1; }
 }
 
-// ── Mobile actions group ──────────────────────────────────────
-.mobileActions {
-  display: none;
+// ── Action group (search + filter) ───────────────────────────
+.actionGroup {
+  display: flex;
   align-items: center;
-  gap: var(--space-1);
+  gap: var(--space-2);
   flex-shrink: 0;
 
   @media (max-width: p.$bp-mobile) {
-    display: flex;
+    gap: var(--space-1);
   }
 }
 
@@ -255,10 +254,14 @@
   &:hover { background: var(--color-purple-hsl-hover); }
 }
 
-// ── Filter toggle (mobile only) ──────────────────────────────
-.filterToggle {
+// ── Filter dropdown ──────────────────────────────────────────
+.filterDropdownWrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.filterBtn {
   @include icon-btn;
-  display: none;
   background: none;
   border: 1px solid var(--border-default);
   color: var(--text-primary);
@@ -273,10 +276,6 @@
   &.active {
     border-color: var(--color-brand);
     color: var(--color-brand);
-  }
-
-  @media (max-width: p.$bp-mobile) {
-    display: inline-flex;
   }
 }
 
@@ -298,6 +297,68 @@
   line-height: 1;
 }
 
+// ── Shared dropdown ──────────────────────────────────────────
+.dropdown {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  min-width: 220px;
+  background: var(--color-neutral-950);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 8px 32px hsla(0, 0%, 0%, 0.4);
+  z-index: 110;
+  overflow: hidden;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: var(--space-1) 0;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-primary);
+  font-size: var(--text-sm-plus);
+  font-weight: 500;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease-default);
+
+  &:hover {
+    background: var(--bg-surface-raised);
+    color: var(--text-primary);
+  }
+
+  &.active {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+}
+
+.checkmark {
+  color: var(--color-brand);
+  font-size: var(--text-sm-plus);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.clearText {
+  color: var(--color-danger);
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--border-default);
+  flex-shrink: 0;
+  margin: var(--space-1) 0;
+}
+
 // ── Day filter row ────────────────────────────────────────
 .dayFilterRow {
   display: flex;
@@ -315,13 +376,16 @@
   font-family: var(--font-primary);
   font-size: var(--text-sm);
   font-weight: 600;
-  padding: var(--space-1) var(--space-4);
+  height: var(--control-height);
+  padding: 0 var(--space-4);
   border-radius: var(--radius-column);
   border: 1px solid var(--border-default);
   background: var(--bg-surface-raised);
   color: var(--text-muted);
   cursor: pointer;
   transition: all var(--duration-base) var(--ease-default);
+  display: flex;
+  align-items: center;
 
   &:hover {
     border-color: var(--color-brand);
@@ -336,15 +400,21 @@
 
   @media (max-width: p.$bp-mobile) {
     font-size: var(--text-xs-plus);
-    padding: var(--space-1) var(--space-3);
+    height: var(--control-height-mobile);
+    padding: 0 var(--space-3);
   }
 }
 
+// ── Mode toggle (desktop: segmented, mobile: dropdown) ───────
 .modeToggle {
   display: flex;
   border: 1px solid var(--border-default);
   border-radius: var(--radius-column);
   overflow: hidden;
+
+  @media (max-width: p.$bp-mobile) {
+    display: none;
+  }
 }
 
 .modeBtn {
@@ -354,7 +424,8 @@
   font-family: var(--font-primary);
   font-size: var(--text-sm);
   font-weight: 600;
-  padding: var(--space-1) var(--space-3);
+  height: var(--control-height);
+  padding: 0 var(--space-3);
   background: var(--bg-surface-raised);
   border: none;
   border-right: 1px solid var(--border-default);
@@ -375,330 +446,53 @@
     background: var(--gradient-brand);
     color: var(--text-inverse);
   }
-
-  @media (max-width: p.$bp-mobile) {
-    font-size: var(--text-xs-plus);
-    padding: var(--space-1) var(--space-2);
-  }
 }
 
 .modeLabel {
-  @media (max-width: p.$bp-mobile) {
-    display: none;
-  }
+  // always visible on desktop (mobile hidden via .modeToggle display:none)
 }
 
-// ── Filters row (desktop only) ────────────────────────────────
-.filtersRow {
-  display: flex;
-  width: 100%;
-  gap: var(--space-3);
-  align-items: flex-start;
-  justify-content: space-between;
-
-  @media (max-width: p.$bp-mobile) {
-    display: none;
-  }
-}
-
-// .filtersTrack wraps the scrollable pill area
-.filtersTrack {
-  flex: 1;
-  min-width: 0;
-  position: relative; // for the pseudo-element fades
-}
-
-// Pill container — scrolls horizontally when needed
-.filtersInner {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-  align-items: center;
-
-  @media (max-width: p.$bp-mobile) {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    gap: var(--space-1);
-
-    &::-webkit-scrollbar { display: none; }
-  }
-}
-
-// ── Scroll fades — filters ────────────────────────────────────
-// On desktop filters wrap so no fade needed; on mobile they scroll.
-// JS adds .scrolledLeft / .scrolledRight to .filtersTrack.
-.filterFadeLeft,
-.filterFadeRight {
-  @include scroll-fade;
-}
-
-.filterFadeLeft  { left: 0;  background: var(--gradient-fade-l); }
-.filterFadeRight { right: 0; background: var(--gradient-fade-r); }
-
-:global(.scrolledLeft)  .filterFadeLeft  { opacity: 1; }
-:global(.scrolledRight) .filterFadeRight { opacity: 1; }
-
-.divider {
-  width: 1px;
-  height: var(--space-5);
-  background-color: var(--border-default);
-  flex-shrink: 0;
-}
-
-// ── Pills ─────────────────────────────────────────────────────
-.pill {
-  padding: var(--space-1-5) var(--space-4);
-  border-radius: var(--radius-column);
-  background-color: var(--bg-surface-raised);
-  border: 1px solid var(--border-default);
-  font-size: var(--text-sm);
-  cursor: pointer;
-  transition: all var(--duration-base) var(--ease-default);
-  color: var(--text-muted);
-  white-space: nowrap;
-  font-family: var(--font-primary);
-
-  @media (max-width: p.$bp-mobile) {
-    font-size: var(--text-xs-plus);
-    padding: var(--space-1) var(--space-2);
-  }
-
-  &:hover {
-    border-color: var(--color-brand);
-    color: var(--text-primary);
-  }
-
-  &.active {
-    background: var(--gradient-brand-alt);
-    color: var(--text-inverse);
-    border-color: transparent;
-    font-weight: 600;
-  }
-
-  &.fav.active {
-    background: var(--gradient-fav);
-    color: var(--text-inverse);
-  }
-}
-
-// ── Active filters summary (mobile only) ─────────────────────
-.activePillsSummary {
+// ── Mode dropdown (mobile only) ──────────────────────────────
+.modeDropdownWrap {
   display: none;
+  position: relative;
 
   @media (max-width: p.$bp-mobile) {
-    display: flex;
-    gap: var(--space-1);
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-
-    &::-webkit-scrollbar { display: none; }
+    display: block;
   }
 }
 
-.summaryPill {
+.modeDropdownBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1-5);
   font-family: var(--font-primary);
   font-size: var(--text-xs-plus);
   font-weight: 600;
-  padding: var(--space-1) var(--space-2);
+  height: var(--control-height-mobile);
+  padding: 0 var(--space-2) 0 var(--space-3);
   border-radius: var(--radius-column);
-  background: var(--gradient-brand-alt);
-  color: var(--text-inverse);
-  white-space: nowrap;
-
-  &.fav {
-    background: var(--gradient-fav);
-  }
-}
-
-// ── Filter overlay (mobile only) ─────────────────────────────
-.overlay {
-  display: none;
-
-  @media (max-width: p.$bp-mobile) {
-    display: flex;
-    position: fixed;
-    inset: 0;
-    z-index: 200;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    align-items: flex-end;
-    justify-content: center;
-  }
-}
-
-.overlayPanel {
-  width: 100%;
-  max-height: 80vh;
-  background: var(--color-neutral-950);
-  border-top: 1px solid var(--border-default);
-  border-radius: var(--radius-card) var(--radius-card) 0 0;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.overlayHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-4) var(--page-gutter-mobile);
-  border-bottom: 1px solid var(--border-default);
-}
-
-.overlayTitle {
-  font-family: var(--font-primary);
-  font-size: var(--text-lg);
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 0;
-}
-
-.overlayClose {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: var(--text-2xl);
-  line-height: 1;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-
-  &:hover { color: var(--text-primary); }
-}
-
-.overlayBody {
-  flex: 1;
-  overflow-y: auto;
-  padding: var(--space-4) var(--page-gutter-mobile);
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  align-content: flex-start;
-}
-
-.overlayPill {
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-column);
-  background-color: var(--bg-surface-raised);
   border: 1px solid var(--border-default);
-  font-size: var(--text-sm-plus);
-  font-weight: 500;
+  background: var(--bg-surface-raised);
+  color: var(--text-muted);
   cursor: pointer;
   transition: all var(--duration-base) var(--ease-default);
-  color: var(--text-muted);
   white-space: nowrap;
-  font-family: var(--font-primary);
 
   &:hover {
     border-color: var(--color-brand);
     color: var(--text-primary);
   }
-
-  &.active {
-    background: var(--gradient-brand-alt);
-    color: var(--text-inverse);
-    border-color: transparent;
-    font-weight: 600;
-  }
-
-  &.fav.active {
-    background: var(--gradient-fav);
-    color: var(--text-inverse);
-  }
 }
 
-.overlayDivider {
-  width: 100%;
-  height: 1px;
-  background-color: var(--border-default);
-}
-
-.overlayFooter {
-  display: flex;
-  gap: var(--space-3);
-  padding: var(--space-4) var(--page-gutter-mobile);
-  border-top: 1px solid var(--border-default);
-}
-
-.overlayClear {
-  flex: 1;
-  padding: var(--space-3);
-  font-family: var(--font-primary);
-  font-size: var(--text-sm-plus);
-  font-weight: 600;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--color-danger-border);
-  background: transparent;
-  color: var(--color-danger);
-  cursor: pointer;
-  transition: all var(--duration-base) var(--ease-default);
-
-  &:hover {
-    background: var(--color-danger-bg);
-    border-color: var(--color-danger);
-  }
-
-  &:disabled {
-    opacity: 0.4;
-    pointer-events: none;
-  }
-}
-
-.overlayDone {
-  flex: 1;
-  padding: var(--space-3);
-  font-family: var(--font-primary);
-  font-size: var(--text-sm-plus);
-  font-weight: 600;
-  border-radius: var(--radius-sm);
-  border: none;
-  background: var(--gradient-brand);
-  color: var(--text-inverse);
-  cursor: pointer;
-  transition: all var(--duration-base) var(--ease-default);
-
-  &:hover {
-    filter: brightness(1.1);
-  }
-}
-
-// ── Clear button ──────────────────────────────────────────────
-.clearBtn {
-  font-size: var(--text-sm);
-  padding: var(--space-1-5) var(--space-4);
-  color: var(--color-danger);
-  background: transparent;
-  border: 1px solid var(--color-danger-border);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all var(--duration-base) var(--ease-default),
-              opacity var(--duration-base) var(--ease-default);
-  white-space: nowrap;
-  font-family: var(--font-primary);
-  flex-shrink: 0;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-
-  &.visible {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-  }
-
-  &:hover {
-    background: var(--color-danger-bg);
-    border-color: var(--color-danger);
-  }
-
-  @media (max-width: p.$bp-mobile) {
+.modeDropdownLabel {
+  @media (max-width: 400px) {
     display: none;
-
-    &.visible { display: block; }
   }
+}
+
+.dropdownItemLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }

@@ -83,7 +83,7 @@ export default function App() {
           <CompactGrid visibleDays={visibleDays} {...gridProps} />
         ) : (
           visibleDays.map(day => (
-            <DayGrid key={day} day={day} showDayHeader={visibleDays.length > 1} {...gridProps} />
+            <DayGrid key={day} day={day} showDayHeader {...gridProps} />
           ))
         )}
       </main>
