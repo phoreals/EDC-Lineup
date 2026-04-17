@@ -9,8 +9,8 @@
   background: var(--bg-page);
 
   @media (max-width: p.$bp-mobile) {
-    font-size: var(--text-xl);
-    padding: var(--space-6) var(--page-gutter-mobile) var(--space-2) var(--page-gutter-mobile);
+    font-size: var(--text-lg);
+    padding: var(--space-4) var(--page-gutter-mobile) var(--space-2) var(--page-gutter-mobile);
   }
 }
 
@@ -23,7 +23,8 @@
   padding: var(--space-6) var(--page-gutter) var(--space-grid-bottom) var(--page-gutter);
 
   @media (max-width: p.$bp-mobile) {
-    padding: var(--space-5) var(--page-gutter-mobile) var(--space-grid-bottom) var(--page-gutter-mobile);
-    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    padding: var(--space-3) var(--page-gutter-mobile) var(--space-grid-bottom) var(--page-gutter-mobile);
+    gap: var(--space-3);
   }
 }
