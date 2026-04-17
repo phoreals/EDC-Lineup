@@ -7,8 +7,8 @@
   gap: var(--space-8);
 
   @media (max-width: p.$bp-mobile) {
-    padding: var(--space-5) var(--page-gutter-mobile) var(--space-grid-bottom) var(--page-gutter-mobile);
-    gap: var(--space-6);
+    padding: var(--space-3) var(--page-gutter-mobile) var(--space-grid-bottom) var(--page-gutter-mobile);
+    gap: var(--space-4);
   }
 }
 
@@ -29,6 +29,11 @@
   top: var(--sticky-top);
   z-index: 50;
   border-radius: var(--radius-column) var(--radius-column) 0 0;
+
+  @media (max-width: p.$bp-mobile) {
+    padding: var(--space-3);
+    font-size: var(--text-sm-plus);
+  }
 }
 
 .dayColumns {
