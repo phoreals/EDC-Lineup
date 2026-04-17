@@ -38,9 +38,9 @@ describe('Controls', () => {
 
   it('renders day filter pills', () => {
     render(<Controls {...defaultProps} />);
-    expect(screen.getByText('Fri')).toBeInTheDocument();
-    expect(screen.getByText('Sat')).toBeInTheDocument();
-    expect(screen.getByText('Sun')).toBeInTheDocument();
+    expect(screen.getByText('Friday')).toBeInTheDocument();
+    expect(screen.getByText('Saturday')).toBeInTheDocument();
+    expect(screen.getByText('Sunday')).toBeInTheDocument();
   });
 
   it('calls onDayChange when a tab is clicked', async () => {
