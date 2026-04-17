@@ -13,6 +13,19 @@
   height: calc(100vh - var(--sticky-top));
   overflow: hidden;
   padding-top: var(--space-3);
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: linear-gradient(to bottom, transparent, var(--color-neutral-950));
+    pointer-events: none;
+    z-index: 20;
+  }
 
   @container schedule (max-width: 600px) {
     padding-top: var(--space-2);
@@ -145,14 +158,23 @@ $header-h-narrow:      40px;
   flex-shrink: 0;
   position: sticky;
   left: 0;
-  z-index: 10;
+  z-index: 15;
   background: var(--bg-page);
   border-right: 1px solid var(--border-default);
 
-  // Container queries don't apply inside an overflow:auto scroll
-  // context in all browsers, so we use a CSS custom property
-  // written by JS for the gutter width on mobile.
-  // Fallback: keep at desktop width inside the body.
+  // Gradient fade on the right edge — fades artist cards
+  // before they reach the time labels
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -24px;
+    width: 24px;
+    background: linear-gradient(to right, var(--color-neutral-950), transparent);
+    pointer-events: none;
+    z-index: 15;
+  }
 }
 
 .timeLabel {
