@@ -302,56 +302,22 @@
   position: absolute;
   top: calc(100% + var(--space-2));
   right: 0;
-  min-width: 240px;
+  min-width: 220px;
   background: var(--color-neutral-950);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 32px hsla(0, 0%, 0%, 0.4);
   z-index: 110;
   overflow: hidden;
-
-  @media (max-width: p.$bp-mobile) {
-    min-width: 200px;
-  }
-}
-
-.dropdownBody {
-  padding: var(--space-3);
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  max-height: 320px;
+  max-height: 400px;
   overflow-y: auto;
-}
-
-.dropdownFooter {
-  padding: var(--space-2) var(--space-3);
-  border-top: 1px solid var(--border-default);
-}
-
-.dropdownClear {
-  width: 100%;
-  padding: var(--space-1-5);
-  font-family: var(--font-primary);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  border-radius: var(--radius-xs);
-  border: 1px solid var(--color-danger-border);
-  background: transparent;
-  color: var(--color-danger);
-  cursor: pointer;
-  transition: all var(--duration-base) var(--ease-default);
-
-  &:hover {
-    background: var(--color-danger-bg);
-    border-color: var(--color-danger);
-  }
+  padding: var(--space-1) 0;
 }
 
 .dropdownItem {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  justify-content: space-between;
   width: 100%;
   padding: var(--space-2) var(--space-3);
   font-family: var(--font-primary);
@@ -369,9 +335,20 @@
   }
 
   &.active {
-    color: var(--color-brand);
+    color: var(--text-primary);
     font-weight: 600;
   }
+}
+
+.checkmark {
+  color: var(--color-brand);
+  font-size: var(--text-sm-plus);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.clearText {
+  color: var(--color-danger);
 }
 
 .divider {
@@ -379,42 +356,7 @@
   height: 1px;
   background-color: var(--border-default);
   flex-shrink: 0;
-}
-
-// ── Pills ─────────────────────────────────────────────────────
-.pill {
-  padding: var(--space-1-5) var(--space-4);
-  border-radius: var(--radius-column);
-  background-color: var(--bg-surface-raised);
-  border: 1px solid var(--border-default);
-  font-size: var(--text-sm);
-  cursor: pointer;
-  transition: all var(--duration-base) var(--ease-default);
-  color: var(--text-muted);
-  white-space: nowrap;
-  font-family: var(--font-primary);
-
-  @media (max-width: p.$bp-mobile) {
-    font-size: var(--text-xs-plus);
-    padding: var(--space-1) var(--space-2);
-  }
-
-  &:hover {
-    border-color: var(--color-brand);
-    color: var(--text-primary);
-  }
-
-  &.active {
-    background: var(--gradient-brand-alt);
-    color: var(--text-inverse);
-    border-color: transparent;
-    font-weight: 600;
-  }
-
-  &.fav.active {
-    background: var(--gradient-fav);
-    color: var(--text-inverse);
-  }
+  margin: var(--space-1) 0;
 }
 
 // ── Day filter row ────────────────────────────────────────
@@ -434,13 +376,16 @@
   font-family: var(--font-primary);
   font-size: var(--text-sm);
   font-weight: 600;
-  padding: var(--space-1) var(--space-4);
+  height: var(--control-height);
+  padding: 0 var(--space-4);
   border-radius: var(--radius-column);
   border: 1px solid var(--border-default);
   background: var(--bg-surface-raised);
   color: var(--text-muted);
   cursor: pointer;
   transition: all var(--duration-base) var(--ease-default);
+  display: flex;
+  align-items: center;
 
   &:hover {
     border-color: var(--color-brand);
@@ -455,7 +400,8 @@
 
   @media (max-width: p.$bp-mobile) {
     font-size: var(--text-xs-plus);
-    padding: var(--space-1) var(--space-3);
+    height: var(--control-height-mobile);
+    padding: 0 var(--space-3);
   }
 }
 
@@ -478,7 +424,8 @@
   font-family: var(--font-primary);
   font-size: var(--text-sm);
   font-weight: 600;
-  padding: var(--space-1) var(--space-3);
+  height: var(--control-height);
+  padding: 0 var(--space-3);
   background: var(--bg-surface-raised);
   border: none;
   border-right: 1px solid var(--border-default);
@@ -522,7 +469,8 @@
   font-family: var(--font-primary);
   font-size: var(--text-xs-plus);
   font-weight: 600;
-  padding: var(--space-1) var(--space-3);
+  height: var(--control-height-mobile);
+  padding: 0 var(--space-3);
   border-radius: var(--radius-column);
   border: 1px solid var(--border-default);
   background: var(--bg-surface-raised);
