@@ -34,13 +34,13 @@ describe('formatTime', () => {
 describe('getSetTime', () => {
   it('returns formatted range for a known artist', () => {
     const result = getSetTime('FRIDAY', 'Kinetic Field', 'Argy');
-    expect(result).toBe('5:30pm–6:30pm');
+    expect(result).toBe('5:30pm\u2009–\u20096:30pm');
   });
 
   it('handles sets crossing midnight', () => {
     const result = getSetTime('FRIDAY', 'Kinetic Field', 'Laidback Luke b2b Chuckie');
     // start 25:00 (1am), duration 90 → end 26:30 (2:30am)
-    expect(result).toBe('1am–2:30am');
+    expect(result).toBe('1am\u2009–\u20092:30am');
   });
 
   it('returns null for unknown artist', () => {

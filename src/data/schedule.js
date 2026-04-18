@@ -23,7 +23,7 @@ export function getSetTime(day, stage, artist) {
   const set = sets.find(s => s.artist === artist);
   if (!set) return null;
   const end = addMinutes(set.start, set.duration);
-  return `${formatTime(set.start)}–${formatTime(end)}`;
+  return `${formatTime(set.start)}\u2009–\u2009${formatTime(end)}`;
 }
 
 export const SCHEDULE = {

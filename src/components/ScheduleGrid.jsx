@@ -30,15 +30,21 @@ function parseTime(str) {
   return h * 60 + m;
 }
 
-function fmtLabel(absMin) {
+function fmtLabel(absMin, omitSuffix = false) {
   const totalMin = absMin % (24 * 60);
   const h  = Math.floor(totalMin / 60);
   const m  = totalMin % 60;
   const ap = h < 12 ? 'am' : 'pm';
   const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+  const suffix = omitSuffix ? '' : ap;
   return m === 0
-    ? `${h12}${ap}`
-    : `${h12}:${m.toString().padStart(2, '0')}${ap}`;
+    ? `${h12}${suffix}`
+    : `${h12}:${m.toString().padStart(2, '0')}${suffix}`;
+}
+
+function getPeriod(absMin) {
+  const h = Math.floor((absMin % (24 * 60)) / 60);
+  return h < 12 ? 'am' : 'pm';
 }
 
 const TICKS = Array.from({ length: TOTAL_MIN / 30 + 1 }, (_, i) => {
@@ -49,13 +55,15 @@ const TICKS = Array.from({ length: TOTAL_MIN / 30 + 1 }, (_, i) => {
 });
 
 // ── SetBlock ──────────────────────────────────────────────────
-function SetBlock({ slot, stage, isFav, onToggle }) {
+function SetBlock({ slot, stage, isFav, onToggle, compact }) {
   const startAbsMin = parseTime(slot.start);
   const offsetMin   = startAbsMin - FESTIVAL_START_MIN;
   const top         = offsetMin * PX_PER_MIN;
   const height      = slot.duration * PX_PER_MIN;
   const color       = STAGE_COLORS[stage];
   const endAbsMin   = startAbsMin + slot.duration;
+  const samePeriod  = getPeriod(startAbsMin) === getPeriod(endAbsMin);
+  const omitStart   = compact && samePeriod;
 
   return (
     <div
@@ -78,7 +86,7 @@ function SetBlock({ slot, stage, isFav, onToggle }) {
       aria-label={`${slot.artist} — ${fmtLabel(startAbsMin)} to ${fmtLabel(endAbsMin)}`}
     >
       <span className={styles.blockName}>{slot.artist}</span>
-      <span className={styles.blockTime}><span className={styles.noWrap}>{fmtLabel(startAbsMin)}&thinsp;–</span> {fmtLabel(endAbsMin)}</span>
+      <span className={styles.blockTime}><span className={styles.noWrap}>{fmtLabel(startAbsMin, omitStart)}&thinsp;–</span>&thinsp;{fmtLabel(endAbsMin)}</span>
       {isFav && <span className={styles.blockStar}>♥</span>}
     </div>
   );
@@ -88,9 +96,11 @@ function SetBlock({ slot, stage, isFav, onToggle }) {
 export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, favorites, onToggle }) {
   const wrapperRef      = useRef(null);
   const bodyRef         = useRef(null);
+  const headerRef       = useRef(null);
   const headerScrollRef = useRef(null);
   const [isNarrow, setIsNarrow] = useState(false);
   const [scrolledLeft, setScrolledLeft] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(0);
 
   // Derive the displayed day from the global filter
   const scheduleDay = activeFilterDays && activeFilterDays.size === 1
@@ -105,6 +115,17 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
     if (!el) return;
     const ro = new ResizeObserver(([entry]) => {
       setIsNarrow(entry.contentRect.width <= NARROW_BREAKPOINT);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // Measure header height for body padding
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      setHeaderHeight(entry.borderBoxSize?.[0]?.blockSize ?? entry.target.offsetHeight);
     });
     ro.observe(el);
     return () => ro.disconnect();
@@ -153,7 +174,7 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
     <div className={styles.wrapper} ref={wrapperRef}>
 
       {/* ── Fixed stage header row ── */}
-      <div className={styles.headerOuter}>
+      <div className={styles.headerOuter} ref={headerRef}>
         <div className={styles.headerGutter} />
         <div className={styles.headerScroll} ref={headerScrollRef}>
           {visibleStages.map(stage => {
@@ -181,6 +202,7 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
       <div
         className={styles.body}
         ref={bodyRef}
+        style={{ paddingTop: `${headerHeight}px` }}
         data-narrow={isNarrow ? 'true' : undefined}
         data-scrolled-left={scrolledLeft ? 'true' : undefined}
       >
@@ -215,6 +237,7 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
                   stage={stage}
                   isFav={favorites.has(slot.artist)}
                   onToggle={onToggle}
+                  compact={isNarrow}
                 />
               ))}
             </div>
