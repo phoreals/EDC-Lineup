@@ -78,7 +78,7 @@ function SetBlock({ slot, stage, isFav, onToggle }) {
       aria-label={`${slot.artist} — ${fmtLabel(startAbsMin)} to ${fmtLabel(endAbsMin)}`}
     >
       <span className={styles.blockName}>{slot.artist}</span>
-      <span className={styles.blockTime}>{fmtLabel(startAbsMin)} – {fmtLabel(endAbsMin)}</span>
+      <span className={styles.blockTime}><span className={styles.noWrap}>{fmtLabel(startAbsMin)}&thinsp;–</span> {fmtLabel(endAbsMin)}</span>
       {isFav && <span className={styles.blockStar}>♥</span>}
     </div>
   );
