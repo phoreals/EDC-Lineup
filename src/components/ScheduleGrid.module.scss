@@ -212,8 +212,6 @@ $header-h:       clamp(32px, 5cqi + 16px, 48px);
   padding: var(--space-1) var(--space-1-5);
   cursor: pointer;
   overflow: hidden;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
   display: flex;
   flex-direction: column;
   gap: 1px;
