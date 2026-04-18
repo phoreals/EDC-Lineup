@@ -9,14 +9,14 @@ describe('ArtistCard', () => {
     expect(screen.getByText('Tiësto')).toBeInTheDocument();
   });
 
-  it('shows hollow star when not favorited', () => {
+  it('shows hollow heart when not favorited', () => {
     render(<ArtistCard name="Tiësto" isFav={false} onToggle={() => {}} />);
-    expect(screen.getByText('☆')).toBeInTheDocument();
+    expect(screen.getByText('♡')).toBeInTheDocument();
   });
 
-  it('shows filled star when favorited', () => {
+  it('shows filled heart when favorited', () => {
     render(<ArtistCard name="Tiësto" isFav={true} onToggle={() => {}} />);
-    expect(screen.getByText('★')).toBeInTheDocument();
+    expect(screen.getByText('♥')).toBeInTheDocument();
   });
 
   it('calls onToggle with artist name on click', async () => {

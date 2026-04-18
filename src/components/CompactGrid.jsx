@@ -1,4 +1,4 @@
-import { STAGES, DAYS, getArtistsByStage, toTitle } from '../data/lineup';
+import { STAGE_ORDER, DAYS, getArtistsByStage, toTitle } from '../data/lineup';
 import { getSetTime } from '../data/schedule';
 import styles from './CompactGrid.module.scss';
 
@@ -45,8 +45,8 @@ function CompactStageColumn({ stage, artists, favorites, onToggle }) {
 
 export function CompactGrid({ query, activeStages, favOnly, favorites, onToggle, visibleDays }) {
   const stageList = activeStages.size > 0
-    ? STAGES.filter(s => activeStages.has(s))
-    : STAGES;
+    ? STAGE_ORDER.filter(s => activeStages.has(s))
+    : STAGE_ORDER;
 
   return (
     <>

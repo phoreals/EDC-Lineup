@@ -1,4 +1,4 @@
-import { STAGES, getArtistsByStage, toTitle } from '../data/lineup';
+import { STAGE_ORDER, getArtistsByStage, toTitle } from '../data/lineup';
 import { getSetTime } from '../data/schedule';
 import { StageColumn } from './StageColumn';
 import styles from './DayGrid.module.scss';
@@ -6,7 +6,7 @@ import styles from './DayGrid.module.scss';
 export function DayGrid({ day, query, activeStages, favOnly, favorites, onToggle, showDayHeader }) {
   const byStage = getArtistsByStage(day);
 
-  const columns = STAGES
+  const columns = STAGE_ORDER
     .filter(stage => activeStages.size === 0 || activeStages.has(stage))
     .map(stage => {
       let names = byStage[stage];

@@ -101,7 +101,7 @@ describe('Controls', () => {
       <Controls {...defaultProps} activeStages={new Set(['Basspod'])} />,
     );
     await user.click(screen.getByLabelText('Filters'));
-    await user.click(screen.getByText('Clear All'));
+    await user.click(screen.getAllByText('Clear All')[0]);
     expect(defaultProps.onClearFilters).toHaveBeenCalled();
   });
 });

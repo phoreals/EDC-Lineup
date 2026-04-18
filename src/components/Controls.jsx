@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { STAGES } from '../data/lineup';
+import { STAGE_ORDER } from '../data/lineup';
 import { useStickyHeight } from '../hooks/useStickyHeight';
-import { IconSearch, IconBack, IconFilter, IconCompact, IconList, IconColumns, IconChevronDown } from './Icons';
+import { IconSearch, IconBack, IconFilter, IconCompact, IconList, IconColumns, IconClose } from './Icons';
 import styles from './Controls.module.scss';
 
 const TABS = [
@@ -101,10 +101,10 @@ export function Controls({
   useScrollFades(tabsScrollRef, tabsWrapperRef);
 
   const filterDropdown = useDropdown();
-  const modeDropdown = useDropdown();
 
-  const hasFilters = activeStages.size > 0 || favOnly;
-  const filterCount = activeStages.size + (favOnly ? 1 : 0);
+  const dayFilterCount = activeDay === 'LIST' ? activeFilterDays.size : 0;
+  const hasFilters = activeStages.size > 0 || favOnly || dayFilterCount > 0;
+  const filterCount = activeStages.size + (favOnly ? 1 : 0) + dayFilterCount;
 
   const openMobileSearch = useCallback(() => {
     setMobileSearchOpen(true);
@@ -120,8 +120,6 @@ export function Controls({
     onDayChange(day);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [onDayChange]);
-
-  const currentMode = LIST_MODES.find(m => m.id === listMode) || LIST_MODES[0];
 
   return (
     <div className={styles.controls} ref={controlsRef}>
@@ -194,7 +192,46 @@ export function Controls({
             <button className={styles.searchToggle} onClick={openMobileSearch} aria-label="Open search">
               <IconSearch />
             </button>
-            <div className={styles.filterDropdownWrap} ref={filterDropdown.ref}>
+          </div>
+        )}
+      </div>
+
+      {/* ── Sub-nav row ── */}
+      <div className={styles.dayFilterRow}>
+        {activeDay === 'SCHEDULE' && (
+          <div className={styles.dayPills}>
+            {DAY_FILTERS.map(({ id, label }) => {
+              const isActive = activeFilterDays.size === 0 ? id === 'FRIDAY' : activeFilterDays.has(id);
+              return (
+                <button
+                  key={id}
+                  className={`${styles.dayPill} ${isActive ? styles.active : ''}`}
+                  onClick={() => onFilterDayToggle(id, true)}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+        )}
+        {activeDay === 'LIST' && (
+          <div className={styles.modePills}>
+            {LIST_MODES.map(({ id, label, Icon }) => (
+              <button
+                key={id}
+                className={`${styles.modePill} ${listMode === id ? styles.active : ''}`}
+                onClick={() => onListModeChange(id)}
+                aria-label={label}
+                title={label}
+              >
+                <Icon size={14} />
+                <span>{label}</span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        <div className={styles.filterDropdownWrap} ref={filterDropdown.ref}>
           <button
             className={`${styles.filterBtn} ${filterDropdown.open ? styles.active : ''}`}
             onClick={() => filterDropdown.setOpen(v => !v)}
@@ -213,13 +250,32 @@ export function Controls({
                 className={`${styles.dropdownItem} ${favOnly ? styles.active : ''}`}
                 onClick={onFavToggle}
               >
-                <span>★ Favorited</span>
+                <span>♥ Favorited</span>
                 {favOnly && <span className={styles.checkmark}>✓</span>}
               </button>
 
+              {activeDay === 'LIST' && (
+                <>
+                  <div className={styles.divider} />
+                  {DAY_FILTERS.map(({ id, label }) => {
+                    const isActive = activeFilterDays.has(id);
+                    return (
+                      <button
+                        key={id}
+                        className={`${styles.dropdownItem} ${isActive ? styles.active : ''}`}
+                        onClick={() => onFilterDayToggle(id, false)}
+                      >
+                        <span>{label}</span>
+                        {isActive && <span className={styles.checkmark}>✓</span>}
+                      </button>
+                    );
+                  })}
+                </>
+              )}
+
               <div className={styles.divider} />
 
-              {STAGES.map(stage => (
+              {STAGE_ORDER.map(stage => (
                 <button
                   key={stage}
                   className={`${styles.dropdownItem} ${activeStages.has(stage) ? styles.active : ''}`}
@@ -240,80 +296,57 @@ export function Controls({
               )}
             </div>
           )}
+        </div>
+      </div>
+
+      {/* ── Active filters summary ── */}
+      {hasFilters && (() => {
+        const activeDaysList = activeDay === 'LIST'
+          ? DAY_FILTERS.filter(d => activeFilterDays.has(d.id))
+          : [];
+        const activeStagesList = STAGE_ORDER.filter(s => activeStages.has(s));
+        const sections = [
+          favOnly ? 'fav' : null,
+          activeDaysList.length > 0 ? 'days' : null,
+          activeStagesList.length > 0 ? 'stages' : null,
+        ].filter(Boolean);
+        const needsSeparators = sections.length >= 2;
+
+        return (
+          <div className={styles.activeFilters}>
+            <span className={styles.activeFiltersLabel}>Filtering by</span>
+            <div className={styles.activeFiltersBody}>
+              <div className={styles.activeFiltersScroll}>
+                {favOnly && (
+                  <button className={styles.activeFilterPill} onClick={onFavToggle}>
+                    ♥ Favorited <IconClose size={12} />
+                  </button>
+                )}
+                {needsSeparators && favOnly && activeDaysList.length + activeStagesList.length > 0 && (
+                  <div className={styles.activeFilterDivider} />
+                )}
+                {activeDaysList.map(({ id, label }) => (
+                  <button key={id} className={styles.activeFilterPill} onClick={() => onFilterDayToggle(id, false)}>
+                    {label} <IconClose size={12} />
+                  </button>
+                ))}
+                {needsSeparators && activeDaysList.length > 0 && activeStagesList.length > 0 && (
+                  <div className={styles.activeFilterDivider} />
+                )}
+                {activeStagesList.map(stage => (
+                  <button key={stage} className={styles.activeFilterPill} onClick={() => onStageToggle(stage)}>
+                    {stage} <IconClose size={12} />
+                  </button>
+                ))}
+              </div>
+              <div className={styles.activeFiltersFadeRight} />
+              <button className={styles.clearBtn} onClick={onClearFilters}>
+                Clear
+              </button>
             </div>
           </div>
-        )}
-      </div>
-
-      {/* ── Day filter row ── */}
-      <div className={styles.dayFilterRow}>
-        <div className={styles.dayPills}>
-          {DAY_FILTERS.map(({ id, label }) => {
-            const isActive = activeDay === 'SCHEDULE'
-              ? (activeFilterDays.size === 0 ? id === 'FRIDAY' : activeFilterDays.has(id))
-              : activeFilterDays.has(id);
-            return (
-              <button
-                key={id}
-                className={`${styles.dayPill} ${isActive ? styles.active : ''}`}
-                onClick={() => onFilterDayToggle(id, activeDay === 'SCHEDULE')}
-              >
-                {label}
-              </button>
-            );
-          })}
-        </div>
-        {activeDay === 'LIST' && (
-          <>
-            {/* Desktop: segmented toggle */}
-            <div className={styles.modeToggle}>
-              {LIST_MODES.map(({ id, label, Icon }) => (
-                <button
-                  key={id}
-                  className={`${styles.modeBtn} ${listMode === id ? styles.active : ''}`}
-                  onClick={() => onListModeChange(id)}
-                  aria-label={label}
-                  title={label}
-                >
-                  <Icon size={14} />
-                  <span className={styles.modeLabel}>{label}</span>
-                </button>
-              ))}
-            </div>
-
-            {/* Mobile: dropdown */}
-            <div className={styles.modeDropdownWrap} ref={modeDropdown.ref}>
-              <button
-                className={styles.modeDropdownBtn}
-                onClick={() => modeDropdown.setOpen(v => !v)}
-                aria-expanded={modeDropdown.open}
-              >
-                <currentMode.Icon size={14} />
-                <span className={styles.modeDropdownLabel}>{currentMode.label}</span>
-                <IconChevronDown />
-              </button>
-
-              {modeDropdown.open && (
-                <div className={styles.dropdown}>
-                  {LIST_MODES.map(({ id, label, Icon }) => (
-                    <button
-                      key={id}
-                      className={`${styles.dropdownItem} ${listMode === id ? styles.active : ''}`}
-                      onClick={() => { onListModeChange(id); modeDropdown.setOpen(false); }}
-                    >
-                      <span className={styles.dropdownItemLeft}>
-                        <Icon size={14} />
-                        <span>{label}</span>
-                      </span>
-                      {listMode === id && <span className={styles.checkmark}>✓</span>}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          </>
-        )}
-      </div>
+        );
+      })()}
     </div>
   );
 }

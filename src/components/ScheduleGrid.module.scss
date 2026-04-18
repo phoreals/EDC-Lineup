@@ -258,7 +258,7 @@ $header-h:       clamp(40px, 5cqi + 16px, 48px);
 
 .blockStar {
   position: absolute;
-  top: var(--space-1);
+  bottom: var(--space-1);
   right: var(--space-1);
   font-size: var(--text-xs);
   opacity: 0.9;

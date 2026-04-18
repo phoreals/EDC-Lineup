@@ -9,7 +9,16 @@ import { CompactGrid } from './components/CompactGrid';
 import { ScheduleGrid } from './components/ScheduleGrid';
 
 export default function App() {
-  const [activeDay, setActiveDay] = useState('SCHEDULE');
+  const [activeDay, setActiveDayRaw] = useState('SCHEDULE');
+
+  const setActiveDay = useCallback(day => {
+    setActiveDayRaw(day);
+    if (day === 'SCHEDULE') {
+      setActiveFilterDays(prev =>
+        prev.size <= 1 ? prev : new Set([prev.values().next().value])
+      );
+    }
+  }, []);
   const [query, setQuery] = useState('');
   const [activeStages, setActiveStages] = useState(new Set());
   const [favOnly, setFavOnly] = useState(false);
@@ -40,6 +49,7 @@ export default function App() {
   const handleClearFilters = useCallback(() => {
     setActiveStages(new Set());
     setFavOnly(false);
+    setActiveFilterDays(new Set());
   }, []);
 
   const normalizedQuery = query.toLowerCase().trim();

@@ -1,4 +1,4 @@
-import { STAGES, DAYS, getArtistsByStage, toTitle } from '../data/lineup';
+import { STAGE_ORDER, DAYS, getArtistsByStage, toTitle } from '../data/lineup';
 import { getSetTime } from '../data/schedule';
 import styles from './ByStageGrid.module.scss';
 
@@ -22,8 +22,8 @@ function CompactCard({ name, time, isFav, onToggle }) {
 
 export function ByStageGrid({ query, activeStages, favOnly, favorites, onToggle, visibleDays }) {
   const stageList = activeStages.size > 0
-    ? STAGES.filter(s => activeStages.has(s))
-    : STAGES;
+    ? STAGE_ORDER.filter(s => activeStages.has(s))
+    : STAGE_ORDER;
 
   const stages = stageList
     .map(stage => {

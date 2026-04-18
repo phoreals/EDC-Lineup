@@ -258,15 +258,24 @@
 .filterDropdownWrap {
   position: relative;
   flex-shrink: 0;
+  margin-left: auto;
 }
 
 .filterBtn {
-  @include icon-btn;
-  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-height);
+  height: var(--control-height);
+  border-radius: var(--radius-column);
   border: 1px solid var(--border-default);
-  color: var(--text-primary);
+  background: var(--bg-surface-raised);
+  color: var(--text-muted);
   padding: 0;
   position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all var(--duration-base) var(--ease-default);
 
   &:hover {
     border-color: var(--color-brand);
@@ -276,6 +285,11 @@
   &.active {
     border-color: var(--color-brand);
     color: var(--color-brand);
+  }
+
+  @media (max-width: p.$bp-mobile) {
+    width: var(--control-height-mobile);
+    height: var(--control-height-mobile);
   }
 }
 
@@ -313,6 +327,134 @@
   overflow-y: auto;
   padding: var(--space-1) 0;
 }
+
+// ── Active filters summary ──────────────────────────────────
+.activeFilters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+
+  @media (max-width: p.$bp-mobile) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+  }
+}
+
+.activeFiltersLabel {
+  font-family: var(--font-primary);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.activeFiltersBody {
+  display: contents;
+
+  @media (max-width: p.$bp-mobile) {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    width: 100%;
+    min-width: 0;
+    position: relative;
+  }
+}
+
+.activeFiltersScroll {
+  display: contents;
+
+  @media (max-width: p.$bp-mobile) {
+    display: flex;
+    gap: var(--space-2);
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex: 1;
+    min-width: 0;
+
+    &::-webkit-scrollbar { display: none; }
+  }
+}
+
+.activeFiltersFadeRight {
+  display: none;
+
+  @media (max-width: p.$bp-mobile) {
+    display: block;
+    position: absolute;
+    right: calc(var(--space-2) + 52px); // clear btn width + gap
+    top: 0;
+    bottom: 0;
+    width: var(--space-8);
+    background: var(--gradient-fade-r);
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
+.activeFilterPill {
+  font-family: var(--font-primary);
+  font-size: var(--text-xs-plus);
+  font-weight: 600;
+  height: var(--control-height-mobile);
+  padding: 0 var(--space-2) 0 var(--space-3);
+  border-radius: var(--radius-column);
+  border: 1px solid var(--color-brand);
+  background: transparent;
+  color: var(--color-brand);
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease-default);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1-5);
+  white-space: nowrap;
+  line-height: 1;
+  flex-shrink: 0;
+
+  &:hover {
+    background: var(--color-brand);
+    color: var(--text-inverse);
+  }
+}
+
+.clearBtn {
+  font-family: var(--font-primary);
+  font-size: var(--text-xs-plus);
+  font-weight: 600;
+  height: var(--control-height-mobile);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-column);
+  background: transparent;
+  border: 1px solid var(--color-danger);
+  color: var(--color-danger);
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease-default);
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  line-height: 1;
+  margin-left: auto;
+  flex-shrink: 0;
+
+  &:hover {
+    background: var(--color-danger);
+    color: var(--text-inverse);
+  }
+}
+
+.activeFilterDivider {
+  width: 1px;
+  align-self: stretch;
+  background-color: var(--border-default);
+  flex-shrink: 0;
+}
+
 
 .dropdownItem {
   display: flex;
@@ -378,7 +520,7 @@
   font-weight: 600;
   height: var(--control-height);
   padding: 0 var(--space-4);
-  border-radius: var(--radius-column);
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border-default);
   background: var(--bg-surface-raised);
   color: var(--text-muted);
@@ -405,94 +547,44 @@
   }
 }
 
-// ── Mode toggle (desktop: segmented, mobile: dropdown) ───────
-.modeToggle {
+// ── Mode pills (list view) ───────────────────────────────────
+.modePills {
   display: flex;
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-column);
-  overflow: hidden;
-
-  @media (max-width: p.$bp-mobile) {
-    display: none;
-  }
+  gap: var(--space-2);
 }
 
-.modeBtn {
-  display: flex;
-  align-items: center;
-  gap: var(--space-1-5);
+.modePill {
   font-family: var(--font-primary);
   font-size: var(--text-sm);
   font-weight: 600;
   height: var(--control-height);
-  padding: 0 var(--space-3);
-  background: var(--bg-surface-raised);
-  border: none;
-  border-right: 1px solid var(--border-default);
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all var(--duration-base) var(--ease-default);
-  white-space: nowrap;
-
-  &:last-child {
-    border-right: none;
-  }
-
-  &:hover {
-    color: var(--text-primary);
-  }
-
-  &.active {
-    background: var(--gradient-brand);
-    color: var(--text-inverse);
-  }
-}
-
-.modeLabel {
-  // always visible on desktop (mobile hidden via .modeToggle display:none)
-}
-
-// ── Mode dropdown (mobile only) ──────────────────────────────
-.modeDropdownWrap {
-  display: none;
-  position: relative;
-
-  @media (max-width: p.$bp-mobile) {
-    display: block;
-  }
-}
-
-.modeDropdownBtn {
-  display: flex;
-  align-items: center;
-  gap: var(--space-1-5);
-  font-family: var(--font-primary);
-  font-size: var(--text-xs-plus);
-  font-weight: 600;
-  height: var(--control-height-mobile);
-  padding: 0 var(--space-2) 0 var(--space-3);
-  border-radius: var(--radius-column);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border-default);
   background: var(--bg-surface-raised);
   color: var(--text-muted);
   cursor: pointer;
   transition: all var(--duration-base) var(--ease-default);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1-5);
   white-space: nowrap;
 
   &:hover {
     border-color: var(--color-brand);
     color: var(--text-primary);
   }
-}
 
-.modeDropdownLabel {
-  @media (max-width: 400px) {
-    display: none;
+  &.active {
+    background: var(--gradient-brand);
+    border-color: transparent;
+    color: var(--text-inverse);
+  }
+
+  @media (max-width: p.$bp-mobile) {
+    font-size: var(--text-xs-plus);
+    height: var(--control-height-mobile);
+    padding: 0 var(--space-3);
   }
 }
 
-.dropdownItemLeft {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}

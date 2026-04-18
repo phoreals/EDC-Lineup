@@ -1,5 +1,5 @@
 import { useMemo, useRef, useEffect, useState } from 'react';
-import { STAGES } from '../data/lineup';
+import { STAGE_ORDER } from '../data/lineup';
 import { SCHEDULE } from '../data/schedule';
 import styles from './ScheduleGrid.module.scss';
 
@@ -79,7 +79,7 @@ function SetBlock({ slot, stage, isFav, onToggle }) {
     >
       <span className={styles.blockName}>{slot.artist}</span>
       <span className={styles.blockTime}>{fmtLabel(startAbsMin)} – {fmtLabel(endAbsMin)}</span>
-      {isFav && <span className={styles.blockStar}>★</span>}
+      {isFav && <span className={styles.blockStar}>♥</span>}
     </div>
   );
 }
@@ -133,7 +133,7 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
   }, [scheduleDay]);
 
   const visibleStages = useMemo(
-    () => STAGES.filter(s => activeStages.size === 0 || activeStages.has(s)),
+    () => STAGE_ORDER.filter(s => activeStages.size === 0 || activeStages.has(s)),
     [activeStages]
   );
 

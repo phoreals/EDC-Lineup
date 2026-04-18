@@ -10,6 +10,18 @@ export const STAGES = [
   'Bionic Jungle',
 ];
 
+export const STAGE_ORDER = [
+  'Kinetic Field',
+  'Circuit Grounds',
+  'Cosmic Meadow',
+  'Basspod',
+  'Neon Garden',
+  'Wasteland',
+  'Quantum Valley',
+  'Stereobloom',
+  'Bionic Jungle',
+];
+
 export const DAYS = ['FRIDAY', 'SATURDAY', 'SUNDAY'];
 
 export const LINEUP = {
