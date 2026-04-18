@@ -165,7 +165,7 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
                 style={{
                   borderBottomColor: color.border,
                   color: color.text,
-                  background: `linear-gradient(to bottom, transparent 0%, ${color.bg} 100%)`,
+                  background: `linear-gradient(to bottom, transparent 0%, color-mix(in srgb, ${color.bg} 50%, transparent) 100%)`,
                 }}
               >
                 {stage}

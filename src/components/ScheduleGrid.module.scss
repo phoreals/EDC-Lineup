@@ -77,12 +77,15 @@ $header-h:       clamp(32px, 5cqi + 16px, 48px);
   flex-shrink: 0;
   height: $header-h;
   overflow: hidden;
+  background-color: var(--bg-overlay);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .headerGutter {
   width: $time-gutter-w;
   flex-shrink: 0;
-  background: var(--bg-page);
+  background: transparent;
   border-right: 1px solid var(--border-default);
   border-bottom: 1px solid var(--border-default);
 }
