@@ -12,12 +12,7 @@
   flex-direction: column;
   height: calc(100vh - var(--sticky-top));
   overflow: hidden;
-  padding-top: var(--space-3);
   position: relative;
-
-  @container schedule (max-width: 600px) {
-    padding-top: var(--space-2);
-  }
 }
 
 // ── Sizing tokens — fluid via clamp() ─────────────────────────
@@ -74,9 +69,13 @@ $header-h:       clamp(32px, 5cqi + 16px, 48px);
 // ── Header row ────────────────────────────────────────────────
 .headerOuter {
   display: flex;
-  flex-shrink: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   height: $header-h;
   overflow: hidden;
+  z-index: 20;
   background-color: var(--bg-overlay);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -116,6 +115,7 @@ $header-h:       clamp(32px, 5cqi + 16px, 48px);
   flex: 1;
   display: flex;
   overflow: auto;
+  padding-top: $header-h;
   scrollbar-width: thin;
   scrollbar-color: var(--border-default) transparent;
 
