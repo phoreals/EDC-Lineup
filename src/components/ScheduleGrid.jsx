@@ -72,8 +72,8 @@ function SetBlock({ slot, stage, isFav, onToggle, compact }) {
         top:         `${top}px`,
         height:      `${Math.max(height - 2, 18)}px`,
         background:  isFav
-          ? `color-mix(in srgb, ${color.border} 40%, var(--color-neutral-950))`
-          : color.bg,
+          ? `color-mix(in srgb, ${color.border} 45%, var(--color-neutral-950))`
+          : `color-mix(in srgb, ${color.bg} 50%, transparent)`,
         borderColor: isFav
           ? color.border
           : `color-mix(in srgb, ${color.border} 53%, transparent)`,

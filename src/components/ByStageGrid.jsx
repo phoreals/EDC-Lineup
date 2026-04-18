@@ -15,7 +15,7 @@ function CompactCard({ name, time, isFav, onToggle }) {
     >
       <span className={styles.name}>{name}</span>
       {time && <span className={styles.time}>{time}</span>}
-      {isFav && <span className={styles.star} aria-hidden="true">★</span>}
+      {isFav && <span className={styles.star} aria-hidden="true">♥</span>}
     </div>
   );
 }
