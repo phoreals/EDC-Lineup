@@ -19,9 +19,11 @@
   font-size: var(--text-base);
   color: var(--text-primary);
   border-bottom: 1px solid var(--border-default);
-  background-color: var(--bg-surface);
+  background-color: var(--bg-overlay);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   position: sticky;
-  top: var(--sticky-top);
+  top: calc(var(--sticky-top) - 1px);
   z-index: 50;
   border-top-left-radius: var(--radius-column);
   border-top-right-radius: var(--radius-column);
