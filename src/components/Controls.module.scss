@@ -105,7 +105,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    height: var(--space-1);
+    height: var(--space-0-5);
     background: var(--text-muted);
     transform: scaleX(0);
     transition: transform    var(--duration-base) var(--ease-default),
@@ -251,6 +251,7 @@
     display: inline-flex;
     width: var(--control-height-mobile);
     height: var(--control-height-mobile);
+    border-radius: var(--radius-xs);
   }
 }
 
@@ -525,7 +526,7 @@
 
 .dayPill {
   font-family: var(--font-primary);
-  font-size: var(--text-sm);
+  font-size: var(--text-sm-plus);
   font-weight: 600;
   height: var(--control-height);
   padding: 0 var(--space-4);
@@ -553,6 +554,7 @@
     font-size: var(--text-xs-plus);
     height: var(--control-height-mobile);
     padding: 0 var(--space-3);
+    border-radius: var(--radius-xs);
   }
 }
 
@@ -564,7 +566,7 @@
 
 .modePill {
   font-family: var(--font-primary);
-  font-size: var(--text-sm);
+  font-size: var(--text-sm-plus);
   font-weight: 600;
   height: var(--control-height);
   padding: 0 var(--space-4);
@@ -594,6 +596,7 @@
     font-size: var(--text-xs-plus);
     height: var(--control-height-mobile);
     padding: 0 var(--space-3);
+    border-radius: var(--radius-xs);
   }
 }
 
