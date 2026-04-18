@@ -228,12 +228,19 @@
 
 // ── Search toggle ─────────────────────────────────────────────
 .searchToggle {
-  @include icon-btn;
   display: none;
-  background: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-height);
+  height: var(--control-height);
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border-default);
-  color: var(--text-primary);
+  background: var(--bg-surface-raised);
+  color: var(--text-muted);
   padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all var(--duration-base) var(--ease-default);
 
   &:hover {
     border-color: var(--color-brand);
@@ -242,6 +249,8 @@
 
   @media (max-width: p.$bp-mobile) {
     display: inline-flex;
+    width: var(--control-height-mobile);
+    height: var(--control-height-mobile);
   }
 }
 
