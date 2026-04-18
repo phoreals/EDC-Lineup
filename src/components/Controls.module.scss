@@ -36,7 +36,7 @@
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   padding: var(--space-4) var(--page-gutter);
-  border-bottom: none;
+  border-bottom: 1px solid var(--border-default);
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
@@ -88,8 +88,9 @@
   background-color: transparent;
   border: none;
   color: var(--text-muted);
-  padding: var(--space-2) 0;
-  font-size: var(--text-base);
+  padding: 0 0 var(--space-1) 0;
+  height: var(--control-height);
+  font-size: var(--text-lg);
   font-weight: 600;
   cursor: pointer;
   transition: color var(--duration-base) var(--ease-default);
@@ -102,6 +103,12 @@
 
   &.active {
     color: var(--text-primary);
+  }
+
+  @media (max-width: p.$bp-mobile) {
+    height: var(--control-height-mobile);
+    font-size: var(--text-base);
+    padding-bottom: var(--space-0-5);
   }
 }
 
