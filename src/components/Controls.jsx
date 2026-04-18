@@ -98,7 +98,28 @@ export function Controls({
 
   const tabsScrollRef  = useRef(null);
   const tabsWrapperRef = useRef(null);
+  const tabIndicatorRef = useRef(null);
+  const tabRefs = useRef({});
   useScrollFades(tabsScrollRef, tabsWrapperRef);
+
+  // Slide the indicator to the active tab
+  const updateIndicator = useCallback(() => {
+    const indicator = tabIndicatorRef.current;
+    const activeTabEl = tabRefs.current[activeDay];
+    const container = tabsScrollRef.current;
+    if (!indicator || !activeTabEl || !container) return;
+
+    const containerRect = container.getBoundingClientRect();
+    const tabRect = activeTabEl.getBoundingClientRect();
+    indicator.style.width = `${tabRect.width}px`;
+    indicator.style.transform = `translateX(${tabRect.left - containerRect.left + container.scrollLeft}px)`;
+  }, [activeDay]);
+
+  useEffect(() => {
+    updateIndicator();
+    window.addEventListener('resize', updateIndicator);
+    return () => window.removeEventListener('resize', updateIndicator);
+  }, [updateIndicator]);
 
   const filterDropdown = useDropdown();
 
@@ -139,12 +160,14 @@ export function Controls({
               {TABS.map(({ id, label }) => (
                 <button
                   key={id}
+                  ref={el => { tabRefs.current[id] = el; }}
                   className={`${styles.tab} ${activeDay === id ? styles.active : ''}`}
                   onClick={() => handleTabClick(id)}
                 >
                   {label}
                 </button>
               ))}
+              <div className={styles.tabIndicator} ref={tabIndicatorRef} />
             </div>
             <div className={styles.tabFadeLeft} />
             <div className={styles.tabFadeRight} />
