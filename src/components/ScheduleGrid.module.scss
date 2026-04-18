@@ -25,9 +25,9 @@
 // Time gutter scales from 40px to 56px
 // Header scales from 40px to 48px
 // Using 100cqi (container inline size) for smooth container-based scaling
-$time-gutter-w:  clamp(40px, 6cqi + 16px, 56px);
-$stage-col-w:    clamp(96px, 12cqi + 24px, 160px);
-$header-h:       clamp(40px, 5cqi + 16px, 48px);
+$time-gutter-w:  clamp(30px, 6cqi + 16px, 56px);
+$stage-col-w:    clamp(72px, 12cqi + 24px, 160px);
+$header-h:       clamp(32px, 5cqi + 16px, 48px);
 
 // ── Day switcher ──────────────────────────────────────────────
 .daySwitcher {
@@ -97,18 +97,15 @@ $header-h:       clamp(40px, 5cqi + 16px, 48px);
   width: $stage-col-w;
   flex-shrink: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   text-align: center;
   font-family: var(--font-primary);
   font-size: clamp(var(--text-2xs), 1cqi + 4px, var(--text-xs-plus));
   font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
   line-height: 1.2;
-  padding: var(--space-1) var(--space-2);
-  border-bottom: var(--space-0-5) solid;
-  background: var(--bg-page);
+  padding: var(--space-2) var(--space-2) var(--space-2);
+  border-bottom: 1px solid;
 }
 
 // ── Scrollable body ───────────────────────────────────────────

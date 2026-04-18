@@ -162,7 +162,11 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
               <div
                 key={stage}
                 className={styles.stageHeader}
-                style={{ borderBottomColor: color.border, color: color.text }}
+                style={{
+                  borderBottomColor: color.border,
+                  color: color.text,
+                  background: `linear-gradient(to bottom, transparent 0%, ${color.bg} 100%)`,
+                }}
               >
                 {stage}
               </div>
