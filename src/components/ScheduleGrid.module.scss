@@ -131,7 +131,9 @@ $header-h:       clamp(32px, 5cqi + 16px, 48px);
   position: sticky;
   left: 0;
   z-index: 15;
-  background: var(--bg-page);
+  background-color: var(--bg-overlay);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-right: 1px solid var(--border-default);
 
   // Gradient fade on the right edge — fades artist cards
