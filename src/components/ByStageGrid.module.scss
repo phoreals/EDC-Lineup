@@ -62,6 +62,12 @@
   margin-bottom: var(--space-1);
   padding: var(--space-1) 0;
   border-top: 1px solid var(--border-default);
+  position: sticky;
+  top: calc(var(--sticky-top) - 1px);
+  z-index: 50;
+  background-color: var(--bg-overlay);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 // ── Artist list ────────────────────────────────────────────────────
