@@ -15,6 +15,12 @@ const LIST_MODES = [
   { id: 'byStage',  label: 'By Stage', Icon: IconColumns },
 ];
 
+const COL_SIZES = [
+  { id: 'sm', label: 'Narrow',  text: 'S' },
+  { id: 'md', label: 'Medium',  text: 'M' },
+  { id: 'lg', label: 'Wide',    text: 'L' },
+];
+
 const DAY_FILTERS = [
   { id: 'FRIDAY',    label: 'Friday' },
   { id: 'SATURDAY',  label: 'Saturday' },
@@ -91,6 +97,8 @@ export function Controls({
   onFilterDayToggle,
   listMode,
   onListModeChange,
+  colSize,
+  onColSizeChange,
 }) {
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const controlsRef  = useStickyHeight();
@@ -127,6 +135,7 @@ export function Controls({
   }, [updateIndicator, mobileSearchOpen]);
 
   const filterDropdown = useDropdown();
+  const sizeDropdown = useDropdown();
 
   const dayFilterCount = activeDay === 'LIST' ? activeFilterDays.size : 0;
   const hasFilters = activeStages.size > 0 || favOnly || dayFilterCount > 0;
@@ -259,7 +268,48 @@ export function Controls({
           </div>
         )}
 
-        <div className={styles.filterDropdownWrap} ref={filterDropdown.ref}>
+        <div className={styles.subNavRight}>
+          {activeDay === 'SCHEDULE' && (
+            <div className={styles.colSizeToggle}>
+              {COL_SIZES.map(({ id, label, text }) => (
+                <button
+                  key={id}
+                  className={`${styles.colSizeBtn} ${colSize === id ? styles.active : ''}`}
+                  onClick={() => onColSizeChange(id)}
+                  aria-label={`${label} columns`}
+                  title={label}
+                >
+                  {text}
+                </button>
+              ))}
+              <div className={styles.colSizeDropWrap} ref={sizeDropdown.ref}>
+                <button
+                  className={styles.colSizeCycle}
+                  onClick={() => sizeDropdown.setOpen(v => !v)}
+                  aria-label="Column size"
+                  aria-expanded={sizeDropdown.open}
+                >
+                  {COL_SIZES.find(s => s.id === colSize)?.text}
+                </button>
+                {sizeDropdown.open && (
+                  <div className={styles.dropdown}>
+                    {COL_SIZES.map(({ id, label }) => (
+                      <button
+                        key={id}
+                        className={`${styles.dropdownItem} ${colSize === id ? styles.active : ''}`}
+                        onClick={() => { onColSizeChange(id); sizeDropdown.setOpen(false); }}
+                      >
+                        <span>{label}</span>
+                        {colSize === id && <span className={styles.checkmark}>✓</span>}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          <div className={styles.filterDropdownWrap} ref={filterDropdown.ref}>
           <button
             className={`${styles.filterBtn} ${filterDropdown.open ? styles.active : ''}`}
             onClick={() => filterDropdown.setOpen(v => !v)}
@@ -324,6 +374,7 @@ export function Controls({
               )}
             </div>
           )}
+        </div>
         </div>
       </div>
 

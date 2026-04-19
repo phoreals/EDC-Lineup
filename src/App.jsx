@@ -24,6 +24,7 @@ export default function App() {
   const [favOnly, setFavOnly] = useState(false);
   const [activeFilterDays, setActiveFilterDays] = useState(new Set());
   const [listMode, setListMode] = useState('list');
+  const [colSize, setColSize] = useState('md');
   const { favorites, toggle: toggleFavorite } = useFavorites();
 
   const handleStageToggle = useCallback(stage => {
@@ -86,11 +87,13 @@ export default function App() {
         onFilterDayToggle={handleFilterDayToggle}
         listMode={listMode}
         onListModeChange={setListMode}
+        colSize={colSize}
+        onColSizeChange={setColSize}
       />
 
       <main style={isScheduleView ? { overflow: 'hidden' } : undefined}>
         {activeDay === 'SCHEDULE' ? (
-          <ScheduleGrid activeFilterDays={activeFilterDays} {...gridProps} />
+          <ScheduleGrid activeFilterDays={activeFilterDays} colSize={colSize} {...gridProps} />
         ) : listMode === 'byStage' ? (
           <ByStageGrid visibleDays={visibleDays} {...gridProps} />
         ) : listMode === 'compact' ? (

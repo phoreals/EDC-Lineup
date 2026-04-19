@@ -1,7 +1,7 @@
 import { useMemo, useRef, useEffect, useState } from 'react';
 import { STAGE_ORDER } from '../data/lineup';
 import { SCHEDULE } from '../data/schedule';
-import { IconHeart, IconGridSize } from './Icons';
+import { IconHeart } from './Icons';
 import styles from './ScheduleGrid.module.scss';
 
 // ── Constants ─────────────────────────────────────────────────
@@ -12,7 +12,6 @@ const PX_PER_MIN         = 72 / 60;   // 72px per hour
 const TOTAL_HEIGHT       = TOTAL_MIN * PX_PER_MIN;
 const BOTTOM_PAD         = 64;
 const NARROW_BREAKPOINT  = 600;
-const COL_SIZES = ['sm', 'md', 'lg'];
 
 export const STAGE_COLORS = {
   'Kinetic Field':   { bg: 'var(--stage-kinetic-bg)',   border: 'var(--stage-kinetic-border)',   text: 'var(--stage-kinetic-text)' },
@@ -95,18 +94,13 @@ function SetBlock({ slot, stage, isFav, onToggle, compact }) {
 }
 
 // ── ScheduleGrid ──────────────────────────────────────────────
-export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, favorites, onToggle }) {
+export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, favorites, onToggle, colSize = 'md' }) {
   const wrapperRef      = useRef(null);
   const bodyRef         = useRef(null);
   const headerRef       = useRef(null);
   const headerScrollRef = useRef(null);
   const [isNarrow, setIsNarrow] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(0);
-  const [colSize, setColSize] = useState('md');
-
-  const cycleSize = () => {
-    setColSize(s => COL_SIZES[(COL_SIZES.indexOf(s) + 1) % COL_SIZES.length]);
-  };
 
   // Derive the displayed day from the global filter
   const scheduleDay = activeFilterDays && activeFilterDays.size === 1
@@ -180,27 +174,7 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
 
       {/* ── Fixed stage header row ── */}
       <div className={styles.headerOuter} ref={headerRef}>
-        <div className={styles.headerGutter}>
-          <div className={styles.sizeToggle}>
-            {COL_SIZES.map(s => (
-              <button
-                key={s}
-                className={`${styles.sizeBtn} ${colSize === s ? styles.sizeBtnActive : ''}`}
-                onClick={() => setColSize(s)}
-                aria-label={`Column size ${s}`}
-              >
-                {s.toUpperCase()}
-              </button>
-            ))}
-            <button
-              className={styles.sizeCycle}
-              onClick={cycleSize}
-              aria-label={`Column size: ${colSize.toUpperCase()}`}
-            >
-              <IconGridSize size={12} />
-            </button>
-          </div>
-        </div>
+        <div className={styles.headerGutter} />
         <div className={styles.headerScroll} ref={headerScrollRef}>
           {visibleStages.map(stage => {
             const color = STAGE_COLORS[stage];
