@@ -16,9 +16,9 @@ const LIST_MODES = [
 ];
 
 const COL_SIZES = [
-  { id: 'sm', label: 'Narrow',  text: 'S' },
-  { id: 'md', label: 'Medium',  text: 'M' },
-  { id: 'lg', label: 'Wide',    text: 'L' },
+  { id: 'sm', text: 'S', label: 'Narrow' },
+  { id: 'md', text: 'M', label: 'Medium' },
+  { id: 'lg', text: 'L', label: 'Wide' },
 ];
 
 const DAY_FILTERS = [
@@ -276,7 +276,7 @@ export function Controls({
                   key={id}
                   className={`${styles.colSizeBtn} ${colSize === id ? styles.active : ''}`}
                   onClick={() => onColSizeChange(id)}
-                  aria-label={`${label} columns`}
+                  aria-label={label}
                   title={label}
                 >
                   {text}
@@ -293,14 +293,14 @@ export function Controls({
                 </button>
                 {sizeDropdown.open && (
                   <div className={styles.dropdown}>
-                    {COL_SIZES.map(({ id, label }) => (
+                    {COL_SIZES.map(({ id, text, label }) => (
                       <button
                         key={id}
                         className={`${styles.dropdownItem} ${colSize === id ? styles.active : ''}`}
                         onClick={() => { onColSizeChange(id); sizeDropdown.setOpen(false); }}
                       >
-                        <span>{label}</span>
-                        {colSize === id && <span className={styles.checkmark}>✓</span>}
+                        <span className={styles.sizeLabel}><strong>{text}</strong>{label}</span>
+                        <span className={styles.checkmark}>{colSize === id ? '✓' : ''}</span>
                       </button>
                     ))}
                   </div>
@@ -329,7 +329,7 @@ export function Controls({
                 onClick={onFavToggle}
               >
                 <span className={styles.iconLabel}><IconHeart size={11} filled />Favorited</span>
-                {favOnly && <span className={styles.checkmark}>✓</span>}
+                <span className={styles.checkmark}>{favOnly ? '✓' : ''}</span>
               </button>
 
               {activeDay === 'LIST' && (
@@ -344,7 +344,7 @@ export function Controls({
                         onClick={() => onFilterDayToggle(id, false)}
                       >
                         <span>{label}</span>
-                        {isActive && <span className={styles.checkmark}>✓</span>}
+                        <span className={styles.checkmark}>{isActive ? '✓' : ''}</span>
                       </button>
                     );
                   })}
@@ -360,7 +360,7 @@ export function Controls({
                   onClick={() => onStageToggle(stage)}
                 >
                   <span>{stage}</span>
-                  {activeStages.has(stage) && <span className={styles.checkmark}>✓</span>}
+                  <span className={styles.checkmark}>{activeStages.has(stage) ? '✓' : ''}</span>
                 </button>
               ))}
 

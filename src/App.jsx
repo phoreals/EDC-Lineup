@@ -1,8 +1,9 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { DAYS } from './data/lineup';
 import { useFavorites } from './hooks/useFavorites';
 import { Header } from './components/Header';
 import { Controls } from './components/Controls';
+import { FavToast } from './components/FavToast';
 import { AlphaGrid } from './components/AlphaGrid';
 import { ByStageGrid } from './components/ByStageGrid';
 import { CompactGrid } from './components/CompactGrid';
@@ -26,6 +27,12 @@ export default function App() {
   const [listMode, setListMode] = useState('list');
   const [colSize, setColSize] = useState('md');
   const { favorites, toggle: toggleFavorite } = useFavorites();
+  const [toastDismissed, setToastDismissed] = useState(false);
+
+  // Reset dismissed state when favOnly toggles off
+  useEffect(() => {
+    if (!favOnly) setToastDismissed(false);
+  }, [favOnly]);
 
   const handleStageToggle = useCallback(stage => {
     setActiveStages(prev => {
@@ -68,6 +75,8 @@ export default function App() {
     : DAYS;
 
   const isScheduleView = activeDay === 'SCHEDULE';
+  const showFavToast = favOnly && !toastDismissed &&
+    (isScheduleView || (activeDay === 'LIST' && listMode === 'compact'));
 
   return (
     <>
@@ -89,6 +98,13 @@ export default function App() {
         onListModeChange={setListMode}
         colSize={colSize}
         onColSizeChange={setColSize}
+      />
+
+      <FavToast
+        visible={showFavToast}
+        favorites={favorites}
+        activeFilterDays={activeFilterDays}
+        onDismiss={() => setToastDismissed(true)}
       />
 
       <main style={isScheduleView ? { overflow: 'hidden' } : undefined}>

@@ -350,7 +350,7 @@
   position: absolute;
   top: calc(100% + var(--space-2));
   right: 0;
-  min-width: 220px;
+  min-width: max-content;
   background: var(--color-neutral-950);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
@@ -500,6 +500,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-2);
   width: 100%;
   padding: var(--space-2) var(--space-3);
   font-family: var(--font-primary);
@@ -529,6 +530,13 @@
   font-size: var(--text-sm-plus);
   font-weight: 700;
   flex-shrink: 0;
+  width: 1em;
+  text-align: right;
+}
+
+.sizeLabel {
+  display: flex;
+  gap: var(--space-2);
 }
 
 .iconLabel {
@@ -654,6 +662,11 @@
 
 .colSizeDropWrap {
   position: relative;
+
+  .dropdown {
+    min-width: 0;
+    width: max-content;
+  }
 }
 
 .colSizeBtn {
