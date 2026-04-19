@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { STAGE_ORDER } from '../data/lineup';
 import { useStickyHeight } from '../hooks/useStickyHeight';
-import { IconSearch, IconBack, IconFilter, IconCompact, IconList, IconColumns, IconClose } from './Icons';
+import { IconSearch, IconBack, IconFilter, IconCompact, IconList, IconColumns, IconClose, IconHeart } from './Icons';
 import styles from './Controls.module.scss';
 
 const TABS = [
@@ -273,7 +273,7 @@ export function Controls({
                 className={`${styles.dropdownItem} ${favOnly ? styles.active : ''}`}
                 onClick={onFavToggle}
               >
-                <span>♥ Favorited</span>
+                <span className={styles.iconLabel}><IconHeart size={11} filled />Favorited</span>
                 {favOnly && <span className={styles.checkmark}>✓</span>}
               </button>
 
@@ -342,7 +342,7 @@ export function Controls({
               <div className={styles.activeFiltersScroll}>
                 {favOnly && (
                   <button className={styles.activeFilterPill} onClick={onFavToggle}>
-                    ♥ Favorited <IconClose size={12} />
+                    <IconHeart size={10} filled />Favorited<IconClose size={12} />
                   </button>
                 )}
                 {needsSeparators && favOnly && activeDaysList.length + activeStagesList.length > 0 && (

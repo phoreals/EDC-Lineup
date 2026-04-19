@@ -1,6 +1,7 @@
 import { useMemo, useRef, useEffect, useState } from 'react';
 import { STAGE_ORDER } from '../data/lineup';
 import { SCHEDULE } from '../data/schedule';
+import { IconHeart } from './Icons';
 import styles from './ScheduleGrid.module.scss';
 
 // ── Constants ─────────────────────────────────────────────────
@@ -87,7 +88,7 @@ function SetBlock({ slot, stage, isFav, onToggle, compact }) {
     >
       <span className={styles.blockName}>{slot.artist}</span>
       <span className={styles.blockTime}><span className={styles.noWrap}>{fmtLabel(startAbsMin, omitStart)}&thinsp;–</span>&thinsp;{fmtLabel(endAbsMin)}</span>
-      {isFav && <span className={styles.blockStar}>♥</span>}
+      {isFav && <span className={styles.blockStar}><IconHeart size={8} filled /></span>}
     </div>
   );
 }
@@ -99,7 +100,6 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
   const headerRef       = useRef(null);
   const headerScrollRef = useRef(null);
   const [isNarrow, setIsNarrow] = useState(false);
-  const [scrolledLeft, setScrolledLeft] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(0);
 
   // Derive the displayed day from the global filter
@@ -131,14 +131,13 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
     return () => ro.disconnect();
   }, []);
 
-  // Sync header scroll to body horizontal scroll + track scrolledLeft
+  // Sync header scroll to body horizontal scroll
   useEffect(() => {
     const body = bodyRef.current;
     const hdr  = headerScrollRef.current;
     if (!body || !hdr) return;
     const onScroll = () => {
       hdr.scrollLeft = body.scrollLeft;
-      setScrolledLeft(body.scrollLeft > 2);
     };
     body.addEventListener('scroll', onScroll, { passive: true });
     return () => body.removeEventListener('scroll', onScroll);
@@ -204,7 +203,6 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
         ref={bodyRef}
         style={{ paddingTop: `${headerHeight}px` }}
         data-narrow={isNarrow ? 'true' : undefined}
-        data-scrolled-left={scrolledLeft ? 'true' : undefined}
       >
         {/* Sticky time gutter */}
         <div className={styles.timeGutter} style={{ minHeight: `${TOTAL_HEIGHT + BOTTOM_PAD}px` }}>

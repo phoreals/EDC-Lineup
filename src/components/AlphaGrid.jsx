@@ -1,5 +1,6 @@
 import { DAYS, LINEUP, STAGES } from '../data/lineup';
 import { getSetTime } from '../data/schedule';
+import { IconHeart } from './Icons';
 import styles from './AlphaGrid.module.scss';
 
 function CompactCard({ name, stage, time, isFav, onToggle }) {
@@ -16,7 +17,7 @@ function CompactCard({ name, stage, time, isFav, onToggle }) {
       <span className={styles.name}>{name}</span>
       <span className={styles.stage}>{stage}</span>
       {time && <span className={styles.time}>{time}</span>}
-      {isFav && <span className={styles.star} aria-hidden="true">♥</span>}
+      {isFav && <span className={styles.star} aria-hidden="true"><IconHeart size={10} filled /></span>}
     </div>
   );
 }

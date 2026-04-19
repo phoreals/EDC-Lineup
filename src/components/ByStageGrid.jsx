@@ -1,5 +1,6 @@
 import { STAGE_ORDER, DAYS, getArtistsByStage, toTitle } from '../data/lineup';
 import { getSetTime } from '../data/schedule';
+import { IconHeart } from './Icons';
 import styles from './ByStageGrid.module.scss';
 
 function CompactCard({ name, time, isFav, onToggle }) {
@@ -15,7 +16,7 @@ function CompactCard({ name, time, isFav, onToggle }) {
     >
       <span className={styles.name}>{name}</span>
       {time && <span className={styles.time}>{time}</span>}
-      {isFav && <span className={styles.star} aria-hidden="true">♥</span>}
+      {isFav && <span className={styles.star} aria-hidden="true"><IconHeart size={10} filled /></span>}
     </div>
   );
 }

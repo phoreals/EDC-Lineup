@@ -1,3 +1,4 @@
+import { IconHeart } from './Icons';
 import styles from './ArtistCard.module.scss';
 
 export function ArtistCard({ name, time, isFav, onToggle }) {
@@ -15,7 +16,7 @@ export function ArtistCard({ name, time, isFav, onToggle }) {
         <span className={styles.name}>{name}</span>
         {time && <span className={styles.time}>{time}</span>}
       </div>
-      <span className={styles.star} aria-hidden="true">{isFav ? '♥' : '♡'}</span>
+      <span className={styles.star} aria-hidden="true"><IconHeart size={10} filled={isFav} /></span>
     </div>
   );
 }

@@ -133,27 +133,6 @@ $header-h:       clamp(32px, 5cqi + 16px, 48px);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-right: 1px solid var(--border-default);
-
-  // Gradient fade on the right edge — fades artist cards
-  // before they reach the time labels. Only visible when scrolled.
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: -24px;
-    width: 24px;
-    background: linear-gradient(to right, var(--color-neutral-950), transparent);
-    pointer-events: none;
-    z-index: 15;
-    opacity: 0;
-    transition: opacity var(--duration-slow) var(--ease-default);
-  }
-
-  // Activated by JS setting data-scrolled-left on .body
-  .body[data-scrolled-left="true"] & {
-    &::after { opacity: 1; }
-  }
 }
 
 .timeLabel {
