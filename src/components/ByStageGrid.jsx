@@ -14,8 +14,10 @@ function CompactCard({ name, time, isFav, onToggle }) {
       aria-pressed={isFav}
       aria-label={`${name}${time ? ` ${time}` : ''}${isFav ? ' — favorited' : ''}`}
     >
-      <span className={styles.name}>{name}</span>
-      {time && <span className={styles.time}>{time}</span>}
+      <div className={styles.info}>
+        <span className={styles.name}>{name}</span>
+        {time && <span className={styles.time}>{time}</span>}
+      </div>
       {isFav && <span className={styles.star} aria-hidden="true"><IconHeart size={10} filled /></span>}
     </div>
   );

@@ -84,15 +84,16 @@
 // ── Compact artist row (2-line) ──────────────────────────────────────
 .card {
   display: flex;
-  flex-direction: column;
+  align-items: flex-start;
   padding: var(--space-1-5) 0;
   border-radius: var(--radius-xs);
   cursor: pointer;
   transition: background var(--duration-base) var(--ease-default);
-  position: relative;
 
-  &:hover {
-    background: var(--bg-hover);
+  @media (hover: hover) {
+    &:hover {
+      background: var(--bg-hover);
+    }
   }
 
   &:focus-visible {
@@ -110,11 +111,17 @@
   }
 }
 
+.info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 .name {
   font-size: var(--text-sm);
   color: var(--text-primary);
   line-height: 1.3;
-  padding-right: var(--space-4);
 
   @container compact-col (max-width: 150px) {
     font-size: var(--text-xs-plus);
@@ -128,11 +135,11 @@
 }
 
 .star {
-  position: absolute;
-  top: var(--space-1-5);
-  right: var(--space-1);
-  font-size: var(--text-xs);
   color: var(--color-star-active);
+  flex-shrink: 0;
   pointer-events: none;
   user-select: none;
+  display: flex;
+  align-items: center;
+  height: calc(var(--text-sm) * 1.3);
 }

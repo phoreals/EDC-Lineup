@@ -16,9 +16,11 @@
   transition: all var(--duration-base) var(--ease-default);
   cursor: pointer;
 
-  &:hover {
-    background: var(--bg-hover);
-    border-color: var(--color-brand);
+  @media (hover: hover) {
+    &:hover {
+      background: var(--bg-hover);
+      border-color: var(--color-brand);
+    }
   }
 
   &:focus-visible {
