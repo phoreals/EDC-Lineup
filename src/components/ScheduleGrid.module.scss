@@ -17,7 +17,7 @@
   // Stage column width — switchable via data-col-size
   --stage-col-w: clamp(72px, 12cqi + 24px, 160px); // md (default)
   &[data-col-size="sm"] { --stage-col-w: clamp(54px, 8cqi + 16px, 110px); }
-  &[data-col-size="lg"] { --stage-col-w: clamp(90px, 16cqi + 32px, 220px); }
+  &[data-col-size="lg"] { --stage-col-w: clamp(86px, 14cqi + 28px, 192px); }
 }
 
 // ── Sizing tokens — fluid via clamp() ─────────────────────────
@@ -254,4 +254,11 @@ $header-h:       clamp(32px, 5cqi + 16px, 48px);
 .body[data-narrow="true"] {
   .timeLabel  { right: var(--space-1); }
   .block      { left: var(--space-0-5); right: var(--space-0-5); border-radius: var(--radius-xs); padding: var(--space-1); }
+}
+
+// ── Large view — bump font sizes ────────────────────────────────
+.wrapper[data-col-size="lg"] {
+  .blockName { font-size: clamp(var(--text-xs), 1cqi + 5px, var(--text-sm-plus)); }
+  .blockTime { font-size: clamp(var(--text-xs), 1cqi + 4px, var(--text-sm)); }
+  .stageHeader { font-size: clamp(var(--text-xs), 1cqi + 5px, var(--text-sm)); }
 }
