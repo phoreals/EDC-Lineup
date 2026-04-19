@@ -117,9 +117,14 @@ export function Controls({
 
   useEffect(() => {
     updateIndicator();
+    // Re-measure after tabs remount (e.g. closing mobile search)
+    const raf = requestAnimationFrame(updateIndicator);
     window.addEventListener('resize', updateIndicator);
-    return () => window.removeEventListener('resize', updateIndicator);
-  }, [updateIndicator]);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', updateIndicator);
+    };
+  }, [updateIndicator, mobileSearchOpen]);
 
   const filterDropdown = useDropdown();
 
@@ -146,7 +151,7 @@ export function Controls({
     <div className={styles.controls} ref={controlsRef}>
 
       {/* ── Top row ── */}
-      <div className={styles.topRow}>
+      <div className={`${styles.topRow} ${mobileSearchOpen ? styles.topRowSearch : ''}`}>
 
         {mobileSearchOpen && (
           <button className={styles.backBtn} onClick={closeMobileSearch} aria-label="Close search">

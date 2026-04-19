@@ -51,8 +51,8 @@
 
 // Stage name row — thin rule underneath, sticky
 .stageHeader {
-  padding: var(--space-1) 0 0 0;
-  margin-bottom: var(--space-2);
+  padding: var(--space-1) 0;
+  margin-bottom: var(--space-1);
   border-top: 1px solid var(--border-default);
   position: sticky;
   top: calc(var(--sticky-top) - 1px);

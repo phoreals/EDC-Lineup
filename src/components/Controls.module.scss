@@ -60,6 +60,10 @@
     flex-wrap: nowrap;
     align-items: center;
   }
+
+  &.topRowSearch {
+    gap: var(--space-2);
+  }
 }
 
 // ── Tabs ──────────────────────────────────────────────────────
@@ -248,11 +252,24 @@
 
 // ── Back button ───────────────────────────────────────────────
 .backBtn {
-  @include icon-btn;
-  background: transparent;
-  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-height-mobile);
+  height: var(--control-height-mobile);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-default);
+  background: var(--bg-surface-raised);
+  color: var(--text-muted);
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all var(--duration-base) var(--ease-default);
 
-  &:hover { background: var(--color-purple-hsl-hover); }
+  &:hover {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
 }
 
 // ── Filter dropdown ──────────────────────────────────────────
