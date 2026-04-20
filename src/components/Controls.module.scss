@@ -199,17 +199,19 @@
   background: none;
   border: none;
   color: var(--text-muted);
-  font-size: var(--text-lg);
-  line-height: 1;
-  padding: 0;
+  padding: var(--space-0-5);
   display: flex;
   align-items: center;
-  opacity: 0.6;
-  transition: opacity var(--duration-base) var(--ease-default);
+  justify-content: center;
+  border-radius: var(--radius-xs);
+  transition: all var(--duration-base) var(--ease-default);
   cursor: pointer;
 
   @media (hover: hover) {
-    &:hover { opacity: 1; }
+    &:hover {
+      color: var(--text-primary);
+      background: var(--bg-hover);
+    }
   }
 }
 
@@ -324,6 +326,7 @@
   @media (max-width: p.$bp-mobile) {
     width: var(--control-height-mobile);
     height: var(--control-height-mobile);
+    border-radius: var(--radius-sm);
   }
 }
 
@@ -334,7 +337,7 @@
   min-width: var(--space-4);
   height: var(--space-4);
   border-radius: var(--space-2);
-  background: var(--gradient-brand-alt);
+  background: var(--gradient-brand);
   color: var(--text-inverse);
   font-size: var(--text-xs);
   font-weight: 700;
@@ -386,6 +389,7 @@
   font-weight: 600;
   color: var(--text-muted);
   white-space: nowrap;
+  margin-right: var(--space-1);
 }
 
 .activeFiltersBody {
@@ -441,7 +445,7 @@
   height: var(--control-height-mobile);
   padding: 0 var(--space-2) 0 var(--space-3);
   border-radius: var(--radius-column);
-  border: 1px solid var(--color-brand);
+  border: none;
   background: transparent;
   color: var(--color-brand);
   cursor: pointer;
@@ -452,11 +456,73 @@
   white-space: nowrap;
   line-height: 1;
   flex-shrink: 0;
+  position: relative;
+
+  // Gradient border via masked pseudo-element
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: var(--gradient-brand);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    transition: opacity var(--duration-base) var(--ease-default);
+  }
+
+  // Gradient text
+  span {
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .pillIcon {
+    display: flex;
+    align-items: center;
+    -webkit-text-fill-color: initial;
+
+    svg {
+      stroke: url(#pill-grad);
+      fill: none;
+    }
+
+    // Filled icons (e.g. heart)
+    svg[fill="currentColor"] {
+      fill: url(#pill-grad);
+      stroke: url(#pill-grad);
+    }
+  }
 
   @media (hover: hover) {
     &:hover {
-      background: var(--color-brand);
-      color: var(--text-inverse);
+      background: var(--gradient-brand);
+
+      &::before { opacity: 0; }
+
+      span {
+        background: none;
+        -webkit-background-clip: initial;
+        background-clip: initial;
+        -webkit-text-fill-color: var(--text-inverse);
+      }
+
+      .pillIcon svg {
+        stroke: var(--text-inverse);
+
+        &[fill="currentColor"] {
+          fill: var(--text-inverse);
+        }
+      }
     }
   }
 }
@@ -715,6 +781,14 @@
   @media (max-width: p.$bp-mobile) {
     width: var(--control-height-mobile);
     height: var(--control-height-mobile);
+
+    &:first-child {
+      border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    }
+
+    &:nth-child(3) {
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
   }
 }
 
@@ -766,6 +840,14 @@
   @media (max-width: p.$bp-mobile) {
     width: var(--control-height-mobile);
     height: var(--control-height-mobile);
+
+    &:first-child {
+      border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    }
+
+    &:last-child {
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
   }
 }
 
@@ -775,7 +857,7 @@
   justify-content: center;
   width: var(--control-height-mobile);
   height: var(--control-height-mobile);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border-default);
   background: var(--bg-surface-raised);
   color: var(--text-muted);

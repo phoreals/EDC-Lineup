@@ -21,3 +21,9 @@ button {
   font-family: var(--font-primary);
   cursor: pointer;
 }
+
+mark {
+  background: var(--color-brand-glow);
+  color: inherit;
+  border-radius: 2px;
+}

@@ -2,15 +2,16 @@ import { useMemo, useRef, useEffect, useState } from 'react';
 import { STAGE_ORDER } from '../data/lineup';
 import { SCHEDULE } from '../data/schedule';
 import { IconHeart } from './Icons';
+import { HighlightMatch } from './Highlight';
 import styles from './ScheduleGrid.module.scss';
 
 // ── Constants ─────────────────────────────────────────────────
-const FESTIVAL_START_MIN = 17 * 60 + 30;
-const FESTIVAL_END_MIN   = 24 * 60 + 5 * 60 + 30; // 29:30
+const FESTIVAL_START_MIN = 17 * 60;       // 5:00pm
+const FESTIVAL_END_MIN   = 24 * 60 + 6 * 60; // 6:00am
 const TOTAL_MIN          = FESTIVAL_END_MIN - FESTIVAL_START_MIN; // 720 min
 const PX_PER_MIN         = 72 / 60;   // 72px per hour
 const TOTAL_HEIGHT       = TOTAL_MIN * PX_PER_MIN;
-const BOTTOM_PAD         = 64;
+const BOTTOM_PAD         = 36;
 const NARROW_BREAKPOINT  = 600;
 
 export const STAGE_COLORS = {
@@ -56,7 +57,7 @@ const TICKS = Array.from({ length: TOTAL_MIN / 30 + 1 }, (_, i) => {
 });
 
 // ── SetBlock ──────────────────────────────────────────────────
-function SetBlock({ slot, stage, isFav, onToggle, compact }) {
+function SetBlock({ slot, stage, isFav, onToggle, compact, query }) {
   const startAbsMin = parseTime(slot.start);
   const offsetMin   = startAbsMin - FESTIVAL_START_MIN;
   const top         = offsetMin * PX_PER_MIN;
@@ -86,7 +87,7 @@ function SetBlock({ slot, stage, isFav, onToggle, compact }) {
       onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onToggle(slot.artist)}
       aria-label={`${slot.artist} — ${fmtLabel(startAbsMin)} to ${fmtLabel(endAbsMin)}`}
     >
-      <span className={styles.blockName}>{slot.artist}</span>
+      <span className={styles.blockName}><HighlightMatch text={slot.artist} query={query} /></span>
       <span className={styles.blockTime}><span className={styles.noWrap}>{fmtLabel(startAbsMin, omitStart)}&thinsp;–</span>&thinsp;{fmtLabel(endAbsMin)}</span>
       {isFav && <span className={styles.blockStar}><IconHeart size={8} filled /></span>}
     </div>
@@ -119,6 +120,7 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
+
 
   // Measure header height for body padding
   useEffect(() => {
@@ -206,15 +208,18 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
       >
         {/* Sticky time gutter */}
         <div className={styles.timeGutter} style={{ minHeight: `${TOTAL_HEIGHT + BOTTOM_PAD}px` }}>
-          {TICKS.filter(t => t.isHour).map(t => (
-            <div
-              key={t.offsetMin}
-              className={styles.timeLabel}
-              style={{ top: `${t.offsetMin * PX_PER_MIN}px` }}
-            >
-              {t.label}
-            </div>
-          ))}
+          {TICKS.filter(t => t.isHour).map(t => {
+            const top = t.offsetMin === 0 ? 8 : t.offsetMin * PX_PER_MIN;
+            return (
+              <div
+                key={t.offsetMin}
+                className={styles.timeLabel}
+                style={{ top: `${top}px` }}
+              >
+                {t.label}
+              </div>
+            );
+          })}
         </div>
 
         {/* Positioned stage grid */}
@@ -236,6 +241,7 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
                   isFav={favorites.has(slot.artist)}
                   onToggle={onToggle}
                   compact={isNarrow}
+                  query={query}
                 />
               ))}
             </div>

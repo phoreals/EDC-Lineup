@@ -1,9 +1,10 @@
 import { DAYS, LINEUP, STAGES } from '../data/lineup';
 import { getSetTime } from '../data/schedule';
 import { IconHeart } from './Icons';
+import { HighlightMatch } from './Highlight';
 import styles from './AlphaGrid.module.scss';
 
-function CompactCard({ name, stage, time, isFav, onToggle }) {
+function CompactCard({ name, stage, time, isFav, onToggle, query }) {
   return (
     <div
       className={`${styles.card} ${isFav ? styles.favorited : ''}`}
@@ -15,7 +16,7 @@ function CompactCard({ name, stage, time, isFav, onToggle }) {
       aria-label={`${name}${time ? ` ${time}` : ''}${isFav ? ' — favorited' : ''}`}
     >
       <div className={styles.info}>
-        <span className={styles.name}>{name}</span>
+        <span className={styles.name}><HighlightMatch text={name} query={query} /></span>
         <span className={styles.stage}>{stage}</span>
         {time && <span className={styles.time}>{time}</span>}
       </div>
@@ -80,6 +81,7 @@ export function AlphaGrid({ query, activeStages, favOnly, favorites, onToggle, v
                 time={time}
                 isFav={favorites.has(name)}
                 onToggle={onToggle}
+                query={query}
               />
             ))}
           </div>

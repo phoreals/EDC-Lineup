@@ -54,6 +54,7 @@ export default function App() {
   }, []);
 
   const handleClearFilters = useCallback(() => {
+    setQuery('');
     setActiveStages(new Set());
     setFavOnly(false);
     setActiveFilterDays(new Set());
@@ -109,7 +110,7 @@ export default function App() {
         onDismiss={() => setToastDismissed(true)}
       /> */}
 
-      <main style={isScheduleView ? { overflow: 'hidden' } : undefined}>
+      <main>
         {activeDay === 'SCHEDULE' ? (
           <ScheduleGrid activeFilterDays={activeFilterDays} colSize={colSize} {...gridProps} />
         ) : listMode === 'byStage' ? (

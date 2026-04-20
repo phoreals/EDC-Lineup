@@ -1,9 +1,10 @@
 import { STAGE_ORDER, DAYS, getArtistsByStage, toTitle } from '../data/lineup';
 import { getSetTime } from '../data/schedule';
 import { IconHeart } from './Icons';
+import { HighlightMatch } from './Highlight';
 import styles from './ByStageGrid.module.scss';
 
-function CompactCard({ name, time, isFav, onToggle }) {
+function CompactCard({ name, time, isFav, onToggle, query }) {
   return (
     <div
       className={`${styles.card} ${isFav ? styles.favorited : ''}`}
@@ -15,7 +16,7 @@ function CompactCard({ name, time, isFav, onToggle }) {
       aria-label={`${name}${time ? ` ${time}` : ''}${isFav ? ' — favorited' : ''}`}
     >
       <div className={styles.info}>
-        <span className={styles.name}>{name}</span>
+        <span className={styles.name}><HighlightMatch text={name} query={query} /></span>
         {time && <span className={styles.time}>{time}</span>}
       </div>
       <span className={styles.heart} aria-hidden="true"><IconHeart size={8} filled={isFav} /></span>
@@ -67,6 +68,7 @@ export function ByStageGrid({ query, activeStages, favOnly, favorites, onToggle,
                       time={time}
                       isFav={favorites.has(name)}
                       onToggle={onToggle}
+                      query={query}
                     />
                   ))}
                 </div>

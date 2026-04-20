@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { STAGE_ORDER } from '../data/lineup';
 import { useStickyHeight } from '../hooks/useStickyHeight';
-import { IconSearch, IconBack, IconFilter, IconCompact, IconList, IconClose, IconHeart } from './Icons';
+import { IconSearch, IconBack, IconFilter, IconCompact, IconList, IconClose, IconHeart, IconCheck } from './Icons';
 import styles from './Controls.module.scss';
 
 const TABS = [
@@ -140,8 +140,9 @@ export function Controls({
   const sizeDropdown = useDropdown();
 
   const dayFilterCount = activeDay === 'LIST' ? activeFilterDays.size : 0;
-  const hasFilters = activeStages.size > 0 || favOnly || dayFilterCount > 0;
-  const filterCount = activeStages.size + (favOnly ? 1 : 0) + dayFilterCount;
+  const hasQuery = query.trim().length > 0;
+  const hasFilters = activeStages.size > 0 || favOnly || dayFilterCount > 0 || hasQuery;
+  const filterCount = activeStages.size + (favOnly ? 1 : 0) + dayFilterCount + (hasQuery ? 1 : 0);
 
   const openMobileSearch = useCallback(() => {
     setMobileSearchOpen(true);
@@ -200,11 +201,12 @@ export function Controls({
               placeholder="Search artists..."
               value={query}
               onChange={e => onQueryChange(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter' && query.trim()) { setMobileSearchOpen(false); e.target.blur(); } }}
               aria-label="Search artists"
             />
             {query && (
               <button className={styles.clearInput} onClick={() => onQueryChange('')} aria-label="Clear search">
-                ×
+                <IconClose size={16} />
               </button>
             )}
           </div>
@@ -220,11 +222,12 @@ export function Controls({
                 placeholder="Search artists..."
                 value={query}
                 onChange={e => onQueryChange(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter') e.target.blur(); }}
                 aria-label="Search artists"
               />
               {query && (
                 <button className={styles.clearInput} onClick={() => onQueryChange('')} aria-label="Clear search">
-                  ×
+                  <IconClose size={16} />
                 </button>
               )}
             </div>
@@ -321,7 +324,7 @@ export function Controls({
                         onClick={() => { onColSizeChange(id); sizeDropdown.setOpen(false); }}
                       >
                         <span className={styles.sizeLabel}><strong>{text}</strong>{label}</span>
-                        <span className={styles.checkmark}>{colSize === id ? '✓' : ''}</span>
+                        <span className={styles.checkmark}>{colSize === id && <IconCheck size={12} />}</span>
                       </button>
                     ))}
                   </div>
@@ -350,7 +353,7 @@ export function Controls({
                 onClick={onFavToggle}
               >
                 <span className={styles.iconLabel}><IconHeart size={11} filled />Favorited</span>
-                <span className={styles.checkmark}>{favOnly ? '✓' : ''}</span>
+                <span className={styles.checkmark}>{favOnly && <IconCheck size={12} />}</span>
               </button>
 
               {activeDay === 'LIST' && (
@@ -365,7 +368,7 @@ export function Controls({
                         onClick={() => onFilterDayToggle(id, false)}
                       >
                         <span>{label}</span>
-                        <span className={styles.checkmark}>{isActive ? '✓' : ''}</span>
+                        <span className={styles.checkmark}>{isActive && <IconCheck size={12} />}</span>
                       </button>
                     );
                   })}
@@ -381,7 +384,7 @@ export function Controls({
                   onClick={() => onStageToggle(stage)}
                 >
                   <span>{stage}</span>
-                  <span className={styles.checkmark}>{activeStages.has(stage) ? '✓' : ''}</span>
+                  <span className={styles.checkmark}>{activeStages.has(stage) && <IconCheck size={12} />}</span>
                 </button>
               ))}
 
@@ -406,6 +409,7 @@ export function Controls({
           : [];
         const activeStagesList = STAGE_ORDER.filter(s => activeStages.has(s));
         const sections = [
+          hasQuery ? 'search' : null,
           favOnly ? 'fav' : null,
           activeDaysList.length > 0 ? 'days' : null,
           activeStagesList.length > 0 ? 'stages' : null,
@@ -414,12 +418,28 @@ export function Controls({
 
         return (
           <div className={styles.activeFilters}>
+            <svg width="0" height="0" aria-hidden="true" style={{ position: 'absolute' }}>
+              <defs>
+                <linearGradient id="pill-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="var(--color-purple-500)" />
+                  <stop offset="100%" stopColor="var(--color-orange-400)" />
+                </linearGradient>
+              </defs>
+            </svg>
             <span className={styles.activeFiltersLabel}>Filtering by</span>
             <div className={styles.activeFiltersBody}>
               <div className={styles.activeFiltersScroll}>
+                {hasQuery && (
+                  <button className={styles.activeFilterPill} onClick={() => onQueryChange('')}>
+                    <span className={styles.pillIcon}><IconSearch size={10} /></span><span>"{query.trim()}"</span><span className={styles.pillIcon}><IconClose size={12} /></span>
+                  </button>
+                )}
+                {needsSeparators && hasQuery && sections.length > 1 && (
+                  <div className={styles.activeFilterDivider} />
+                )}
                 {favOnly && (
                   <button className={styles.activeFilterPill} onClick={onFavToggle}>
-                    <IconHeart size={10} filled />Favorited<IconClose size={12} />
+                    <span className={styles.pillIcon}><IconHeart size={10} filled /></span><span>Favorited</span><span className={styles.pillIcon}><IconClose size={12} /></span>
                   </button>
                 )}
                 {needsSeparators && favOnly && activeDaysList.length + activeStagesList.length > 0 && (
@@ -427,7 +447,7 @@ export function Controls({
                 )}
                 {activeDaysList.map(({ id, label }) => (
                   <button key={id} className={styles.activeFilterPill} onClick={() => onFilterDayToggle(id, false)}>
-                    {label} <IconClose size={12} />
+                    <span>{label}</span><span className={styles.pillIcon}><IconClose size={12} /></span>
                   </button>
                 ))}
                 {needsSeparators && activeDaysList.length > 0 && activeStagesList.length > 0 && (
@@ -435,7 +455,7 @@ export function Controls({
                 )}
                 {activeStagesList.map(stage => (
                   <button key={stage} className={styles.activeFilterPill} onClick={() => onStageToggle(stage)}>
-                    {stage} <IconClose size={12} />
+                    <span>{stage}</span><span className={styles.pillIcon}><IconClose size={12} /></span>
                   </button>
                 ))}
               </div>
