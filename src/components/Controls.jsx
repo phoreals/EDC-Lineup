@@ -6,7 +6,7 @@ import styles from './Controls.module.scss';
 
 const TABS = [
   { id: 'SCHEDULE',  label: 'Schedule' },
-  { id: 'LIST',      label: 'List View' },
+  { id: 'LIST',      label: 'Browse' },
 ];
 
 const LIST_MODES = [
@@ -166,7 +166,7 @@ export function Controls({
       <div className={`${styles.topRow} ${mobileSearchOpen ? styles.topRowSearch : ''}`}>
 
         {mobileSearchOpen && (
-          <button className={styles.backBtn} onClick={closeMobileSearch} aria-label="Close search">
+          <button className={styles.backBtn} onClick={closeMobileSearch} aria-label="Close search" title="Close search">
             <IconBack />
           </button>
         )}
@@ -180,6 +180,7 @@ export function Controls({
                   ref={el => { tabRefs.current[id] = el; }}
                   className={`${styles.tab} ${activeDay === id ? styles.active : ''}`}
                   onClick={() => handleTabClick(id)}
+                  title={label}
                 >
                   {label}
                 </button>
@@ -205,7 +206,7 @@ export function Controls({
               aria-label="Search artists"
             />
             {query && (
-              <button className={styles.clearInput} onClick={() => onQueryChange('')} aria-label="Clear search">
+              <button className={styles.clearInput} onClick={() => onQueryChange('')} aria-label="Clear search" title="Clear search">
                 <IconClose size={16} />
               </button>
             )}
@@ -231,7 +232,7 @@ export function Controls({
                 </button>
               )}
             </div>
-            <button className={styles.searchToggle} onClick={openMobileSearch} aria-label="Open search">
+            <button className={styles.searchToggle} onClick={openMobileSearch} aria-label="Open search" title="Open search">
               <IconSearch />
             </button>
           </div>
@@ -249,6 +250,7 @@ export function Controls({
                   key={id}
                   className={`${styles.dayPill} ${isActive ? styles.active : ''}`}
                   onClick={() => onFilterDayToggle(id, true)}
+                  title={label}
                 >
                   {label}
                 </button>
@@ -312,6 +314,7 @@ export function Controls({
                   onClick={() => sizeDropdown.setOpen(v => !v)}
                   aria-label="Column size"
                   aria-expanded={sizeDropdown.open}
+                  title="Column size"
                 >
                   {COL_SIZES.find(s => s.id === colSize)?.text}
                 </button>
@@ -322,6 +325,7 @@ export function Controls({
                         key={id}
                         className={`${styles.dropdownItem} ${colSize === id ? styles.active : ''}`}
                         onClick={() => { onColSizeChange(id); sizeDropdown.setOpen(false); }}
+                        title={label}
                       >
                         <span className={styles.sizeLabel}><strong>{text}</strong>{label}</span>
                         <span className={styles.checkmark}>{colSize === id && <IconCheck size={12} />}</span>
@@ -339,6 +343,7 @@ export function Controls({
             onClick={() => filterDropdown.setOpen(v => !v)}
             aria-label="Filters"
             aria-expanded={filterDropdown.open}
+            title="Filters"
           >
             <IconFilter />
             {filterCount > 0 && (
@@ -351,6 +356,7 @@ export function Controls({
               <button
                 className={`${styles.dropdownItem} ${favOnly ? styles.active : ''}`}
                 onClick={onFavToggle}
+                title="Favorited"
               >
                 <span className={styles.iconLabel}><IconHeart size={11} filled />Favorited</span>
                 <span className={styles.checkmark}>{favOnly && <IconCheck size={12} />}</span>
@@ -366,6 +372,7 @@ export function Controls({
                         key={id}
                         className={`${styles.dropdownItem} ${isActive ? styles.active : ''}`}
                         onClick={() => onFilterDayToggle(id, false)}
+                        title={label}
                       >
                         <span>{label}</span>
                         <span className={styles.checkmark}>{isActive && <IconCheck size={12} />}</span>
@@ -382,6 +389,7 @@ export function Controls({
                   key={stage}
                   className={`${styles.dropdownItem} ${activeStages.has(stage) ? styles.active : ''}`}
                   onClick={() => onStageToggle(stage)}
+                  title={stage}
                 >
                   <span>{stage}</span>
                   <span className={styles.checkmark}>{activeStages.has(stage) && <IconCheck size={12} />}</span>
@@ -391,7 +399,7 @@ export function Controls({
               {hasFilters && (
                 <>
                   <div className={styles.divider} />
-                  <button className={styles.dropdownItem} onClick={onClearFilters}>
+                  <button className={styles.dropdownItem} onClick={onClearFilters} title="Clear all filters">
                     <span className={styles.clearText}>Clear All</span>
                   </button>
                 </>
@@ -408,14 +416,6 @@ export function Controls({
           ? DAY_FILTERS.filter(d => activeFilterDays.has(d.id))
           : [];
         const activeStagesList = STAGE_ORDER.filter(s => activeStages.has(s));
-        const sections = [
-          hasQuery ? 'search' : null,
-          favOnly ? 'fav' : null,
-          activeDaysList.length > 0 ? 'days' : null,
-          activeStagesList.length > 0 ? 'stages' : null,
-        ].filter(Boolean);
-        const needsSeparators = sections.length >= 2;
-
         return (
           <div className={styles.activeFilters}>
             <svg width="0" height="0" aria-hidden="true" style={{ position: 'absolute' }}>
@@ -427,41 +427,37 @@ export function Controls({
               </defs>
             </svg>
             <span className={styles.activeFiltersLabel}>Filtering by</span>
+            <svg className={styles.activeFiltersBorder} aria-hidden="true">
+              <rect x="0.5" y="0.5" width="calc(100% - 1px)" height="calc(100% - 1px)" rx="8" ry="8"
+                fill="none" stroke="var(--border-default)" strokeWidth="1" />
+            </svg>
             <div className={styles.activeFiltersBody}>
               <div className={styles.activeFiltersScroll}>
                 {hasQuery && (
-                  <button className={styles.activeFilterPill} onClick={() => onQueryChange('')}>
+                  <button className={styles.activeFilterPill} onClick={() => onQueryChange('')} title={`Remove search: ${query.trim()}`}>
                     <span className={styles.pillIcon}><IconSearch size={10} /></span><span>"{query.trim()}"</span><span className={styles.pillIcon}><IconClose size={12} /></span>
                   </button>
                 )}
-                {needsSeparators && hasQuery && sections.length > 1 && (
-                  <div className={styles.activeFilterDivider} />
-                )}
                 {favOnly && (
-                  <button className={styles.activeFilterPill} onClick={onFavToggle}>
+                  <button className={styles.activeFilterPill} onClick={onFavToggle} title="Remove Favorited filter">
                     <span className={styles.pillIcon}><IconHeart size={10} filled /></span><span>Favorited</span><span className={styles.pillIcon}><IconClose size={12} /></span>
                   </button>
                 )}
-                {needsSeparators && favOnly && activeDaysList.length + activeStagesList.length > 0 && (
-                  <div className={styles.activeFilterDivider} />
-                )}
                 {activeDaysList.map(({ id, label }) => (
-                  <button key={id} className={styles.activeFilterPill} onClick={() => onFilterDayToggle(id, false)}>
+                  <button key={id} className={styles.activeFilterPill} onClick={() => onFilterDayToggle(id, false)} title={`Remove ${label}`}>
                     <span>{label}</span><span className={styles.pillIcon}><IconClose size={12} /></span>
                   </button>
                 ))}
-                {needsSeparators && activeDaysList.length > 0 && activeStagesList.length > 0 && (
-                  <div className={styles.activeFilterDivider} />
-                )}
                 {activeStagesList.map(stage => (
-                  <button key={stage} className={styles.activeFilterPill} onClick={() => onStageToggle(stage)}>
+                  <button key={stage} className={styles.activeFilterPill} onClick={() => onStageToggle(stage)} title={`Remove ${stage}`}>
                     <span>{stage}</span><span className={styles.pillIcon}><IconClose size={12} /></span>
                   </button>
                 ))}
               </div>
               <div className={styles.activeFiltersFadeRight} />
-              <button className={styles.clearBtn} onClick={onClearFilters}>
-                Clear
+              <button className={styles.clearBtn} onClick={onClearFilters} aria-label="Clear all filters" title="Clear all filters">
+                <span className={styles.clearBtnText}>Clear</span>
+                <span className={styles.clearBtnIcon}><IconClose size={12} /></span>
               </button>
             </div>
           </div>

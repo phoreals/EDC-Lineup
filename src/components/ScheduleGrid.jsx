@@ -70,6 +70,7 @@ function SetBlock({ slot, stage, isFav, onToggle, compact, query }) {
   return (
     <div
       className={`${styles.block} ${isFav ? styles.blockFav : ''}`}
+      title={slot.artist}
       style={{
         top:         `${top}px`,
         height:      `${Math.max(height - 2, 18)}px`,

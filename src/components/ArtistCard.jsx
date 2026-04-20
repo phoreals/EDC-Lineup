@@ -6,6 +6,7 @@ export function ArtistCard({ name, time, isFav, onToggle }) {
     <div
       className={`${styles.card} ${isFav ? styles.favorited : ''}`}
       onClick={() => onToggle(name)}
+      title={name}
       role="button"
       tabIndex={0}
       onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onToggle(name)}
