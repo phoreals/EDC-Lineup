@@ -74,7 +74,7 @@ export default function App() {
     ? DAYS.filter(d => activeFilterDays.has(d))
     : DAYS;
 
-  const isScheduleView = activeDay === 'SCHEDULE';
+  // const isScheduleView = activeDay === 'SCHEDULE';
   // const showFavToast = favOnly && !toastDismissed &&
   //   (isScheduleView || (activeDay === 'LIST' && listMode === 'compact'));
 

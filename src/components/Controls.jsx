@@ -435,7 +435,7 @@ export function Controls({
               <div className={styles.activeFiltersScroll}>
                 {hasQuery && (
                   <button className={styles.activeFilterPill} onClick={() => onQueryChange('')} title={`Remove search: ${query.trim()}`}>
-                    <span className={styles.pillIcon}><IconSearch size={10} /></span><span>"{query.trim()}"</span><span className={styles.pillIcon}><IconClose size={12} /></span>
+                    <span className={styles.pillIcon}><IconSearch size={10} /></span><span>&ldquo;{query.trim()}&rdquo;</span><span className={styles.pillIcon}><IconClose size={12} /></span>
                   </button>
                 )}
                 {favOnly && (
