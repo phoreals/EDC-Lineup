@@ -1,0 +1,104 @@
+// Shared mixins for list view card components
+// Used by AlphaGrid, CompactGrid, and ByStageGrid
+
+// ── Section sub-header (sticky with rule) ─────────────────────────
+@mixin section-header {
+  padding: var(--space-1) 0;
+  margin-bottom: var(--space-1);
+  border-top: 1px solid var(--border-default);
+  position: sticky;
+  top: calc(var(--sticky-top) - 1px);
+  z-index: 50;
+  background-color: var(--bg-overlay);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+@mixin section-title {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  display: block;
+}
+
+// ── Card ──────────────────────────────────────────────────────────
+@mixin card {
+  display: flex;
+  align-items: flex-start;
+  padding: var(--space-1-5) var(--space-2);
+  gap: var(--space-2);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: background var(--duration-base) var(--ease-default);
+
+  @media (hover: hover) {
+    &:hover {
+      background: var(--bg-hover);
+    }
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--color-brand);
+    outline-offset: 1px;
+  }
+
+  &.favorited {
+    background: var(--bg-favorited);
+
+    .name {
+      color: var(--text-accent);
+      font-weight: 600;
+    }
+  }
+}
+
+@mixin card-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0-5);
+}
+
+@mixin card-name {
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+@mixin card-meta {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+@mixin card-heart {
+  color: var(--color-heart-active);
+  flex-shrink: 0;
+  pointer-events: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  height: calc(var(--text-sm) * 1.3);
+  visibility: hidden;
+}
+
+// ── Card list container ───────────────────────────────────────────
+@mixin card-list {
+  display: flex;
+  flex-direction: column;
+  margin-left: calc(-1 * var(--space-2));
+}
+
+// ── Single-column layout override ─────────────────────────────────
+@mixin single-col {
+  grid-template-columns: 1fr;
+
+  .info {
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--space-2);
+  }
+}

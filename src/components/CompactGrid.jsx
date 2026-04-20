@@ -18,7 +18,7 @@ function CompactCard({ name, time, isFav, onToggle }) {
         <span className={styles.name}>{name}</span>
         {time && <span className={styles.time}>{time}</span>}
       </div>
-      {isFav && <span className={styles.star} aria-hidden="true"><IconHeart size={10} filled /></span>}
+      <span className={styles.heart} aria-hidden="true"><IconHeart size={8} filled={isFav} /></span>
     </div>
   );
 }
@@ -28,8 +28,8 @@ function CompactStageColumn({ stage, artists, favorites, onToggle }) {
 
   return (
     <div className={styles.column}>
-      <div className={styles.stageHeader}>
-        <span className={styles.stageName}>{stage}</span>
+      <div className={styles.sectionHeader}>
+        <span className={styles.sectionTitle}>{stage}</span>
       </div>
       <div className={styles.list}>
         {artists.map(({ name, time }) => (
@@ -46,7 +46,7 @@ function CompactStageColumn({ stage, artists, favorites, onToggle }) {
   );
 }
 
-export function CompactGrid({ query, activeStages, favOnly, favorites, onToggle, visibleDays }) {
+export function CompactGrid({ query, activeStages, favOnly, favorites, onToggle, visibleDays, listLayout }) {
   const stageList = activeStages.size > 0
     ? STAGE_ORDER.filter(s => activeStages.has(s))
     : STAGE_ORDER;
@@ -71,7 +71,7 @@ export function CompactGrid({ query, activeStages, favOnly, favorites, onToggle,
         return (
           <section key={day}>
             <div className={styles.dayHeader}>{toTitle(day)}</div>
-            <div className={styles.grid}>
+            <div className={`${styles.grid} ${listLayout === 'list' ? styles.singleCol : ''}`}>
               {columns.map(({ stage, artists }) => (
                 <CompactStageColumn
                   key={stage}

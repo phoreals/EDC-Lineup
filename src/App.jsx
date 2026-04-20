@@ -1,9 +1,10 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { DAYS } from './data/lineup';
 import { useFavorites } from './hooks/useFavorites';
 import { Header } from './components/Header';
 import { Controls } from './components/Controls';
-import { FavToast } from './components/FavToast';
+// Copy-to-clipboard toast for favorites — hidden for now, see FavToast.jsx
+// import { FavToast } from './components/FavToast';
 import { AlphaGrid } from './components/AlphaGrid';
 import { ByStageGrid } from './components/ByStageGrid';
 import { CompactGrid } from './components/CompactGrid';
@@ -26,13 +27,11 @@ export default function App() {
   const [activeFilterDays, setActiveFilterDays] = useState(new Set());
   const [listMode, setListMode] = useState('list');
   const [colSize, setColSize] = useState('md');
+  const [listLayout, setListLayout] = useState('grid');
   const { favorites, toggle: toggleFavorite } = useFavorites();
-  const [toastDismissed, setToastDismissed] = useState(false);
-
-  // Reset dismissed state when favOnly toggles off
-  useEffect(() => {
-    if (!favOnly) setToastDismissed(false);
-  }, [favOnly]);
+  // Copy-to-clipboard toast state — hidden for now, see FavToast.jsx
+  // const [toastDismissed, setToastDismissed] = useState(false);
+  // useEffect(() => { if (!favOnly) setToastDismissed(false); }, [favOnly]);
 
   const handleStageToggle = useCallback(stage => {
     setActiveStages(prev => {
@@ -75,8 +74,8 @@ export default function App() {
     : DAYS;
 
   const isScheduleView = activeDay === 'SCHEDULE';
-  const showFavToast = favOnly && !toastDismissed &&
-    (isScheduleView || (activeDay === 'LIST' && listMode === 'compact'));
+  // const showFavToast = favOnly && !toastDismissed &&
+  //   (isScheduleView || (activeDay === 'LIST' && listMode === 'compact'));
 
   return (
     <>
@@ -98,24 +97,27 @@ export default function App() {
         onListModeChange={setListMode}
         colSize={colSize}
         onColSizeChange={setColSize}
+        listLayout={listLayout}
+        onListLayoutChange={setListLayout}
       />
 
+      {/* Copy-to-clipboard toast — hidden for now, see FavToast.jsx
       <FavToast
         visible={showFavToast}
         favorites={favorites}
         activeFilterDays={activeFilterDays}
         onDismiss={() => setToastDismissed(true)}
-      />
+      /> */}
 
       <main style={isScheduleView ? { overflow: 'hidden' } : undefined}>
         {activeDay === 'SCHEDULE' ? (
           <ScheduleGrid activeFilterDays={activeFilterDays} colSize={colSize} {...gridProps} />
         ) : listMode === 'byStage' ? (
-          <ByStageGrid visibleDays={visibleDays} {...gridProps} />
+          <ByStageGrid visibleDays={visibleDays} listLayout={listLayout} {...gridProps} />
         ) : listMode === 'compact' ? (
-          <CompactGrid visibleDays={visibleDays} {...gridProps} />
+          <CompactGrid visibleDays={visibleDays} listLayout={listLayout} {...gridProps} />
         ) : (
-          <AlphaGrid visibleDays={visibleDays} {...gridProps} />
+          <AlphaGrid visibleDays={visibleDays} listLayout={listLayout} {...gridProps} />
         )}
       </main>
     </>

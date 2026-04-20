@@ -16,7 +16,7 @@ export function ArtistCard({ name, time, isFav, onToggle }) {
         <span className={styles.name}>{name}</span>
         {time && <span className={styles.time}>{time}</span>}
       </div>
-      <span className={styles.star} aria-hidden="true"><IconHeart size={8} filled={isFav} /></span>
+      <span className={styles.heart} aria-hidden="true"><IconHeart size={8} filled={isFav} /></span>
     </div>
   );
 }

@@ -18,12 +18,12 @@ function CompactCard({ name, time, isFav, onToggle }) {
         <span className={styles.name}>{name}</span>
         {time && <span className={styles.time}>{time}</span>}
       </div>
-      {isFav && <span className={styles.star} aria-hidden="true"><IconHeart size={10} filled /></span>}
+      <span className={styles.heart} aria-hidden="true"><IconHeart size={8} filled={isFav} /></span>
     </div>
   );
 }
 
-export function ByStageGrid({ query, activeStages, favOnly, favorites, onToggle, visibleDays }) {
+export function ByStageGrid({ query, activeStages, favOnly, favorites, onToggle, visibleDays, listLayout }) {
   const stageList = activeStages.size > 0
     ? STAGE_ORDER.filter(s => activeStages.has(s))
     : STAGE_ORDER;
@@ -53,10 +53,12 @@ export function ByStageGrid({ query, activeStages, favOnly, favorites, onToggle,
           <div className={styles.stageHeader}>
             <span className={styles.stageName}>{stage}</span>
           </div>
-          <div className={styles.dayColumns}>
+          <div className={`${styles.dayColumns} ${listLayout === 'list' ? styles.singleCol : ''}`}>
             {segments.map(({ day, artists }) => (
               <div key={day} className={styles.dayColumn}>
-                <div className={styles.dayLabel}>{toTitle(day)}</div>
+                <div className={styles.sectionHeader}>
+                  <span className={styles.sectionTitle}>{toTitle(day)}</span>
+                </div>
                 <div className={styles.list}>
                   {artists.map(({ name, time }) => (
                     <CompactCard

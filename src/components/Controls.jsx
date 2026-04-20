@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { STAGE_ORDER } from '../data/lineup';
 import { useStickyHeight } from '../hooks/useStickyHeight';
-import { IconSearch, IconBack, IconFilter, IconCompact, IconList, IconColumns, IconClose, IconHeart } from './Icons';
+import { IconSearch, IconBack, IconFilter, IconCompact, IconList, IconClose, IconHeart } from './Icons';
 import styles from './Controls.module.scss';
 
 const TABS = [
@@ -10,9 +10,9 @@ const TABS = [
 ];
 
 const LIST_MODES = [
-  { id: 'list',     label: 'A to Z',   Icon: IconList },
-  { id: 'compact',  label: 'By Day',   Icon: IconCompact },
-  { id: 'byStage',  label: 'By Stage', Icon: IconColumns },
+  { id: 'list',     label: 'A to Z' },
+  { id: 'compact',  label: 'By Day' },
+  { id: 'byStage',  label: 'By Stage' },
 ];
 
 const COL_SIZES = [
@@ -99,6 +99,8 @@ export function Controls({
   onListModeChange,
   colSize,
   onColSizeChange,
+  listLayout,
+  onListLayoutChange,
 }) {
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const controlsRef  = useStickyHeight();
@@ -253,7 +255,7 @@ export function Controls({
         )}
         {activeDay === 'LIST' && (
           <div className={styles.modePills}>
-            {LIST_MODES.map(({ id, label, Icon }) => (
+            {LIST_MODES.map(({ id, label }) => (
               <button
                 key={id}
                 className={`${styles.modePill} ${listMode === id ? styles.active : ''}`}
@@ -261,7 +263,6 @@ export function Controls({
                 aria-label={label}
                 title={label}
               >
-                <Icon size={14} />
                 <span>{label}</span>
               </button>
             ))}
@@ -269,6 +270,26 @@ export function Controls({
         )}
 
         <div className={styles.subNavRight}>
+          {activeDay === 'LIST' && (
+            <div className={styles.listLayoutToggle}>
+              <button
+                className={`${styles.listLayoutBtn} ${listLayout === 'grid' ? styles.active : ''}`}
+                onClick={() => onListLayoutChange('grid')}
+                aria-label="Grid layout"
+                title="Grid layout"
+              >
+                <IconCompact size={14} />
+              </button>
+              <button
+                className={`${styles.listLayoutBtn} ${listLayout === 'list' ? styles.active : ''}`}
+                onClick={() => onListLayoutChange('list')}
+                aria-label="List layout"
+                title="List layout"
+              >
+                <IconList size={14} />
+              </button>
+            </div>
+          )}
           {activeDay === 'SCHEDULE' && (
             <div className={styles.colSizeToggle}>
               {COL_SIZES.map(({ id, label, text }) => (

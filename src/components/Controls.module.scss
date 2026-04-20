@@ -718,6 +718,57 @@
   }
 }
 
+// ── List layout toggle (list view) ──────────────────────────
+.listLayoutToggle {
+  display: flex;
+}
+
+.listLayoutBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-height);
+  height: var(--control-height);
+  border-radius: 0;
+  border: 1px solid var(--border-default);
+  border-left-width: 0;
+  background: var(--bg-surface-raised);
+  color: var(--text-muted);
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all var(--duration-base) var(--ease-default);
+
+  &:first-child {
+    border-left-width: 1px;
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+  }
+
+  &:last-child {
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: var(--color-brand);
+      color: var(--color-brand);
+      z-index: 1;
+    }
+  }
+
+  &.active {
+    background: var(--gradient-brand);
+    border-color: transparent;
+    color: var(--text-inverse);
+    z-index: 1;
+  }
+
+  @media (max-width: p.$bp-mobile) {
+    width: var(--control-height-mobile);
+    height: var(--control-height-mobile);
+  }
+}
+
 .colSizeCycle {
   display: flex;
   align-items: center;

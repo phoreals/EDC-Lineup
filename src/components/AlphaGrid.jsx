@@ -19,12 +19,12 @@ function CompactCard({ name, stage, time, isFav, onToggle }) {
         <span className={styles.stage}>{stage}</span>
         {time && <span className={styles.time}>{time}</span>}
       </div>
-      <span className={styles.star} aria-hidden="true"><IconHeart size={10} filled={isFav} /></span>
+      <span className={styles.heart} aria-hidden="true"><IconHeart size={8} filled={isFav} /></span>
     </div>
   );
 }
 
-export function AlphaGrid({ query, activeStages, favOnly, favorites, onToggle, visibleDays }) {
+export function AlphaGrid({ query, activeStages, favOnly, favorites, onToggle, visibleDays, listLayout }) {
   const seen = new Set();
   const allArtists = [];
 
@@ -68,10 +68,10 @@ export function AlphaGrid({ query, activeStages, favOnly, favorites, onToggle, v
     <div className={styles.wrapper}>
       {letters.map(letter => (
         <section key={letter}>
-          <div className={styles.letterHeader}>
-            <span className={styles.letterName}>{letter}</span>
+          <div className={styles.sectionHeader}>
+            <span className={styles.sectionTitle}>{letter}</span>
           </div>
-          <div className={styles.grid}>
+          <div className={`${styles.grid} ${listLayout === 'list' ? styles.singleCol : ''}`}>
             {groups[letter].map(({ name, stage, time }) => (
               <CompactCard
                 key={name}

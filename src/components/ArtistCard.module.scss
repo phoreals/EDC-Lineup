@@ -33,7 +33,7 @@
     border-color: var(--color-brand);
 
     .name  { font-weight: 600; color: var(--text-accent); }
-    .star  { color: var(--color-star-active); }
+    .heart  { color: var(--color-heart-active); }
   }
 
   @container stage-col (max-width: 260px) {
@@ -65,11 +65,11 @@
   line-height: 1.2;
 }
 
-.star {
+.heart {
   background: none;
   border: none;
   padding: 0;
-  color: var(--color-star-inactive);
+  color: var(--color-heart-inactive);
   flex-shrink: 0;
   pointer-events: none;
   user-select: none;
