@@ -27,3 +27,12 @@ mark {
   color: inherit;
   border-radius: 2px;
 }
+
+// ── Text selection ────────────────────────────────────────────
+::selection {
+  background-color: hsla(271, 91%, 65%, 0.3);
+  color: var(--color-neutral-100);
+}
+
+// ── Focus ring — remove on pointer interaction, keep for keyboard
+:focus:not(:focus-visible) { outline: none; }

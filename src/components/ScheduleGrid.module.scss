@@ -67,6 +67,11 @@ $header-h:       clamp(32px, 5cqi + 16px, 48px);
     color: var(--text-inverse);
   }
 
+  &:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 1px;
+  }
+
   @container schedule (max-width: 600px) {
     font-size: var(--text-sm);
     padding: var(--space-1) var(--space-3);
@@ -272,6 +277,11 @@ $header-h:       clamp(32px, 5cqi + 16px, 48px);
 .body[data-narrow="true"] {
   .timeLabel  { right: var(--space-1); }
   .block      { left: var(--space-0-5); right: var(--space-0-5); border-radius: var(--radius-xs); padding: var(--space-1); }
+}
+
+// ── Small view — reduce name max to match time ───────────────────
+.wrapper[data-col-size="sm"] {
+  .blockName { font-size: clamp(var(--text-2xs), 1cqi + 4px, var(--text-xs)); }
 }
 
 // ── Large view — bump font sizes ────────────────────────────────

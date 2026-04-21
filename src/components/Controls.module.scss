@@ -1,6 +1,13 @@
 @use '../styles/primitives' as p;
 
 // ── Mixins ────────────────────────────────────────────────────
+@mixin focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 1px;
+  }
+}
+
 @mixin scroll-fade {
   position: absolute;
   top: 0;
@@ -114,6 +121,8 @@
   &.active {
     color: var(--text-primary);
   }
+
+  @include focus-ring;
 
   @media (max-width: p.$bp-mobile) {
     font-size: var(--text-base);
@@ -251,6 +260,8 @@
       transform: scale(var(--scale-press));
     }
   }
+
+  @include focus-ring;
 }
 
 // ── Action group (search + filter) ───────────────────────────
@@ -292,6 +303,8 @@
     }
   }
 
+  @include focus-ring;
+
   @media (max-width: p.$bp-mobile) {
     display: inline-flex;
     width: var(--control-height-mobile);
@@ -326,6 +339,8 @@
       transform: scale(var(--scale-press));
     }
   }
+
+  @include focus-ring;
 }
 
 // ── Filter dropdown ──────────────────────────────────────────
@@ -374,6 +389,8 @@
     border-color: var(--color-brand);
     color: var(--color-brand);
   }
+
+  @include focus-ring;
 
   @media (max-width: p.$bp-mobile) {
     width: var(--control-height-mobile);
@@ -625,6 +642,8 @@
       transform: scale(var(--scale-press));
     }
   }
+
+  @include focus-ring;
 }
 
 .clearBtn {
@@ -657,6 +676,8 @@
       transform: scale(var(--scale-press));
     }
   }
+
+  @include focus-ring;
 
   @media (max-width: p.$bp-mobile) {
     width: var(--control-height-mobile);
@@ -705,6 +726,8 @@
     color: var(--text-primary);
     font-weight: var(--font-weight-bold);
   }
+
+  @include focus-ring;
 }
 
 .checkmark {
@@ -791,6 +814,8 @@
     color: var(--text-inverse);
   }
 
+  @include focus-ring;
+
   @media (max-width: p.$bp-mobile) {
     font-size: var(--text-sm);
     height: var(--control-height-mobile);
@@ -837,6 +862,8 @@
     border-color: transparent;
     color: var(--text-inverse);
   }
+
+  @include focus-ring;
 
   @media (max-width: p.$bp-mobile) {
     font-size: var(--text-sm);
@@ -915,6 +942,8 @@
     z-index: 1;
   }
 
+  @include focus-ring;
+
   @media (max-width: p.$bp-mobile) {
     width: var(--control-height-mobile);
     height: var(--control-height-mobile);
@@ -979,6 +1008,8 @@
     z-index: 1;
   }
 
+  @include focus-ring;
+
   @media (max-width: p.$bp-mobile) {
     width: var(--control-height-mobile);
     height: var(--control-height-mobile);
@@ -1021,5 +1052,7 @@
       transform: scale(var(--scale-press));
     }
   }
+
+  @include focus-ring;
 }
 

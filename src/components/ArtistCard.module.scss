@@ -28,8 +28,8 @@
   }
 
   &:focus-visible {
-    outline: var(--space-0-5) solid var(--color-brand);
-    outline-offset: var(--space-0-5);
+    outline: 2px solid var(--color-brand);
+    outline-offset: 1px;
   }
 
   &.favorited {
