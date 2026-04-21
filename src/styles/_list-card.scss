@@ -38,6 +38,8 @@
   @media (hover: hover) {
     &:hover {
       background: var(--bg-hover);
+
+      .heart { visibility: visible; }
     }
   }
 

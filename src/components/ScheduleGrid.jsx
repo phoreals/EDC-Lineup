@@ -75,7 +75,7 @@ function SetBlock({ slot, stage, isFav, onToggle, compact, query }) {
         top:         `${top}px`,
         height:      `${Math.max(height - 2, 18)}px`,
         background:  isFav
-          ? `color-mix(in srgb, ${color.border} 45%, var(--color-neutral-950))`
+          ? `radial-gradient(ellipse at 30% 50%, color-mix(in srgb, ${color.border} 40%, var(--color-neutral-950)), color-mix(in srgb, ${color.border} 18%, var(--color-neutral-950)))`
           : `color-mix(in srgb, ${color.bg} 90%, transparent)`,
         borderColor: isFav
           ? color.border
@@ -188,7 +188,7 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
                 style={{
                   borderBottomColor: color.border,
                   color: color.text,
-                  background: `linear-gradient(to bottom, transparent 0%, color-mix(in srgb, ${color.bg} 50%, transparent) 100%)`,
+                  background: `radial-gradient(ellipse at 50% 100%, color-mix(in srgb, ${color.border} 25%, var(--color-neutral-950)), transparent)`,
                 }}
               >
                 {stage}
