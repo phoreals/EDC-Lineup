@@ -49,7 +49,7 @@ export function ByStageGrid({ query, activeStages, favOnly, favorites, onToggle,
   if (!stages.length) return null;
 
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper} ${listLayout === 'list' ? styles.singleColWrapper : ''}`}>
       {stages.map(({ stage, segments }) => (
         <section key={stage}>
           <div className={styles.stageHeader}>
