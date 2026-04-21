@@ -4,7 +4,7 @@ import { IconHeart } from './Icons';
 import { HighlightMatch } from './Highlight';
 import styles from './CompactGrid.module.scss';
 
-function CompactCard({ name, time, isFav, onToggle, query }) {
+function CompactCard({ name, stage, time, isFav, onToggle, query }) {
   return (
     <div
       className={`${styles.card} ${isFav ? styles.favorited : ''}`}
@@ -38,6 +38,7 @@ function CompactStageColumn({ stage, artists, favorites, onToggle, query }) {
           <CompactCard
             key={name}
             name={name}
+            stage={stage}
             time={time}
             isFav={favorites.has(name)}
             onToggle={onToggle}

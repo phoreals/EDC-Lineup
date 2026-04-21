@@ -27,6 +27,7 @@ $bp-mobile: 768px; // SCSS-only: used in @media queries
 
   // ── Colors — Accent ─────────────────────────────────────────
   --color-orange-400:           hsla(25, 95%, 53%, 1);
+  --color-orange-400-alpha-12:  hsla(25, 95%, 53%, 0.12);
   --color-blue-500:             hsla(217, 91%, 60%, 1);
   --color-amber-400:            hsla(43, 96%, 56%, 1);
   --color-amber-600:            hsla(38, 92%, 43%, 1);

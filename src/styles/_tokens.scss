@@ -13,7 +13,7 @@
   --bg-surface-raised: var(--color-neutral-800);
   --bg-overlay:        var(--color-neutral-950-alpha-95);
   --bg-hover:          var(--color-purple-500-alpha-05);
-  --bg-favorited:      var(--color-purple-500-alpha-05);
+  --bg-favorited:      linear-gradient(135deg, var(--color-purple-500-alpha-12) 0%, var(--color-orange-400-alpha-12) 100%);
 
   // ── Text ────────────────────────────────────────────────────
   --text-primary: var(--color-neutral-100);
