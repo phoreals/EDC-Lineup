@@ -21,6 +21,10 @@
       background: var(--bg-hover);
       border-color: var(--color-brand);
     }
+
+    &:active {
+      transform: scale(var(--scale-press));
+    }
   }
 
   &:focus-visible {

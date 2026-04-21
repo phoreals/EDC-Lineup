@@ -145,6 +145,10 @@ $bp-mobile: 768px; // SCSS-only: used in @media queries
   --duration-slow: 0.3s;
   --ease-default:  ease;
 
+  // ── Active / pressed state ─────────────────────────────────
+  --scale-press:        0.97;
+  --scale-press-subtle: 0.98;
+
   // ── Layout ──────────────────────────────────────────────────
   --page-gutter:                72px;
   --page-gutter-mobile:         16px;

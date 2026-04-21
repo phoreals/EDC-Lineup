@@ -105,6 +105,10 @@
     &:hover {
       color: var(--text-primary);
     }
+
+    &:active {
+      transform: scale(var(--scale-press));
+    }
   }
 
   &.active {
@@ -212,6 +216,10 @@
       color: var(--text-primary);
       background: var(--bg-hover);
     }
+
+    &:active {
+      transform: scale(var(--scale-press));
+    }
   }
 }
 
@@ -248,6 +256,10 @@
       border-color: var(--color-brand);
       color: var(--color-brand);
     }
+
+    &:active {
+      transform: scale(var(--scale-press));
+    }
   }
 
   @media (max-width: p.$bp-mobile) {
@@ -278,6 +290,10 @@
     &:hover {
       border-color: var(--color-brand);
       color: var(--color-brand);
+    }
+
+    &:active {
+      transform: scale(var(--scale-press));
     }
   }
 }
@@ -315,6 +331,10 @@
     &:hover {
       border-color: var(--color-brand);
       color: var(--color-brand);
+    }
+
+    &:active {
+      transform: scale(var(--scale-press));
     }
   }
 
@@ -568,6 +588,10 @@
         }
       }
     }
+
+    &:active {
+      transform: scale(var(--scale-press));
+    }
   }
 }
 
@@ -595,6 +619,10 @@
     &:hover {
       background: var(--color-danger);
       color: var(--text-inverse);
+    }
+
+    &:active {
+      transform: scale(var(--scale-press));
     }
   }
 
@@ -634,6 +662,10 @@
     &:hover {
       background: var(--bg-surface-raised);
       color: var(--text-primary);
+    }
+
+    &:active {
+      transform: scale(var(--scale-press));
     }
   }
 
@@ -715,6 +747,10 @@
       border-color: var(--color-brand);
       color: var(--text-primary);
     }
+
+    &:active {
+      transform: scale(var(--scale-press));
+    }
   }
 
   &.active {
@@ -757,6 +793,10 @@
     &:hover {
       border-color: var(--color-brand);
       color: var(--text-primary);
+    }
+
+    &:active {
+      transform: scale(var(--scale-press));
     }
   }
 
@@ -829,6 +869,10 @@
       color: var(--color-brand);
       z-index: 1;
     }
+
+    &:active {
+      transform: scale(var(--scale-press));
+    }
   }
 
   &.active {
@@ -888,6 +932,10 @@
       color: var(--color-brand);
       z-index: 1;
     }
+
+    &:active {
+      transform: scale(var(--scale-press));
+    }
   }
 
   &.active {
@@ -933,6 +981,10 @@
     &:hover {
       border-color: var(--color-brand);
       color: var(--color-brand);
+    }
+
+    &:active {
+      transform: scale(var(--scale-press));
     }
   }
 }

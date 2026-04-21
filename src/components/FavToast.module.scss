@@ -54,6 +54,10 @@
     &:hover {
       color: var(--text-primary);
     }
+
+    &:active {
+      transform: scale(var(--scale-press));
+    }
   }
 }
 
@@ -76,6 +80,10 @@
   @media (hover: hover) {
     &:hover {
       color: var(--text-primary);
+    }
+
+    &:active {
+      transform: scale(var(--scale-press));
     }
   }
 }
