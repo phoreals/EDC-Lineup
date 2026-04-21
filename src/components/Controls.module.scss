@@ -155,11 +155,41 @@
   border-radius: var(--radius-sm);
   padding: 0 var(--space-3);
   height: var(--search-height);
-  transition: all var(--duration-base) var(--ease-default);
+  transition: border-color var(--duration-base) var(--ease-default);
+  position: relative;
+
+  // Crisp gradient ring
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: calc(var(--radius-sm) + 2px);
+    background: var(--gradient-brand);
+    opacity: 0;
+    transition: opacity var(--duration-base) var(--ease-default);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  // Soft blurred glow behind the ring
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: calc(var(--radius-sm) + 2px);
+    background: var(--gradient-brand);
+    opacity: 0;
+    filter: blur(4px);
+    transition: opacity var(--duration-base) var(--ease-default);
+    z-index: -2;
+    pointer-events: none;
+  }
 
   &:focus-within {
-    border-color: var(--color-brand);
-    box-shadow: 0 0 0 var(--space-0-5) var(--color-brand-glow);
+    border-color: transparent;
+
+    &::before { opacity: 1; }
+    &::after  { opacity: 0.4; }
   }
 
   &.desktop {
@@ -325,7 +355,9 @@
   position: relative;
   cursor: pointer;
   flex-shrink: 0;
-  transition: all var(--duration-base) var(--ease-default);
+  transition: border-color var(--duration-base) var(--ease-default),
+              color        var(--duration-base) var(--ease-default),
+              transform    var(--duration-base) var(--ease-default);
 
   @media (hover: hover) {
     &:hover {
@@ -866,6 +898,7 @@
   @media (hover: hover) {
     &:hover {
       border-color: var(--color-brand);
+      border-left-width: 1px;
       color: var(--color-brand);
       z-index: 1;
     }
@@ -929,6 +962,7 @@
   @media (hover: hover) {
     &:hover {
       border-color: var(--color-brand);
+      border-left-width: 1px;
       color: var(--color-brand);
       z-index: 1;
     }
