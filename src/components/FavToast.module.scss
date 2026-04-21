@@ -11,7 +11,7 @@
   position: fixed;
   top: calc(var(--sticky-top) + var(--space-2));
   right: var(--page-gutter);
-  z-index: 101;
+  z-index: var(--z-toast);
   transform: translateX(calc(100% + var(--page-gutter)));
   opacity: 0;
   transition: transform var(--duration-slow) var(--ease-default),

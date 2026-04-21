@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   border: 1px solid var(--border-default);
-  background-color: var(--bg-surface);
+  background-color: var(--bg-page);
   border-radius: var(--radius-column);
 }
 
@@ -24,7 +24,7 @@
   -webkit-backdrop-filter: blur(8px);
   position: sticky;
   top: calc(var(--sticky-top) - 1px);
-  z-index: 50;
+  z-index: var(--z-sticky-section);
   border-top-left-radius: var(--radius-column);
   border-top-right-radius: var(--radius-column);
 }
