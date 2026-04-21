@@ -18,7 +18,7 @@
 // ── Stage header — bold section title ─────────────────────────────
 .stageHeader {
   font-size: var(--text-xl);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: var(--text-primary);
   padding: var(--space-8) 0 var(--space-3) 0;
   margin: 0;
@@ -78,7 +78,7 @@
   @include lc.card-name;
 
   @container bystage-col (max-width: 150px) {
-    font-size: var(--text-xs-plus);
+    font-size: var(--text-sm);
   }
 }
 .time  { @include lc.card-meta; }

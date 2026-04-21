@@ -4,7 +4,7 @@
 // ── Day section header ────────────────────────────────────────────
 .dayHeader {
   font-size: var(--text-xl);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: var(--text-primary);
   padding: var(--space-8) var(--page-gutter) var(--space-3) var(--page-gutter);
   margin: 0;
@@ -74,7 +74,7 @@
   @include lc.card-name;
 
   @container compact-col (max-width: 150px) {
-    font-size: var(--text-xs-plus);
+    font-size: var(--text-sm);
   }
 }
 .time  { @include lc.card-meta; }

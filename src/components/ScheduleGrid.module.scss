@@ -41,7 +41,7 @@ $header-h:       clamp(32px, 5cqi + 16px, 48px);
 .dayBtn {
   font-family: var(--font-primary);
   font-size: var(--text-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
   padding: var(--space-1) var(--space-4);
   border-radius: var(--radius-column);
   border: 1px solid var(--border-default);
@@ -105,9 +105,9 @@ $header-h:       clamp(32px, 5cqi + 16px, 48px);
   justify-content: center;
   text-align: center;
   font-family: var(--font-primary);
-  font-size: clamp(var(--text-2xs), 1cqi + 4px, var(--text-xs-plus));
-  font-weight: 700;
-  line-height: 1.2;
+  font-size: clamp(var(--text-2xs), 1cqi + 4px, var(--text-sm));
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-tight);
   padding: var(--space-2) var(--space-1);
   border-bottom: 1px solid;
 }
@@ -143,8 +143,8 @@ $header-h:       clamp(32px, 5cqi + 16px, 48px);
   right: var(--space-2);
   transform: translateY(-50%);
   font-family: var(--font-primary);
-  font-size: clamp(var(--text-2xs), 1cqi + 4px, var(--text-xs-plus));
-  font-weight: 600;
+  font-size: clamp(var(--text-2xs), 1cqi + 4px, var(--text-sm));
+  font-weight: var(--font-weight-bold);
   color: var(--text-muted);
   white-space: nowrap;
   pointer-events: none;
@@ -224,9 +224,9 @@ $header-h:       clamp(32px, 5cqi + 16px, 48px);
 
 .blockName {
   font-family: var(--font-primary);
-  font-size: clamp(var(--text-2xs), 1cqi + 4px, var(--text-xs-plus));
-  font-weight: 700;
-  line-height: 1.25;
+  font-size: clamp(var(--text-2xs), 1cqi + 4px, var(--text-sm));
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-snug);
   overflow: hidden;
 
   mark {
@@ -245,7 +245,7 @@ $header-h:       clamp(32px, 5cqi + 16px, 48px);
 .blockTime {
   font-family: var(--font-primary);
   font-size: clamp(var(--text-2xs), 1cqi + 3px, var(--text-xs));
-  font-weight: 500;
+  font-weight: var(--font-weight-normal);
   opacity: 0.7;
   overflow: hidden;
 }

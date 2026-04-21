@@ -15,7 +15,7 @@
 
 .header {
   padding: var(--space-4);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   font-size: var(--text-base);
   color: var(--text-primary);
   border-bottom: 1px solid var(--border-default);

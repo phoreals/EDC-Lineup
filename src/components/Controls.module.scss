@@ -95,7 +95,7 @@
   padding: 0 0 var(--space-1) 0;
   height: var(--control-height);
   font-size: var(--text-lg);
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
   transition: color var(--duration-base) var(--ease-default);
   white-space: nowrap;
@@ -340,12 +340,12 @@
   background: var(--gradient-brand);
   color: var(--text-inverse);
   font-size: var(--text-xs);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 var(--space-1);
-  line-height: 1;
+  line-height: var(--leading-none);
 }
 
 // ── Shared dropdown ──────────────────────────────────────────
@@ -392,7 +392,7 @@
 .activeFiltersLabel {
   font-family: var(--font-primary);
   font-size: var(--text-xs);
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
   color: var(--text-muted);
   white-space: nowrap;
   position: absolute;
@@ -484,8 +484,8 @@
 
 .activeFilterPill {
   font-family: var(--font-primary);
-  font-size: var(--text-xs-plus);
-  font-weight: 700;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-bold);
   height: var(--control-height-mobile);
   padding: 0 var(--space-2) 0 var(--space-3);
   border-radius: var(--radius-column);
@@ -498,7 +498,7 @@
   align-items: center;
   gap: var(--space-1-5);
   white-space: nowrap;
-  line-height: 1;
+  line-height: var(--leading-none);
   flex-shrink: 0;
   position: relative;
 
@@ -573,8 +573,8 @@
 
 .clearBtn {
   font-family: var(--font-primary);
-  font-size: var(--text-xs-plus);
-  font-weight: 700;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-bold);
   height: var(--control-height-mobile);
   padding: 0 var(--space-3);
   border-radius: var(--radius-column);
@@ -587,7 +587,7 @@
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  line-height: 1;
+  line-height: var(--leading-none);
   margin-left: auto;
   flex-shrink: 0;
 
@@ -623,7 +623,7 @@
   padding: var(--space-2) var(--space-3);
   font-family: var(--font-primary);
   font-size: var(--text-sm-plus);
-  font-weight: 500;
+  font-weight: var(--font-weight-normal);
   background: none;
   border: none;
   color: var(--text-muted);
@@ -639,14 +639,14 @@
 
   &.active {
     color: var(--text-primary);
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
   }
 }
 
 .checkmark {
   color: var(--color-brand);
   font-size: var(--text-sm-plus);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   flex-shrink: 0;
   width: 1em;
   text-align: right;
@@ -691,7 +691,7 @@
 .dayPill {
   font-family: var(--font-primary);
   font-size: var(--text-sm-plus);
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
   height: var(--control-height);
   padding: 0 var(--space-2);
   border-radius: var(--radius-md);
@@ -717,7 +717,7 @@
   }
 
   @media (max-width: p.$bp-mobile) {
-    font-size: var(--text-xs-plus);
+    font-size: var(--text-sm);
     height: var(--control-height-mobile);
     border-radius: var(--radius-sm);
   }
@@ -732,7 +732,7 @@
 .modePill {
   font-family: var(--font-primary);
   font-size: var(--text-sm-plus);
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
   height: var(--control-height);
   padding: 0 var(--space-2);
   border-radius: var(--radius-md);
@@ -760,7 +760,7 @@
   }
 
   @media (max-width: p.$bp-mobile) {
-    font-size: var(--text-xs-plus);
+    font-size: var(--text-sm);
     height: var(--control-height-mobile);
     border-radius: var(--radius-sm);
   }
@@ -803,7 +803,7 @@
   flex-shrink: 0;
   font-family: var(--font-primary);
   font-size: var(--text-sm-plus);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   transition: all var(--duration-base) var(--ease-default);
 
   &:first-child {
@@ -918,7 +918,7 @@
   flex-shrink: 0;
   font-family: var(--font-primary);
   font-size: var(--text-sm-plus);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   transition: all var(--duration-base) var(--ease-default);
 
   @media (hover: hover) {

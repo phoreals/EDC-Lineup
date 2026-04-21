@@ -6,7 +6,7 @@
 
   h1 {
     font-size: clamp(var(--text-2xl), 5vw, var(--text-4xl));
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
     margin: 0 0 var(--space-2) 0;
     background: var(--gradient-brand);
     -webkit-background-clip: text;
