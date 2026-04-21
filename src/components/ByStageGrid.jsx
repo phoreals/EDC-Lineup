@@ -4,7 +4,7 @@ import { IconHeart } from './Icons';
 import { HighlightMatch } from './Highlight';
 import styles from './ByStageGrid.module.scss';
 
-function CompactCard({ name, stage, time, isFav, onToggle, query }) {
+function CompactCard({ name, time, isFav, onToggle, query }) {
   return (
     <div
       className={`${styles.card} ${isFav ? styles.favorited : ''}`}
