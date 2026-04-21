@@ -109,7 +109,7 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
     ? [...activeFilterDays][0]
     : 'FRIDAY';
 
-  const dayData = SCHEDULE[scheduleDay] || {};
+  const dayData = useMemo(() => SCHEDULE[scheduleDay] || {}, [scheduleDay]);
 
   // ResizeObserver on wrapper → toggle narrow mode
   useEffect(() => {

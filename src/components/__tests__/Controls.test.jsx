@@ -22,6 +22,10 @@ const defaultProps = {
   onFilterDayToggle: vi.fn(),
   listMode: 'list',
   onListModeChange: vi.fn(),
+  colSize: 'md',
+  onColSizeChange: vi.fn(),
+  listLayout: 'grid',
+  onListLayoutChange: vi.fn(),
 };
 
 beforeEach(() => {
@@ -32,7 +36,7 @@ describe('Controls', () => {
   it('renders all tabs', () => {
     render(<Controls {...defaultProps} />);
     expect(screen.getByText('Schedule')).toBeInTheDocument();
-    expect(screen.getByText('List View')).toBeInTheDocument();
+    expect(screen.getByText('Browse')).toBeInTheDocument();
   });
 
   it('renders day filter pills', () => {
@@ -45,7 +49,7 @@ describe('Controls', () => {
   it('calls onDayChange when a tab is clicked', async () => {
     const user = userEvent.setup();
     render(<Controls {...defaultProps} />);
-    await user.click(screen.getByText('List View'));
+    await user.click(screen.getByText('Browse'));
     expect(defaultProps.onDayChange).toHaveBeenCalledWith('LIST');
   });
 

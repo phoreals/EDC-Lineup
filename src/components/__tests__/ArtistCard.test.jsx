@@ -9,14 +9,18 @@ describe('ArtistCard', () => {
     expect(screen.getByText('Tiësto')).toBeInTheDocument();
   });
 
-  it('shows hollow heart when not favorited', () => {
+  it('renders heart icon when not favorited', () => {
     render(<ArtistCard name="Tiësto" isFav={false} onToggle={() => {}} />);
-    expect(screen.getByText('♡')).toBeInTheDocument();
+    const svg = screen.getByRole('button').querySelector('svg');
+    expect(svg).toBeInTheDocument();
+    expect(svg).toHaveAttribute('fill', 'none');
   });
 
-  it('shows filled heart when favorited', () => {
+  it('renders filled heart icon when favorited', () => {
     render(<ArtistCard name="Tiësto" isFav={true} onToggle={() => {}} />);
-    expect(screen.getByText('♥')).toBeInTheDocument();
+    const svg = screen.getByRole('button').querySelector('svg');
+    expect(svg).toBeInTheDocument();
+    expect(svg).toHaveAttribute('fill', 'currentColor');
   });
 
   it('calls onToggle with artist name on click', async () => {
