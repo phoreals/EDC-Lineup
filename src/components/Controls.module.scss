@@ -183,6 +183,10 @@
   bottom: 0;
   left: 0;
   height: 3px;
+
+  @media (max-width: p.$bp-mobile) {
+    height: var(--space-0-5);
+  }
   background: var(--gradient-brand);
   border-radius: 1px;
   transition: transform var(--duration-slow) var(--ease-default),
