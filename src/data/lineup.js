@@ -16,10 +16,10 @@ export const STAGE_ORDER = [
   'Cosmic Meadow',
   'Basspod',
   'Neon Garden',
-  'Wasteland',
-  'Quantum Valley',
   'Stereobloom',
+  'Wasteland',
   'Bionic Jungle',
+  'Quantum Valley',
 ];
 
 export const DAYS = ['FRIDAY', 'SATURDAY', 'SUNDAY'];

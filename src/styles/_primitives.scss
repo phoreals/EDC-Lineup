@@ -50,48 +50,48 @@ $bp-mobile: 768px; // SCSS-only: used in @media queries
   //  Neon Garden       25°   Orange anchor
   //  Wasteland        355°   Warm red (near orange)
   //  Stereo Bloom      55°   Gold (warm side of orange)
-  //  Kinetic Field    330°   Rose (between orange-red and purple)
-  //  Basspod          271°   Purple anchor
+  //  Kinetic Field    330°   Pink/Rose
+  //  Basspod          110°   Green
   //  Bionic Jungle    240°   Indigo (cool side of purple)
   //  Quantum Valley   200°   Cyan-blue (opposite pole)
-  //  Circuit Grounds  165°   Teal (between cyan and green)
-  //  Cosmic Meadow    110°   Green (furthest from both anchors)
+  //  Circuit Grounds  280°   Purple
+  //  Cosmic Meadow    165°   Teal (between cyan and green)
 
-  --stage-neon-bg:               hsla(25, 35%, 12%, 1);
-  --stage-neon-border:           hsla(25, 96%, 62%, 1);
-  --stage-neon-text:             hsla(25, 98%, 92%, 1);
+  --stage-neon-bg:               hsla(55, 30%, 11%, 1);
+  --stage-neon-border:           hsla(55, 88%, 50%, 1);
+  --stage-neon-text:             hsla(55, 90%, 90%, 1);
 
   --stage-wasteland-bg:          hsla(355, 32%, 13%, 1);
   --stage-wasteland-border:      hsla(355, 92%, 65%, 1);
   --stage-wasteland-text:        hsla(355, 94%, 93%, 1);
 
-  --stage-stereo-bg:             hsla(55, 30%, 11%, 1);
-  --stage-stereo-border:         hsla(55, 88%, 50%, 1);
-  --stage-stereo-text:           hsla(55, 90%, 90%, 1);
+  --stage-stereo-bg:             hsla(25, 35%, 12%, 1);
+  --stage-stereo-border:         hsla(25, 96%, 62%, 1);
+  --stage-stereo-text:           hsla(25, 98%, 92%, 1);
 
-  --stage-kinetic-bg:            hsla(280, 30%, 13%, 1);
-  --stage-kinetic-border:        hsla(280, 90%, 70%, 1);
-  --stage-kinetic-text:          hsla(280, 92%, 94%, 1);
+  --stage-kinetic-bg:            hsla(330, 30%, 13%, 1);
+  --stage-kinetic-border:        hsla(330, 88%, 68%, 1);
+  --stage-kinetic-text:          hsla(330, 90%, 94%, 1);
 
-  --stage-basspod-bg:            hsla(330, 30%, 13%, 1);
-  --stage-basspod-border:        hsla(330, 88%, 68%, 1);
-  --stage-basspod-text:          hsla(330, 90%, 94%, 1);
+  --stage-basspod-bg:            hsla(110, 26%, 12%, 1);
+  --stage-basspod-border:        hsla(110, 72%, 52%, 1);
+  --stage-basspod-text:          hsla(110, 80%, 91%, 1);
 
   --stage-bionic-bg:             hsla(240, 30%, 14%, 1);
   --stage-bionic-border:         hsla(240, 86%, 74%, 1);
   --stage-bionic-text:           hsla(240, 90%, 93%, 1);
 
-  --stage-quantum-bg:            hsla(200, 32%, 13%, 1);
-  --stage-quantum-border:        hsla(200, 92%, 66%, 1);
-  --stage-quantum-text:          hsla(200, 94%, 92%, 1);
+  --stage-quantum-bg:            hsla(165, 30%, 12%, 1);
+  --stage-quantum-border:        hsla(165, 82%, 50%, 1);
+  --stage-quantum-text:          hsla(165, 88%, 91%, 1);
 
-  --stage-circuit-bg:            hsla(165, 30%, 12%, 1);
-  --stage-circuit-border:        hsla(165, 82%, 50%, 1);
-  --stage-circuit-text:          hsla(165, 88%, 91%, 1);
+  --stage-circuit-bg:            hsla(280, 30%, 13%, 1);
+  --stage-circuit-border:        hsla(280, 90%, 70%, 1);
+  --stage-circuit-text:          hsla(280, 92%, 94%, 1);
 
-  --stage-cosmic-bg:             hsla(110, 26%, 12%, 1);
-  --stage-cosmic-border:         hsla(110, 72%, 52%, 1);
-  --stage-cosmic-text:           hsla(110, 80%, 91%, 1);
+  --stage-cosmic-bg:             hsla(200, 32%, 13%, 1);
+  --stage-cosmic-border:         hsla(200, 92%, 66%, 1);
+  --stage-cosmic-text:           hsla(200, 94%, 92%, 1);
 
   // ── Spacing — 8pt grid (with 4pt sub-grid) ─────────────────
   --space-0-5:  2px;
