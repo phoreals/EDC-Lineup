@@ -56,20 +56,58 @@
 
 // ── Top row ───────────────────────────────────────────────────
 .topRow {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: var(--space-4);
   position: relative;
 
   @media (max-width: p.$bp-mobile) {
-    flex-wrap: nowrap;
+    display: flex;
     align-items: center;
-  }
-
-  &.topRowSearch {
     gap: var(--space-2);
+  }
+}
+
+// Normal mode wrapper: tabs + action group
+.topRowNormal {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-4);
+
+  @media (max-width: p.$bp-mobile) {
+    flex: 1;
+    align-items: center;
+    min-width: 0;
+    transition: opacity var(--duration-base) var(--ease-default),
+                transform var(--duration-base) var(--ease-default);
+
+    .topRowSearch & {
+      opacity: 0;
+      transform: translateX(-10px);
+      pointer-events: none;
+    }
+  }
+}
+
+// Search mode wrapper: back button + mobile search — mobile only, overlays topRow
+.topRowSearchGroup {
+  display: none;
+
+  @media (max-width: p.$bp-mobile) {
+    display: flex;
+    position: absolute;
+    inset: 0;
+    align-items: center;
+    gap: var(--space-2);
+    opacity: 0;
+    transform: translateX(10px);
+    pointer-events: none;
+    transition: opacity var(--duration-base) var(--ease-default),
+                transform var(--duration-base) var(--ease-default);
+
+    .topRowSearch & {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
   }
 }
 
@@ -212,9 +250,6 @@
   &.mobile {
     flex: 1;
     min-width: 0;
-    display: none;
-
-    &.open { display: flex; }
   }
 }
 

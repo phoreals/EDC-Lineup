@@ -151,14 +151,13 @@ export function Controls({
 
   useEffect(() => {
     updateIndicator();
-    // Re-measure after tabs remount (e.g. closing mobile search)
     const raf = requestAnimationFrame(updateIndicator);
     window.addEventListener('resize', updateIndicator);
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', updateIndicator);
     };
-  }, [updateIndicator, mobileSearchOpen]);
+  }, [updateIndicator]);
 
   const filterDropdown = useDropdown();
   const sizeDropdown = useDropdown();
@@ -189,13 +188,8 @@ export function Controls({
       {/* ── Top row ── */}
       <div className={`${styles.topRow} ${mobileSearchOpen ? styles.topRowSearch : ''}`}>
 
-        {mobileSearchOpen && (
-          <button className={styles.backBtn} onClick={closeMobileSearch} aria-label="Close search" title="Close search">
-            <IconBack />
-          </button>
-        )}
-
-        {!mobileSearchOpen && (
+        {/* Normal mode: tabs + action group — always in DOM */}
+        <div className={styles.topRowNormal} aria-hidden={mobileSearchOpen || undefined}>
           <div className={styles.tabsWrapper} ref={tabsWrapperRef}>
             <div className={styles.tabs} ref={tabsScrollRef}>
               {TABS.map(({ id, label }) => (
@@ -204,6 +198,7 @@ export function Controls({
                   ref={el => { tabRefs.current[id] = el; }}
                   className={`${styles.tab} ${activeDay === id ? styles.active : ''}`}
                   onClick={() => handleTabClick(id)}
+                  tabIndex={mobileSearchOpen ? -1 : 0}
                   title={label}
                 >
                   {label}
@@ -214,30 +209,7 @@ export function Controls({
             <div className={styles.tabFadeLeft} />
             <div className={styles.tabFadeRight} />
           </div>
-        )}
 
-        {/* Mobile search box — only mounted when open */}
-        {mobileSearchOpen && (
-          <div className={`${styles.searchBox} ${styles.mobile} ${styles.open}`}>
-            <span className={styles.searchIcon}><IconSearch /></span>
-            <input
-              ref={mobileInputRef}
-              className={styles.searchInput}
-              placeholder="Search artists..."
-              value={query}
-              onChange={e => onQueryChange(e.target.value)}
-              onKeyDown={e => { if (e.key === 'Enter' && query.trim()) { setMobileSearchOpen(false); e.target.blur(); } }}
-              aria-label="Search artists"
-            />
-            {query && (
-              <button className={styles.clearInput} onClick={() => onQueryChange('')} aria-label="Clear search" title="Clear search">
-                <IconClose size={16} />
-              </button>
-            )}
-          </div>
-        )}
-
-        {!mobileSearchOpen && (
           <div className={styles.actionGroup}>
             {/* Desktop search — hidden on mobile via CSS */}
             <div className={`${styles.searchBox} ${styles.desktop}`}>
@@ -256,11 +228,36 @@ export function Controls({
                 </button>
               )}
             </div>
-            <button className={styles.searchToggle} onClick={openMobileSearch} aria-label="Open search" title="Open search">
+            <button className={styles.searchToggle} onClick={openMobileSearch} aria-label="Open search" title="Open search" tabIndex={mobileSearchOpen ? -1 : 0}>
               <IconSearch />
             </button>
           </div>
-        )}
+        </div>
+
+        {/* Search mode: back button + search input — always in DOM, mobile only */}
+        <div className={styles.topRowSearchGroup} aria-hidden={!mobileSearchOpen || undefined}>
+          <button className={styles.backBtn} onClick={closeMobileSearch} aria-label="Close search" title="Close search" tabIndex={mobileSearchOpen ? 0 : -1}>
+            <IconBack />
+          </button>
+          <div className={`${styles.searchBox} ${styles.mobile}`}>
+            <span className={styles.searchIcon}><IconSearch /></span>
+            <input
+              ref={mobileInputRef}
+              className={styles.searchInput}
+              placeholder="Search artists..."
+              value={query}
+              onChange={e => onQueryChange(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter' && query.trim()) { setMobileSearchOpen(false); e.target.blur(); } }}
+              aria-label="Search artists"
+              tabIndex={mobileSearchOpen ? 0 : -1}
+            />
+            {query && (
+              <button className={styles.clearInput} onClick={() => onQueryChange('')} aria-label="Clear search" title="Clear search" tabIndex={mobileSearchOpen ? 0 : -1}>
+                <IconClose size={16} />
+              </button>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* ── Sub-nav row ── */}
