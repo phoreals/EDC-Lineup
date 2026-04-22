@@ -146,10 +146,16 @@ $bp-mobile: 768px; // SCSS-only: used in @media queries
   --shadow-dropdown: 0 8px 32px hsla(0, 0%, 0%, 0.4);
 
   // ── Z-index — global layers ──────────────────────────────────
-  --z-sticky-section: 50;
-  --z-nav:            100;
-  --z-toast:          101;
-  --z-dropdown:       110;
+  --z-schedule-lines:      0;
+  --z-schedule-grid:       1;
+  --z-schedule-block:      1;
+  --z-schedule-block-hover: 5;
+  --z-schedule-time-gutter: 15;
+  --z-schedule-header:     20;
+  --z-sticky-section:      50;
+  --z-nav:                 100;
+  --z-toast:               101;
+  --z-dropdown:            110;
 
   // ── Motion ──────────────────────────────────────────────────
   --duration-base: 0.2s;
@@ -167,8 +173,10 @@ $bp-mobile: 768px; // SCSS-only: used in @media queries
   --grid-min-col:               240px;
   --grid-min-col-compact:       148px;
   --grid-min-col-compact-mobile: 105px;
+  --space-dropdown-buffer:        60px;
   --icon-btn:                   36px;
   --search-height:              36px;
   --control-height:             36px;
   --control-height-mobile:      28px;
+  --tap-target-mobile:          36px;
 }

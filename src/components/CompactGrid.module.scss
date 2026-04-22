@@ -60,6 +60,12 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media (max-width: p.$bp-mobile) {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
 }
 
 // ── Artist list ───────────────────────────────────────────────────

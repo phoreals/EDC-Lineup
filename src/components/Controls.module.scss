@@ -19,6 +19,26 @@
   transition: opacity var(--duration-slow) var(--ease-default);
 }
 
+// Expands the tappable area to --tap-target-mobile (36px) tall while
+// keeping the visual button at --control-height-mobile (28px).
+// Width stretches to cover the full element.
+@mixin tap-target {
+  @media (max-width: p.$bp-mobile) {
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: var(--tap-target-mobile);
+      width: 100%;
+      height: var(--tap-target-mobile);
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
 @mixin icon-btn {
   display: flex;
   align-items: center;
@@ -346,6 +366,8 @@
     height: var(--control-height-mobile);
     border-radius: var(--radius-sm);
   }
+
+  @include tap-target;
 }
 
 // ── Back button ───────────────────────────────────────────────
@@ -376,6 +398,7 @@
   }
 
   @include focus-ring;
+  @include tap-target;
 }
 
 // ── Filter dropdown ──────────────────────────────────────────
@@ -432,6 +455,8 @@
     height: var(--control-height-mobile);
     border-radius: var(--radius-sm);
   }
+
+  @include tap-target;
 }
 
 .badge {
@@ -486,7 +511,7 @@
   box-shadow: var(--shadow-dropdown);
   z-index: var(--z-dropdown);
   overflow: hidden;
-  max-height: calc(100vh - var(--sticky-top) - 60px);
+  max-height: calc(100vh - var(--sticky-top) - var(--space-dropdown-buffer));
   overflow-y: auto;
   padding: var(--space-1) 0;
   animation: dropdown-in var(--duration-slow) var(--ease-default) both;
@@ -707,6 +732,7 @@
   }
 
   @include focus-ring;
+  @include tap-target;
 }
 
 .clearBtn {
@@ -746,6 +772,8 @@
     width: var(--control-height-mobile);
     padding: 0;
   }
+
+  @include tap-target;
 }
 
 .clearBtnText {
@@ -899,6 +927,8 @@
     height: var(--control-height-mobile);
     border-radius: var(--radius-sm);
   }
+
+  @include tap-target;
 }
 
 // ── Mode pills (list view) ───────────────────────────────────
@@ -948,6 +978,8 @@
     height: var(--control-height-mobile);
     border-radius: var(--radius-sm);
   }
+
+  @include tap-target;
 }
 
 // ── Column size toggle (schedule view) ───────────────────────
@@ -1100,6 +1132,8 @@
       border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
     }
   }
+
+  @include tap-target;
 }
 
 .colSizeCycle {
@@ -1132,5 +1166,6 @@
   }
 
   @include focus-ring;
+  @include tap-target;
 }
 
