@@ -66,7 +66,7 @@ function SetBlock({ slot, stage, isFav, onToggle, compact, query }) {
         height:      `${Math.max(height - 2, 18)}px`,
         background:  isFav
           ? `radial-gradient(ellipse at 30% 50%, color-mix(in srgb, ${color.border} 40%, var(--color-neutral-950)), color-mix(in srgb, ${color.border} 18%, var(--color-neutral-950)))`
-          : `color-mix(in srgb, ${color.bg} 90%, transparent)`,
+          : `color-mix(in srgb, ${color.bg} 72%, transparent)`,
         borderColor: isFav
           ? color.border
           : `color-mix(in srgb, ${color.border} 53%, transparent)`,
