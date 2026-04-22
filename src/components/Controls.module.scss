@@ -8,17 +8,6 @@
   }
 }
 
-@mixin scroll-fade {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: var(--space-12);
-  pointer-events: none;
-  z-index: 2;
-  opacity: 0;
-  transition: opacity var(--duration-slow) var(--ease-default);
-}
-
 // Expands the tappable area to --tap-target-mobile (36px) tall while
 // keeping the visual button at --control-height-mobile (28px).
 // Width stretches to cover the full element.
@@ -159,7 +148,7 @@
   color: var(--text-muted);
   padding: 0 0 var(--space-1) 0;
   height: var(--control-height);
-  font-size: var(--text-lg);
+  font-size: var(--text-xl);
   font-weight: var(--font-weight-bold);
   cursor: pointer;
   transition: color var(--duration-base) var(--ease-default);
@@ -183,6 +172,7 @@
   @include focus-ring;
 
   @media (max-width: p.$bp-mobile) {
+    height: var(--control-height-mobile);
     font-size: var(--text-base);
     padding-bottom: var(--space-0-5);
   }
@@ -192,7 +182,7 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  height: var(--space-0-5);
+  height: 3px;
   background: var(--gradient-brand);
   border-radius: 1px;
   transition: transform var(--duration-slow) var(--ease-default),
@@ -201,17 +191,6 @@
 }
 
 // ── Scroll fades — tabs ───────────────────────────────────────
-.tabFadeLeft,
-.tabFadeRight {
-  @include scroll-fade;
-}
-
-.tabFadeLeft  { left: 0;  background: var(--gradient-fade-l); }
-.tabFadeRight { right: 0; background: var(--gradient-fade-r); }
-
-:global(.scrolledLeft)  .tabFadeLeft  { opacity: 1; }
-:global(.scrolledRight) .tabFadeRight { opacity: 1; }
-
 // ── Search box ────────────────────────────────────────────────
 .searchBox {
   display: flex;
@@ -270,6 +249,7 @@
   &.mobile {
     flex: 1;
     min-width: 0;
+    height: var(--control-height-mobile);
   }
 }
 
@@ -362,8 +342,8 @@
 
   @media (max-width: p.$bp-mobile) {
     display: inline-flex;
-    width: var(--control-height-mobile);
-    height: var(--control-height-mobile);
+    width: var(--control-height-sm-mobile);
+    height: var(--control-height-sm-mobile);
     border-radius: var(--radius-sm);
   }
 
@@ -375,8 +355,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--control-height-mobile);
-  height: var(--control-height-mobile);
+  width: var(--control-height-sm-mobile);
+  height: var(--control-height-sm-mobile);
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-default);
   background: var(--bg-surface-raised);
@@ -418,8 +398,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--control-height);
-  height: var(--control-height);
+  width: var(--control-height-sm);
+  height: var(--control-height-sm);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-default);
   background: var(--bg-surface-raised);
@@ -451,8 +431,8 @@
   @include focus-ring;
 
   @media (max-width: p.$bp-mobile) {
-    width: var(--control-height-mobile);
-    height: var(--control-height-mobile);
+    width: var(--control-height-sm-mobile);
+    height: var(--control-height-sm-mobile);
     border-radius: var(--radius-sm);
   }
 
@@ -629,7 +609,7 @@
   @media (max-width: p.$bp-mobile) {
     display: block;
     position: absolute;
-    right: calc(var(--space-2) + var(--control-height-mobile)); // clear btn width + gap
+    right: calc(var(--space-1) + var(--control-height-sm-mobile)); // clear btn width + body gap
     top: 0;
     bottom: 0;
     width: var(--space-8);
@@ -643,7 +623,7 @@
   font-family: var(--font-primary);
   font-size: var(--text-sm);
   font-weight: var(--font-weight-bold);
-  height: var(--control-height-mobile);
+  height: var(--control-height-sm);
   padding: 0 var(--space-2) 0 var(--space-3);
   border-radius: var(--radius-column);
   border: none;
@@ -733,13 +713,17 @@
 
   @include focus-ring;
   @include tap-target;
+
+  @media (max-width: p.$bp-mobile) {
+    height: var(--control-height-sm-mobile);
+  }
 }
 
 .clearBtn {
   font-family: var(--font-primary);
   font-size: var(--text-sm);
   font-weight: var(--font-weight-bold);
-  height: var(--control-height-mobile);
+  height: var(--control-height-sm);
   padding: 0 var(--space-3);
   border-radius: var(--radius-sm);
   background: transparent;
@@ -769,7 +753,8 @@
   @include focus-ring;
 
   @media (max-width: p.$bp-mobile) {
-    width: var(--control-height-mobile);
+    height: var(--control-height-sm-mobile);
+    width: var(--control-height-sm-mobile);
     padding: 0;
   }
 
@@ -892,7 +877,7 @@
   font-family: var(--font-primary);
   font-size: var(--text-sm-plus);
   font-weight: var(--font-weight-bold);
-  height: var(--control-height);
+  height: var(--control-height-sm);
   padding: 0 var(--space-2);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-default);
@@ -924,7 +909,7 @@
 
   @media (max-width: p.$bp-mobile) {
     font-size: var(--text-sm);
-    height: var(--control-height-mobile);
+    height: var(--control-height-sm-mobile);
     border-radius: var(--radius-sm);
   }
 
@@ -941,7 +926,7 @@
   font-family: var(--font-primary);
   font-size: var(--text-sm-plus);
   font-weight: var(--font-weight-bold);
-  height: var(--control-height);
+  height: var(--control-height-sm);
   padding: 0 var(--space-2);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-default);
@@ -975,7 +960,7 @@
 
   @media (max-width: p.$bp-mobile) {
     font-size: var(--text-sm);
-    height: var(--control-height-mobile);
+    height: var(--control-height-sm-mobile);
     border-radius: var(--radius-sm);
   }
 
@@ -1008,8 +993,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--control-height);
-  height: var(--control-height);
+  width: var(--control-height-sm);
+  height: var(--control-height-sm);
   border-radius: 0;
   border: 1px solid var(--border-default);
   border-left-width: 0;
@@ -1055,8 +1040,8 @@
   @include focus-ring;
 
   @media (max-width: p.$bp-mobile) {
-    width: var(--control-height-mobile);
-    height: var(--control-height-mobile);
+    width: var(--control-height-sm-mobile);
+    height: var(--control-height-sm-mobile);
 
     &:first-child {
       border-radius: var(--radius-sm) 0 0 var(--radius-sm);
@@ -1077,8 +1062,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--control-height);
-  height: var(--control-height);
+  width: var(--control-height-sm);
+  height: var(--control-height-sm);
   border-radius: 0;
   border: 1px solid var(--border-default);
   border-left-width: 0;
@@ -1121,8 +1106,8 @@
   @include focus-ring;
 
   @media (max-width: p.$bp-mobile) {
-    width: var(--control-height-mobile);
-    height: var(--control-height-mobile);
+    width: var(--control-height-sm-mobile);
+    height: var(--control-height-sm-mobile);
 
     &:first-child {
       border-radius: var(--radius-sm) 0 0 var(--radius-sm);
@@ -1140,8 +1125,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--control-height-mobile);
-  height: var(--control-height-mobile);
+  width: var(--control-height-sm-mobile);
+  height: var(--control-height-sm-mobile);
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-default);
   background: var(--bg-surface-raised);
@@ -1163,6 +1148,11 @@
     &:active {
       transform: scale(var(--scale-press));
     }
+  }
+
+  &.active {
+    border-color: var(--color-brand);
+    color: var(--color-brand);
   }
 
   @include focus-ring;

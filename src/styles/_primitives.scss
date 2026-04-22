@@ -176,7 +176,9 @@ $bp-mobile: 768px; // SCSS-only: used in @media queries
   --space-dropdown-buffer:        60px;
   --icon-btn:                   36px;
   --search-height:              36px;
-  --control-height:             36px;
-  --control-height-mobile:      28px;
+  --control-height:             48px;
+  --control-height-mobile:      36px;
+  --control-height-sm:          36px;
+  --control-height-sm-mobile:   28px;
   --tap-target-mobile:          36px;
 }

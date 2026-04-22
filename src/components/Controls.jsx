@@ -75,37 +75,6 @@ function useDropdown() {
   return { open, closing, toggle, ref };
 }
 
-// Attaches a scroll listener to a ref'd element and toggles
-// scrolledLeft / scrolledRight classes on a target element.
-function useScrollFades(scrollRef, targetRef) {
-  const update = useCallback(() => {
-    const el = scrollRef.current;
-    const target = targetRef.current;
-    if (!el || !target) return;
-
-    const scrollable = el.scrollWidth > el.clientWidth;
-    const atStart    = el.scrollLeft <= 2;
-    const atEnd      = Math.ceil(el.scrollLeft + el.clientWidth) >= el.scrollWidth - 2;
-
-    target.classList.toggle('scrolledLeft',  scrollable && !atStart);
-    target.classList.toggle('scrolledRight', scrollable && !atEnd);
-  }, [scrollRef, targetRef]);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    update();
-    el.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    return () => {
-      el.removeEventListener('scroll', update);
-      window.removeEventListener('resize', update);
-    };
-  }, [scrollRef, update]);
-
-  return update;
-}
 
 export function Controls({
   activeDay,
@@ -131,10 +100,8 @@ export function Controls({
   const mobileInputRef = useRef(null);
 
   const tabsScrollRef  = useRef(null);
-  const tabsWrapperRef = useRef(null);
   const tabIndicatorRef = useRef(null);
   const tabRefs = useRef({});
-  useScrollFades(tabsScrollRef, tabsWrapperRef);
 
   // Slide the indicator to the active tab
   const updateIndicator = useCallback(() => {
@@ -190,7 +157,7 @@ export function Controls({
 
         {/* Normal mode: tabs + action group — always in DOM */}
         <div className={styles.topRowNormal} aria-hidden={mobileSearchOpen || undefined}>
-          <div className={styles.tabsWrapper} ref={tabsWrapperRef}>
+          <div className={styles.tabsWrapper}>
             <div className={styles.tabs} ref={tabsScrollRef}>
               {TABS.map(({ id, label }) => (
                 <button
@@ -206,8 +173,6 @@ export function Controls({
               ))}
               <div className={styles.tabIndicator} ref={tabIndicatorRef} />
             </div>
-            <div className={styles.tabFadeLeft} />
-            <div className={styles.tabFadeRight} />
           </div>
 
           <div className={styles.actionGroup}>
@@ -331,7 +296,7 @@ export function Controls({
               ))}
               <div className={styles.colSizeDropWrap} ref={sizeDropdown.ref}>
                 <button
-                  className={styles.colSizeCycle}
+                  className={`${styles.colSizeCycle} ${sizeDropdown.open ? styles.active : ''}`}
                   onClick={() => sizeDropdown.toggle()}
                   aria-label="Column size"
                   aria-expanded={sizeDropdown.open}
