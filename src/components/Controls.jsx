@@ -28,17 +28,39 @@ const DAY_FILTERS = [
 ];
 
 // Close dropdown on click outside or Escape
+const DROPDOWN_CLOSE_MS = 300; // must match --duration-slow
+
 function useDropdown() {
   const [open, setOpen] = useState(false);
+  const [closing, setClosing] = useState(false);
+  const closeTimer = useRef(null);
   const ref = useRef(null);
+
+  const close = useCallback(() => {
+    setClosing(true);
+    closeTimer.current = setTimeout(() => {
+      setOpen(false);
+      setClosing(false);
+    }, DROPDOWN_CLOSE_MS);
+  }, []);
+
+  const toggle = useCallback(v => {
+    if (typeof v === 'boolean' ? !v : open) {
+      close();
+    } else {
+      clearTimeout(closeTimer.current);
+      setClosing(false);
+      setOpen(true);
+    }
+  }, [open, close]);
 
   useEffect(() => {
     if (!open) return;
     const onDown = e => {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+      if (ref.current && !ref.current.contains(e.target)) close();
     };
     const onKey = e => {
-      if (e.key === 'Escape') setOpen(false);
+      if (e.key === 'Escape') close();
     };
     document.addEventListener('mousedown', onDown);
     document.addEventListener('keydown', onKey);
@@ -46,9 +68,11 @@ function useDropdown() {
       document.removeEventListener('mousedown', onDown);
       document.removeEventListener('keydown', onKey);
     };
-  }, [open]);
+  }, [open, close]);
 
-  return { open, setOpen, ref };
+  useEffect(() => () => clearTimeout(closeTimer.current), []);
+
+  return { open, closing, toggle, ref };
 }
 
 // Attaches a scroll listener to a ref'd element and toggles
@@ -311,20 +335,20 @@ export function Controls({
               <div className={styles.colSizeDropWrap} ref={sizeDropdown.ref}>
                 <button
                   className={styles.colSizeCycle}
-                  onClick={() => sizeDropdown.setOpen(v => !v)}
+                  onClick={() => sizeDropdown.toggle()}
                   aria-label="Column size"
                   aria-expanded={sizeDropdown.open}
                   title="Column size"
                 >
                   {COL_SIZES.find(s => s.id === colSize)?.text}
                 </button>
-                {sizeDropdown.open && (
-                  <div className={styles.dropdown}>
+                {(sizeDropdown.open || sizeDropdown.closing) && (
+                  <div className={`${styles.dropdown} ${sizeDropdown.closing ? styles.dropdownClosing : ''}`}>
                     {COL_SIZES.map(({ id, text, label }) => (
                       <button
                         key={id}
                         className={`${styles.dropdownItem} ${colSize === id ? styles.active : ''}`}
-                        onClick={() => { onColSizeChange(id); sizeDropdown.setOpen(false); }}
+                        onClick={() => { onColSizeChange(id); sizeDropdown.toggle(false); }}
                         title={label}
                       >
                         <span className={styles.sizeLabel}><strong>{text}</strong>{label}</span>
@@ -340,7 +364,7 @@ export function Controls({
           <div className={styles.filterDropdownWrap} ref={filterDropdown.ref}>
           <button
             className={`${styles.filterBtn} ${filterDropdown.open ? styles.active : ''}`}
-            onClick={() => filterDropdown.setOpen(v => !v)}
+            onClick={() => filterDropdown.toggle()}
             aria-label="Filters"
             aria-expanded={filterDropdown.open}
             title="Filters"
@@ -351,8 +375,8 @@ export function Controls({
             )}
           </button>
 
-          {filterDropdown.open && (
-            <div className={styles.dropdown}>
+          {(filterDropdown.open || filterDropdown.closing) && (
+            <div className={`${styles.dropdown} ${filterDropdown.closing ? styles.dropdownClosing : ''}`}>
               <button
                 className={`${styles.dropdownItem} ${favOnly ? styles.active : ''}`}
                 onClick={onFavToggle}
