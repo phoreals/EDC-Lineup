@@ -410,6 +410,15 @@ export function Controls({
         </div>
       </div>
 
+      <svg width="0" height="0" aria-hidden="true" style={{ position: 'absolute' }}>
+        <defs>
+          <linearGradient id="pill-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="var(--color-purple-500)" />
+            <stop offset="100%" stopColor="var(--color-orange-400)" />
+          </linearGradient>
+        </defs>
+      </svg>
+
       {/* ── Active filters summary ── */}
       {hasFilters && (() => {
         const activeDaysList = activeDay === 'LIST'
@@ -418,14 +427,6 @@ export function Controls({
         const activeStagesList = STAGE_ORDER.filter(s => activeStages.has(s));
         return (
           <div className={styles.activeFilters}>
-            <svg width="0" height="0" aria-hidden="true" style={{ position: 'absolute' }}>
-              <defs>
-                <linearGradient id="pill-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="var(--color-purple-500)" />
-                  <stop offset="100%" stopColor="var(--color-orange-400)" />
-                </linearGradient>
-              </defs>
-            </svg>
             <span className={styles.activeFiltersLabel}>Filtering by</span>
             <svg className={styles.activeFiltersBorder} aria-hidden="true">
               <rect x="0.5" y="0.5" width="calc(100% - 1px)" height="calc(100% - 1px)" rx="8" ry="8"

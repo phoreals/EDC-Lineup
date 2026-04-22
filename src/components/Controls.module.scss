@@ -722,8 +722,19 @@
   }
 
   &.active {
-    color: var(--text-primary);
+    background: var(--bg-surface-raised);
     font-weight: var(--font-weight-bold);
+
+    > span:not(.checkmark) {
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .checkmark svg {
+      stroke: url(#pill-grad);
+    }
   }
 
   @include focus-ring;
