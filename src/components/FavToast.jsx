@@ -64,11 +64,11 @@ export function FavToast({ visible, favorites, activeFilterDays, onDismiss }) {
 
   return (
     <div className={`${styles.toast} ${visible ? styles.visible : ''}`}>
-      <button className={styles.copyBtn} onClick={handleCopy}>
+      <button className={styles.copyBtn} onClick={handleCopy} title="Copy to Clipboard" aria-label="Copy to Clipboard">
         <IconCopy size={14} />
         {copied ? 'Copied!' : 'Copy to Clipboard'}
       </button>
-      <button className={styles.dismissBtn} onClick={onDismiss} aria-label="Dismiss">
+      <button className={styles.dismissBtn} onClick={onDismiss} aria-label="Dismiss" title="Dismiss">
         <IconClose size={14} />
       </button>
     </div>

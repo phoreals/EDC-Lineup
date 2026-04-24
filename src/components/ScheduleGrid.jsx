@@ -60,7 +60,7 @@ function SetBlock({ slot, stage, isFav, onToggle, compact, query }) {
   return (
     <div
       className={`${styles.block} ${isFav ? styles.blockFav : ''}`}
-      title={slot.artist}
+      title={`${slot.artist} — ${fmtLabel(startAbsMin)} to ${fmtLabel(endAbsMin)}`}
       style={{
         top:         `${top}px`,
         height:      `${Math.max(height - 2, 18)}px`,
@@ -162,6 +162,11 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
     return result;
   }, [dayData, visibleStages, favOnly, favorites, query]);
 
+  // When filtering, hide stages with no matching slots
+  const displayStages = (favOnly || query)
+    ? visibleStages.filter(s => (filteredSlots[s] || []).length > 0)
+    : visibleStages;
+
   return (
     <div className={styles.wrapper} ref={wrapperRef} data-col-size={colSize}>
 
@@ -169,7 +174,7 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
       <div className={styles.headerOuter} ref={headerRef}>
         <div className={styles.headerGutter} />
         <div className={styles.headerScroll} ref={headerScrollRef}>
-          {visibleStages.map(stage => {
+          {displayStages.map(stage => {
             const color = STAGE_COLORS[stage];
             return (
               <div
@@ -222,7 +227,7 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
               style={{ top: `${t.offsetMin * PX_PER_MIN}px` }}
             />
           ))}
-          {visibleStages.map(stage => (
+          {displayStages.map(stage => (
             <div key={stage} className={styles.stageCol}>
               {filteredSlots[stage]?.map(slot => (
                 <SetBlock

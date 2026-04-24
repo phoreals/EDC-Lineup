@@ -123,7 +123,6 @@
 // ── Tabs ──────────────────────────────────────────────────────
 .tabsWrapper {
   position: relative;
-  overflow: hidden;
 }
 
 .tabs {
@@ -169,7 +168,11 @@
     color: var(--text-primary);
   }
 
-  @include focus-ring;
+  &:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: -2px;
+    border-radius: var(--radius-sm);
+  }
 
   @media (max-width: p.$bp-mobile) {
     height: var(--control-height-mobile);

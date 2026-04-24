@@ -9,7 +9,7 @@ function CompactCard({ name, time, isFav, onToggle, query }) {
     <div
       className={`${styles.card} ${isFav ? styles.favorited : ''}`}
       onClick={() => onToggle(name)}
-      title={name}
+      title={time ? `${name} — ${time}` : name}
       role="button"
       tabIndex={0}
       onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onToggle(name)}

@@ -24,6 +24,12 @@ export const STAGE_ORDER = [
 
 export const DAYS = ['FRIDAY', 'SATURDAY', 'SUNDAY'];
 
+export const DAY_DATES = {
+  FRIDAY:   '5/15',
+  SATURDAY: '5/16',
+  SUNDAY:   '5/17',
+};
+
 export const LINEUP = {
   FRIDAY: [
     'Argy', '1991', 'Jackie Hollander', 'Adriatique',

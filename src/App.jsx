@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
-import { DAYS } from './data/lineup';
+import { useState, useCallback, useMemo } from 'react';
+import { DAYS, DAY_DATES } from './data/lineup';
 import { useFavorites } from './hooks/useFavorites';
 import { Header } from './components/Header';
 import { Controls } from './components/Controls';
@@ -78,9 +78,25 @@ export default function App() {
   // const showFavToast = favOnly && !toastDismissed &&
   //   (isScheduleView || (activeDay === 'LIST' && listMode === 'compact'));
 
+  const tagline = useMemo(() => {
+    if (activeDay === 'SCHEDULE') {
+      const scheduleDay = activeFilterDays.size === 1
+        ? [...activeFilterDays][0]
+        : 'FRIDAY';
+      const verbose = {
+        FRIDAY:   'Friday, May 15, 2026',
+        SATURDAY: 'Saturday, May 16, 2026',
+        SUNDAY:   'Sunday, May 17, 2026',
+      };
+      return `Schedule for ${verbose[scheduleDay]}`;
+    }
+    const browseMode = { list: 'alphabetically', compact: 'by day', byStage: 'by stage' };
+    return `Browse the lineup ${browseMode[listMode]}`;
+  }, [activeDay, activeFilterDays, listMode]);
+
   return (
     <>
-      <Header />
+      <Header tagline={tagline} />
 
       <Controls
         activeDay={activeDay}

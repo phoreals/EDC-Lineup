@@ -166,7 +166,6 @@ export function Controls({
                   className={`${styles.tab} ${activeDay === id ? styles.active : ''}`}
                   onClick={() => handleTabClick(id)}
                   tabIndex={mobileSearchOpen ? -1 : 0}
-                  title={label}
                 >
                   {label}
                 </button>
@@ -186,9 +185,10 @@ export function Controls({
                 onChange={e => onQueryChange(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter') e.target.blur(); }}
                 aria-label="Search artists"
+                title="Search artists"
               />
               {query && (
-                <button className={styles.clearInput} onClick={() => onQueryChange('')} aria-label="Clear search">
+                <button className={styles.clearInput} onClick={() => onQueryChange('')} aria-label="Clear search" title="Clear search">
                   <IconClose size={16} />
                 </button>
               )}
@@ -214,6 +214,7 @@ export function Controls({
               onChange={e => onQueryChange(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter' && query.trim()) { setMobileSearchOpen(false); e.target.blur(); } }}
               aria-label="Search artists"
+              title="Search artists"
               tabIndex={mobileSearchOpen ? 0 : -1}
             />
             {query && (
@@ -236,7 +237,6 @@ export function Controls({
                   key={id}
                   className={`${styles.dayPill} ${isActive ? styles.active : ''}`}
                   onClick={() => onFilterDayToggle(id, true)}
-                  title={label}
                 >
                   {label}
                 </button>
@@ -252,7 +252,6 @@ export function Controls({
                 className={`${styles.modePill} ${listMode === id ? styles.active : ''}`}
                 onClick={() => onListModeChange(id)}
                 aria-label={label}
-                title={label}
               >
                 <span>{label}</span>
               </button>
@@ -311,7 +310,6 @@ export function Controls({
                         key={id}
                         className={`${styles.dropdownItem} ${colSize === id ? styles.active : ''}`}
                         onClick={() => { onColSizeChange(id); sizeDropdown.toggle(false); }}
-                        title={label}
                       >
                         <span className={styles.sizeLabel}><strong>{text}</strong>{label}</span>
                         <span className={styles.checkmark}>{colSize === id && <IconCheck size={12} />}</span>
@@ -342,7 +340,6 @@ export function Controls({
               <button
                 className={`${styles.dropdownItem} ${favOnly ? styles.active : ''}`}
                 onClick={onFavToggle}
-                title="Favorited"
               >
                 <span className={styles.iconLabel}><IconHeart size={11} filled />Favorited</span>
                 <span className={styles.checkmark}>{favOnly && <IconCheck size={12} />}</span>
@@ -358,7 +355,6 @@ export function Controls({
                         key={id}
                         className={`${styles.dropdownItem} ${isActive ? styles.active : ''}`}
                         onClick={() => onFilterDayToggle(id, false)}
-                        title={label}
                       >
                         <span>{label}</span>
                         <span className={styles.checkmark}>{isActive && <IconCheck size={12} />}</span>
@@ -375,7 +371,6 @@ export function Controls({
                   key={stage}
                   className={`${styles.dropdownItem} ${activeStages.has(stage) ? styles.active : ''}`}
                   onClick={() => onStageToggle(stage)}
-                  title={stage}
                 >
                   <span>{stage}</span>
                   <span className={styles.checkmark}>{activeStages.has(stage) && <IconCheck size={12} />}</span>
@@ -426,7 +421,7 @@ export function Controls({
                   </button>
                 )}
                 {favOnly && (
-                  <button className={styles.activeFilterPill} onClick={onFavToggle} title="Remove Favorited filter">
+                  <button className={styles.activeFilterPill} onClick={onFavToggle} title="Remove Favorited">
                     <span className={styles.pillIcon}><IconHeart size={10} filled /></span><span>Favorited</span><span className={styles.pillIcon}><IconClose size={12} /></span>
                   </button>
                 )}
