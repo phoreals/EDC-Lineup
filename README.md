@@ -4,7 +4,7 @@ React + Vite app for browsing the EDC 2026 festival lineup. Filter by day or sta
 
 ## Features
 
-- **Schedule View** — timeline grid showing all stages with set times, fluid sizing via `clamp()` and container queries; empty stages auto-hide when filtering by favorites or search
+- **Schedule View** — timeline grid showing all stages with set times, fluid sizing via `clamp()` and container queries; empty stages auto-hide when filtering by favorites or search; long artist names use soft hyphens for clean word breaks in narrow columns
 - **List View** — artists displayed in 3 sub-modes:
   - **A to Z** — all artists sorted alphabetically with letter headers, showing stage and set time
   - **By Day** — artists grouped by stage under each day
@@ -60,6 +60,7 @@ src/
 │   ├── Controls.jsx / .module.scss      # Nav tabs, day filters, dropdowns
 │   ├── DayGrid.jsx / .module.scss       # Day grid (legacy)
 │   ├── Header.jsx / .module.scss        # Page header
+│   ├── Highlight.jsx                    # Search highlighting + word break hints (soft hyphens)
 │   ├── Icons.jsx                        # SVG icon components
 │   ├── ScheduleGrid.jsx / .module.scss  # Timeline schedule view
 │   ├── StageColumn.jsx / .module.scss   # Stage column in list view

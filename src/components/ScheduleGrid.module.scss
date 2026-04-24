@@ -281,7 +281,11 @@ $header-h:       clamp(32px, 5cqi + 16px, 48px);
 
 // ── Small view — reduce name max to match time ───────────────────
 .wrapper[data-col-size="sm"] {
-  .blockName { font-size: clamp(var(--text-2xs), 1cqi + 4px, var(--text-xs)); }
+  .blockName {
+    font-size: clamp(var(--text-2xs), 1cqi + 4px, var(--text-xs));
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
 }
 
 // ── Large view — bump font sizes ────────────────────────────────

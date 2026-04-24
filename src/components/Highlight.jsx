@@ -1,19 +1,45 @@
-// Insert <wbr> at preferred break points: after "b2b" and before "("
+// Manual break points for long words that overflow narrow schedule columns
+const WORD_BREAKS = {
+  'Interplanetary': ['Inter', 'planetary'],
+  'Klangkuenstler': ['Klang', 'kuenstler'],
+  'Chainsmokers':   ['Chain', 'smokers'],
+  'Massimiliano':   ['Massi', 'miliano'],
+  'Toneshifterz':   ['Tone', 'shifterz'],
+  'Superstrings':   ['Super', 'strings'],
+  'Nightstalker':   ['Night', 'stalker'],
+  'Viperactive':    ['Viper', 'active'],
+  'Baugruppe90':    ['Bau', 'gruppe90'],
+  'Subtronics':     ['Sub', 'tronics'],
+};
+
+// Insert <wbr> at preferred break points: after "b2b", before "(", and within long words
 function addBreakHints(text) {
+  // Split on b2b/b3b patterns and opening parens
   const parts = text.split(/(b[23]b\s+|(?<=\s)\()/i);
-  if (parts.length === 1) return text;
-  return parts.map((part, i) => {
-    if (i === 0) return part;
-    // Insert wbr before segments that start with "("
-    if (part.startsWith('(')) {
-      return <span key={i}><wbr />{part}</span>;
+  const result = [];
+
+  parts.forEach((part, i) => {
+    if (i > 0 && part.startsWith('(')) {
+      result.push(<wbr key={`wbr-${i}`} />);
     }
-    // Insert wbr after segments that end with "b2b" (+ optional space)
-    if (/b[23]b\s+$/i.test(part)) {
-      return <span key={i}>{part}<wbr /></span>;
+
+    // Split this segment's words to check for long-word breaks
+    const words = part.split(/(\s+)/);
+    words.forEach((word, j) => {
+      if (WORD_BREAKS[word]) {
+        const segs = WORD_BREAKS[word];
+        result.push(segs.join('\u00AD'));
+      } else {
+        result.push(word);
+      }
+    });
+
+    if (i > 0 && /b[23]b\s+$/i.test(part)) {
+      result.push(<wbr key={`wbr2-${i}`} />);
     }
-    return part;
   });
+
+  return result.length === 1 && typeof result[0] === 'string' ? result[0] : result;
 }
 
 export function HighlightMatch({ text, query }) {
