@@ -4,7 +4,7 @@ import { IconHeart } from './Icons';
 import { HighlightMatch } from './Highlight';
 import styles from './ByStageGrid.module.scss';
 
-function CompactCard({ name, time, isFav, onToggle, query }) {
+function CompactCard({ name, stage, time, isFav, onToggle, query }) {
   return (
     <div
       className={`${styles.card} ${isFav ? styles.favorited : ''}`}
@@ -14,7 +14,7 @@ function CompactCard({ name, time, isFav, onToggle, query }) {
       tabIndex={0}
       onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onToggle(name)}
       aria-pressed={isFav}
-      aria-label={`${name}${time ? ` ${time}` : ''}${isFav ? ' — favorited' : ''}`}
+      aria-label={[name, stage, time, isFav ? 'favorited' : ''].filter(Boolean).join(' — ')}
     >
       <div className={styles.info}>
         <span className={styles.name}><HighlightMatch text={name} query={query} /></span>

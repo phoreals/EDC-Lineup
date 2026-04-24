@@ -89,7 +89,15 @@ describe('ArtistCard', () => {
     render(<ArtistCard name="Argy" time="5:30pm–6:30pm" isFav={false} onToggle={() => {}} />);
     expect(screen.getByRole('button')).toHaveAttribute(
       'aria-label',
-      'Argy 5:30pm–6:30pm',
+      'Argy — 5:30pm–6:30pm',
+    );
+  });
+
+  it('includes stage in aria-label when provided', () => {
+    render(<ArtistCard name="Argy" stage="Kinetic Field" time="5:30pm–6:30pm" isFav={false} onToggle={() => {}} />);
+    expect(screen.getByRole('button')).toHaveAttribute(
+      'aria-label',
+      'Argy — Kinetic Field — 5:30pm–6:30pm',
     );
   });
 });

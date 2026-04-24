@@ -9,7 +9,7 @@ export function StageColumn({ stage, artists, favorites, onToggle }) {
       <div className={styles.header}>{stage}</div>
       <div className={styles.list}>
         {artists.map(({ name, time }) => (
-          <ArtistCard key={name} name={name} time={time} isFav={favorites.has(name)} onToggle={onToggle} />
+          <ArtistCard key={name} name={name} stage={stage} time={time} isFav={favorites.has(name)} onToggle={onToggle} />
         ))}
       </div>
     </div>

@@ -14,7 +14,7 @@ function CompactCard({ name, stage, time, isFav, onToggle, query }) {
       tabIndex={0}
       onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onToggle(name)}
       aria-pressed={isFav}
-      aria-label={`${name}${time ? ` ${time}` : ''}${isFav ? ' — favorited' : ''}`}
+      aria-label={[name, stage, time, isFav ? 'favorited' : ''].filter(Boolean).join(' — ')}
     >
       <div className={styles.info}>
         <span className={styles.name}><HighlightMatch text={name} query={query} /></span>

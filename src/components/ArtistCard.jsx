@@ -1,7 +1,7 @@
 import { IconHeart } from './Icons';
 import styles from './ArtistCard.module.scss';
 
-export function ArtistCard({ name, time, isFav, onToggle }) {
+export function ArtistCard({ name, stage, time, isFav, onToggle }) {
   return (
     <div
       className={`${styles.card} ${isFav ? styles.favorited : ''}`}
@@ -11,7 +11,7 @@ export function ArtistCard({ name, time, isFav, onToggle }) {
       tabIndex={0}
       onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onToggle(name)}
       aria-pressed={isFav}
-      aria-label={`${name}${time ? ` ${time}` : ''}${isFav ? ' — favorited' : ''}`}
+      aria-label={[name, stage, time, isFav ? 'favorited' : ''].filter(Boolean).join(' — ')}
     >
       <div className={styles.info}>
         <span className={styles.name}>{name}</span>

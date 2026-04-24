@@ -76,7 +76,7 @@ function SetBlock({ slot, stage, isFav, onToggle, compact, query }) {
       role="button"
       tabIndex={0}
       onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onToggle(slot.artist)}
-      aria-label={`${slot.artist} — ${fmtLabel(startAbsMin)} to ${fmtLabel(endAbsMin)}`}
+      aria-label={`${slot.artist} — ${stage} — ${fmtLabel(startAbsMin)} to ${fmtLabel(endAbsMin)}`}
     >
       <span className={styles.blockName}><HighlightMatch text={slot.artist} query={query} /></span>
       <span className={styles.blockTime}><span className={styles.noWrap}>{fmtLabel(startAbsMin, omitStart)}&thinsp;–</span>&thinsp;{fmtLabel(endAbsMin)}</span>
