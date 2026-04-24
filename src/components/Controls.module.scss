@@ -405,16 +405,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--control-height-sm);
+  gap: var(--space-1-5);
   height: var(--control-height-sm);
+  padding: 0 var(--space-3);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-default);
   background: var(--bg-surface-raised);
   color: var(--text-muted);
-  padding: 0;
   position: relative;
   cursor: pointer;
   flex-shrink: 0;
+  font-family: var(--font-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-bold);
   transition: border-color var(--duration-base) var(--ease-default),
               color        var(--duration-base) var(--ease-default),
               transform    var(--duration-base) var(--ease-default);
@@ -440,7 +443,9 @@
   @media (max-width: p.$bp-mobile) {
     width: var(--control-height-sm-mobile);
     height: var(--control-height-sm-mobile);
+    padding: 0;
     border-radius: var(--radius-sm);
+    gap: 0;
   }
 
   @include tap-target;
@@ -462,6 +467,12 @@
   justify-content: center;
   padding: 0 var(--space-1);
   line-height: var(--leading-none);
+}
+
+.btnLabel {
+  @media (max-width: p.$bp-mobile) {
+    display: none;
+  }
 }
 
 // ── Shared dropdown ──────────────────────────────────────────
@@ -839,12 +850,11 @@
 
 .sizeLabel {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: var(--space-2);
   text-align: left;
 
-  strong {
-    width: 1em;
+  svg {
     flex-shrink: 0;
   }
 }
@@ -1000,18 +1010,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--control-height-sm);
+  gap: var(--space-1-5);
   height: var(--control-height-sm);
+  padding: 0 var(--space-3);
   border-radius: 0;
   border: 1px solid var(--border-default);
   border-left-width: 0;
   background: var(--bg-surface-raised);
   color: var(--text-muted);
-  padding: 0;
   cursor: pointer;
   flex-shrink: 0;
   font-family: var(--font-primary);
-  font-size: var(--text-sm-plus);
+  font-size: var(--text-sm);
   font-weight: var(--font-weight-bold);
   transition: all var(--duration-base) var(--ease-default);
 
@@ -1049,6 +1059,8 @@
   @media (max-width: p.$bp-mobile) {
     width: var(--control-height-sm-mobile);
     height: var(--control-height-sm-mobile);
+    padding: 0;
+    gap: 0;
 
     &:first-child {
       border-radius: var(--radius-sm) 0 0 var(--radius-sm);
@@ -1069,16 +1081,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--control-height-sm);
+  gap: var(--space-1-5);
   height: var(--control-height-sm);
+  padding: 0 var(--space-3);
   border-radius: 0;
   border: 1px solid var(--border-default);
   border-left-width: 0;
   background: var(--bg-surface-raised);
   color: var(--text-muted);
-  padding: 0;
   cursor: pointer;
   flex-shrink: 0;
+  font-family: var(--font-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-bold);
   transition: all var(--duration-base) var(--ease-default);
 
   &:first-child {
@@ -1115,6 +1130,8 @@
   @media (max-width: p.$bp-mobile) {
     width: var(--control-height-sm-mobile);
     height: var(--control-height-sm-mobile);
+    padding: 0;
+    gap: 0;
 
     &:first-child {
       border-radius: var(--radius-sm) 0 0 var(--radius-sm);

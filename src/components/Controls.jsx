@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { STAGE_ORDER } from '../data/lineup';
 import { useStickyHeight } from '../hooks/useStickyHeight';
-import { IconSearch, IconBack, IconFilter, IconCompact, IconList, IconClose, IconHeart, IconCheck } from './Icons';
+import { IconSearch, IconBack, IconFilter, IconCompact, IconList, IconClose, IconHeart, IconCheck, IconColNarrow, IconColMedium, IconColWide } from './Icons';
 import styles from './Controls.module.scss';
 
 const TABS = [
@@ -16,9 +16,9 @@ const LIST_MODES = [
 ];
 
 const COL_SIZES = [
-  { id: 'sm', text: 'S', label: 'Narrow' },
-  { id: 'md', text: 'M', label: 'Medium' },
-  { id: 'lg', text: 'L', label: 'Wide' },
+  { id: 'sm', text: 'S', label: 'Narrow', Icon: IconColNarrow },
+  { id: 'md', text: 'M', label: 'Medium', Icon: IconColMedium },
+  { id: 'lg', text: 'L', label: 'Wide',   Icon: IconColWide },
 ];
 
 const DAY_FILTERS = [
@@ -269,6 +269,7 @@ export function Controls({
                 title="Grid layout"
               >
                 <IconCompact size={14} />
+                <span className={styles.btnLabel}>Grid</span>
               </button>
               <button
                 className={`${styles.listLayoutBtn} ${listLayout === 'list' ? styles.active : ''}`}
@@ -277,12 +278,13 @@ export function Controls({
                 title="List layout"
               >
                 <IconList size={14} />
+                <span className={styles.btnLabel}>List</span>
               </button>
             </div>
           )}
           {activeDay === 'SCHEDULE' && (
             <div className={styles.colSizeToggle}>
-              {COL_SIZES.map(({ id, label, text }) => (
+              {COL_SIZES.map(({ id, label, Icon }) => (
                 <button
                   key={id}
                   className={`${styles.colSizeBtn} ${colSize === id ? styles.active : ''}`}
@@ -290,7 +292,8 @@ export function Controls({
                   aria-label={label}
                   title={label}
                 >
-                  {text}
+                  <Icon size={14} />
+                  <span className={styles.btnLabel}>{label}</span>
                 </button>
               ))}
               <div className={styles.colSizeDropWrap} ref={sizeDropdown.ref}>
@@ -301,17 +304,17 @@ export function Controls({
                   aria-expanded={sizeDropdown.open}
                   title="Column size"
                 >
-                  {COL_SIZES.find(s => s.id === colSize)?.text}
+                  {(() => { const C = COL_SIZES.find(s => s.id === colSize)?.Icon; return C ? <C size={14} /> : null; })()}
                 </button>
                 {(sizeDropdown.open || sizeDropdown.closing) && (
                   <div className={`${styles.dropdown} ${sizeDropdown.closing ? styles.dropdownClosing : ''}`}>
-                    {COL_SIZES.map(({ id, text, label }) => (
+                    {COL_SIZES.map(({ id, label, Icon }) => (
                       <button
                         key={id}
                         className={`${styles.dropdownItem} ${colSize === id ? styles.active : ''}`}
                         onClick={() => { onColSizeChange(id); sizeDropdown.toggle(false); }}
                       >
-                        <span className={styles.sizeLabel}><strong>{text}</strong>{label}</span>
+                        <span className={styles.sizeLabel}><Icon size={14} />{label}</span>
                         <span className={styles.checkmark}>{colSize === id && <IconCheck size={12} />}</span>
                       </button>
                     ))}
@@ -330,6 +333,7 @@ export function Controls({
             title="Filters"
           >
             <IconFilter />
+            <span className={styles.btnLabel}>Filter</span>
             {filterCount > 0 && (
               <span className={styles.badge}>{filterCount}</span>
             )}
