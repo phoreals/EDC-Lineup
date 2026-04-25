@@ -21,9 +21,9 @@ const COL_SIZES = [
   { id: 'lg', text: 'L', label: 'Wide',   Icon: IconColWide },
 ];
 
-const nextColSizeId = (currentId) => {
-  const idx = COL_SIZES.findIndex(s => s.id === currentId);
-  return COL_SIZES[(idx + 1) % COL_SIZES.length].id;
+const nextInList = (list, currentId) => {
+  const idx = list.findIndex(s => s.id === currentId);
+  return list[(idx + 1) % list.length].id;
 };
 
 const DAY_FILTERS = [
@@ -150,9 +150,9 @@ export function Controls({
   }, [onQueryChange]);
 
   const handleTabClick = useCallback(day => {
-    onDayChange(day);
+    onDayChange(day === activeDay ? nextInList(TABS, activeDay) : day);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [onDayChange]);
+  }, [onDayChange, activeDay]);
 
   return (
     <div className={styles.controls} ref={controlsRef}>
@@ -241,7 +241,7 @@ export function Controls({
                 <button
                   key={id}
                   className={`${styles.dayPill} ${isActive ? styles.active : ''}`}
-                  onClick={() => onFilterDayToggle(id, true)}
+                  onClick={() => onFilterDayToggle(isActive ? nextInList(DAY_FILTERS, id) : id, true)}
                 >
                   {label}
                 </button>
@@ -255,7 +255,7 @@ export function Controls({
               <button
                 key={id}
                 className={`${styles.modePill} ${listMode === id ? styles.active : ''}`}
-                onClick={() => onListModeChange(id)}
+                onClick={() => onListModeChange(id === listMode ? nextInList(LIST_MODES, listMode) : id)}
                 aria-label={label}
               >
                 <span>{label}</span>
@@ -291,7 +291,7 @@ export function Controls({
                 <button
                   key={id}
                   className={`${styles.colSizeBtn} ${colSize === id ? styles.active : ''}`}
-                  onClick={() => onColSizeChange(id === colSize ? nextColSizeId(colSize) : id)}
+                  onClick={() => onColSizeChange(id === colSize ? nextInList(COL_SIZES, colSize) : id)}
                   aria-label={label}
                   title={label}
                 >
@@ -314,7 +314,7 @@ export function Controls({
                       <button
                         key={id}
                         className={`${styles.dropdownItem} ${colSize === id ? styles.active : ''}`}
-                        onClick={() => { onColSizeChange(id === colSize ? nextColSizeId(colSize) : id); sizeDropdown.toggle(false); }}
+                        onClick={() => { onColSizeChange(id === colSize ? nextInList(COL_SIZES, colSize) : id); sizeDropdown.toggle(false); }}
                       >
                         <span className={styles.sizeLabel}><Icon size={14} strokeColor={colSize === id ? 'url(#pill-grad)' : 'currentColor'} />{label}</span>
                         <span className={styles.checkmark}>{colSize === id && <IconCheck size={12} />}</span>
