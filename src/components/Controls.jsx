@@ -21,6 +21,11 @@ const COL_SIZES = [
   { id: 'lg', text: 'L', label: 'Wide',   Icon: IconColWide },
 ];
 
+const nextColSizeId = (currentId) => {
+  const idx = COL_SIZES.findIndex(s => s.id === currentId);
+  return COL_SIZES[(idx + 1) % COL_SIZES.length].id;
+};
+
 const DAY_FILTERS = [
   { id: 'FRIDAY',    label: 'Friday' },
   { id: 'SATURDAY',  label: 'Saturday' },
@@ -264,7 +269,7 @@ export function Controls({
             <div className={styles.listLayoutToggle}>
               <button
                 className={`${styles.listLayoutBtn} ${listLayout === 'grid' ? styles.active : ''}`}
-                onClick={() => onListLayoutChange('grid')}
+                onClick={() => onListLayoutChange(listLayout === 'grid' ? 'list' : 'grid')}
                 aria-label="Grid layout"
                 title="Grid layout"
               >
@@ -272,7 +277,7 @@ export function Controls({
               </button>
               <button
                 className={`${styles.listLayoutBtn} ${listLayout === 'list' ? styles.active : ''}`}
-                onClick={() => onListLayoutChange('list')}
+                onClick={() => onListLayoutChange(listLayout === 'list' ? 'grid' : 'list')}
                 aria-label="List layout"
                 title="List layout"
               >
@@ -286,7 +291,7 @@ export function Controls({
                 <button
                   key={id}
                   className={`${styles.colSizeBtn} ${colSize === id ? styles.active : ''}`}
-                  onClick={() => onColSizeChange(id)}
+                  onClick={() => onColSizeChange(id === colSize ? nextColSizeId(colSize) : id)}
                   aria-label={label}
                   title={label}
                 >
@@ -309,7 +314,7 @@ export function Controls({
                       <button
                         key={id}
                         className={`${styles.dropdownItem} ${colSize === id ? styles.active : ''}`}
-                        onClick={() => { onColSizeChange(id); sizeDropdown.toggle(false); }}
+                        onClick={() => { onColSizeChange(id === colSize ? nextColSizeId(colSize) : id); sizeDropdown.toggle(false); }}
                       >
                         <span className={styles.sizeLabel}><Icon size={14} strokeColor={colSize === id ? 'url(#pill-grad)' : 'currentColor'} />{label}</span>
                         <span className={styles.checkmark}>{colSize === id && <IconCheck size={12} />}</span>
