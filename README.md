@@ -83,6 +83,10 @@ src/
 └── main.jsx                             # Vite entry
 ```
 
+## Documentation
+
+- **[UX Reference](docs/UX.md)** — complete interaction guide: views, controls, responsive behavior, keyboard/accessibility, animations, and state management
+
 ## Getting Started
 
 ```bash
