@@ -437,8 +437,10 @@
   }
 
   &.active {
-    border-color: var(--color-brand);
-    color: var(--color-brand);
+    border-color: transparent;
+    background:
+      linear-gradient(var(--bg-surface-raised), var(--bg-surface-raised)) padding-box,
+      var(--gradient-brand) border-box;
   }
 
   @include focus-ring;
@@ -1165,8 +1167,10 @@
   }
 
   &.active {
-    border-color: var(--color-brand);
-    color: var(--color-brand);
+    border-color: transparent;
+    background:
+      linear-gradient(var(--bg-surface-raised), var(--bg-surface-raised)) padding-box,
+      var(--gradient-brand) border-box;
   }
 
   @include focus-ring;

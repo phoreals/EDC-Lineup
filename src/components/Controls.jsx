@@ -306,7 +306,7 @@ export function Controls({
                   aria-expanded={sizeDropdown.open}
                   title="Column size"
                 >
-                  {(() => { const C = COL_SIZES.find(s => s.id === colSize)?.Icon; return C ? <C size={14} /> : null; })()}
+                  {(() => { const C = COL_SIZES.find(s => s.id === colSize)?.Icon; return C ? <C size={14} strokeColor={sizeDropdown.open ? 'url(#pill-grad)' : 'currentColor'} /> : null; })()}
                 </button>
                 {(sizeDropdown.open || sizeDropdown.closing) && (
                   <div className={`${styles.dropdown} ${sizeDropdown.closing ? styles.dropdownClosing : ''}`}>
@@ -334,7 +334,7 @@ export function Controls({
             aria-expanded={filterDropdown.open}
             title="Filters"
           >
-            <IconFilter />
+            <IconFilter strokeColor={filterDropdown.open ? 'url(#pill-grad)' : 'currentColor'} />
             {filterCount > 0 && (
               <span className={styles.badge}>{filterCount}</span>
             )}

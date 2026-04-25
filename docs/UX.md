@@ -183,10 +183,10 @@ When filters are active, a summary row appears below the controls bar:
 | Tab | Brand gradient text + animated indicator bar |
 | Day pill / Mode pill | Brand gradient background, white text |
 | Column size button (desktop) | Brand gradient background, white icon |
-| Column size button (mobile trigger) | Brand border + brand icon color |
+| Column size button (mobile trigger) | Gradient border + gradient stroke icon |
 | Column size dropdown item | Gradient text + gradient stroke on icon + checkmark |
 | Layout toggle button | Brand gradient background, white icon |
-| Filter button (dropdown open) | Brand border + brand icon color |
+| Filter button (dropdown open) | Gradient border + gradient stroke icon |
 | Artist card (favorited) | Gradient background, brand border, bold name |
 | Schedule set block (favorited) | Radial gradient background |
 
