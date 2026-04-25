@@ -85,7 +85,10 @@ src/
 
 ## Documentation
 
-- **[UX Reference](docs/UX.md)** — complete interaction guide: views, controls, responsive behavior, keyboard/accessibility, animations, and state management
+- **[UX Reference](docs/UX.md)** — interactions, controls, responsive behavior, animations, and state
+- **[Visual Design](docs/VISUAL_DESIGN.md)** — tokens, colors, typography, spacing, gradients, and component patterns
+- **[Information Architecture](docs/INFORMATION_ARCHITECTURE.md)** — content model, navigation, data flow, filters, and user flows
+- **[Accessibility](docs/ACCESSIBILITY.md)** — ARIA, keyboard, focus, color contrast, motion, and touch targets
 
 ## Getting Started
 

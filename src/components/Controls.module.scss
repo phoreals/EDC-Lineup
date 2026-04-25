@@ -300,7 +300,7 @@
 
   @media (hover: hover) {
     &:hover {
-      color: var(--text-primary);
+      color: var(--color-brand);
       background: var(--bg-hover);
     }
 
@@ -804,7 +804,7 @@
   @media (hover: hover) {
     &:hover {
       background: var(--bg-surface-raised);
-      color: var(--text-primary);
+      color: var(--color-brand);
     }
 
     &:active {
@@ -905,7 +905,7 @@
   @media (hover: hover) {
     &:hover {
       border-color: var(--color-brand);
-      color: var(--text-primary);
+      color: var(--color-brand);
     }
 
     &:active {
@@ -956,7 +956,7 @@
   @media (hover: hover) {
     &:hover {
       border-color: var(--color-brand);
-      color: var(--text-primary);
+      color: var(--color-brand);
     }
 
     &:active {
