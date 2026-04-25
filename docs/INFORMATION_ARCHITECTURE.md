@@ -1,7 +1,7 @@
 # EDC Lineup - Information Architecture
 
 > Content model, navigation structure, data relationships, and user flows.
-> Last updated: 2026-04-24
+> Last updated: 2026-04-25
 
 ---
 
@@ -199,7 +199,7 @@ visible = artists
 
 **Badge**: shows total active filter count on funnel icon.
 
-**Active filter pills**: removable pills below controls bar when filters are active. Each pill shows filter name + X button. Horizontal scroll on mobile with fade gradient.
+**Active filter pills**: removable pills below controls bar when filters are active. Each pill shows filter name + X button. Horizontal scroll on mobile with fade gradient. Mobile labels are shortened: "Favorited" shows heart icon only, days show 3-letter abbreviations (Fri/Sat/Sun), stages show first word (exception: "Stereobloom" -> "Stereo").
 
 ### Filter Persistence
 

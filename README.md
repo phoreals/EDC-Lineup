@@ -58,7 +58,7 @@ src/
 │   ├── ByStageGrid.jsx / .module.scss   # By Stage view with day columns per stage
 │   ├── CompactGrid.jsx / .module.scss   # By Day view (compact artist list)
 │   ├── Controls.jsx / .module.scss      # Nav tabs, day filters, dropdowns
-│   ├── DayGrid.jsx / .module.scss       # Day grid (legacy)
+│   ├── FavToast.jsx / .module.scss      # Copy-to-clipboard toast (hidden)
 │   ├── Header.jsx / .module.scss        # Page header
 │   ├── Highlight.jsx                    # Search highlighting + word break hints (soft hyphens)
 │   ├── Icons.jsx                        # SVG icon components

@@ -1,7 +1,7 @@
 # EDC Lineup - Visual Design System
 
 > Design tokens, color system, typography, spacing, and component styling reference.
-> Last updated: 2026-04-24
+> Last updated: 2026-04-25
 
 ---
 
@@ -255,6 +255,10 @@ All interactive controls follow this progression:
 | Active (filled) | `transparent` | `--gradient-brand` | `--text-inverse` |
 | Active (outline) | gradient via `background-clip` | surface | gradient stroke via prop |
 
+### Active Filter Pill Border
+
+The "Filtering by" container uses an SVG `<rect>` for its border with a `clip-path: polygon()` that notches out a 2px gap where the label sits (fieldset-legend style). The clip-path approach avoids sub-pixel rendering artifacts on high-DPI screens.
+
 ### Gradient Border Technique
 
 Used by filterBtn and colSizeCycle active states:
@@ -290,7 +294,9 @@ background: var(--bg-overlay);       // neutral-950 at 65%
 backdrop-filter: blur(8px);
 -webkit-backdrop-filter: blur(8px);
 ```
-Applied to: controls bar, schedule header, sticky section headers.
+Applied to: controls bar, schedule header.
+
+**Sticky section headers** (browse views) use a `::before` pseudo-element for the backdrop, with a `mask-image` gradient that fades from opaque at top to transparent at bottom. This creates a soft fade-out when content scrolls behind the stuck header.
 
 ### Schedule Column Sizing
 

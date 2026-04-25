@@ -1,7 +1,7 @@
 # EDC Lineup - Accessibility
 
 > ARIA patterns, keyboard support, focus management, color contrast, motion, and touch targets.
-> Last updated: 2026-04-24
+> Last updated: 2026-04-25
 
 ---
 
@@ -127,6 +127,13 @@ Dropdowns close on:
 - Click outside (mousedown listener on document)
 - Escape key (keydown listener on document)
 - Item selection (explicit close call)
+
+### Mobile Search Close
+
+Mobile search overlay closes on:
+- Back button tap
+- Enter key with text entered
+- Tap outside the search area (mousedown + touchstart listeners)
 
 ---
 

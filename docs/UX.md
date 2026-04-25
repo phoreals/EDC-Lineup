@@ -1,7 +1,7 @@
 # EDC Lineup - UX Documentation
 
 > Complete interaction reference for the EDC Lineup web app.
-> Last updated: 2026-04-24
+> Last updated: 2026-04-25
 
 ---
 
