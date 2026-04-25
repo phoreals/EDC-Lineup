@@ -11,9 +11,20 @@
   position: sticky;
   top: calc(var(--sticky-top) - 1px);
   z-index: var(--z-sticky-section);
-  background-color: var(--bg-overlay);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    bottom: calc(-1 * var(--space-4));
+    background-color: var(--bg-overlay);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent);
+    mask-image: linear-gradient(to bottom, black 40%, transparent);
+    z-index: -1;
+    pointer-events: none;
+  }
 }
 
 @mixin section-title {
