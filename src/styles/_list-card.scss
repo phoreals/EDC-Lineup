@@ -16,7 +16,6 @@
     content: '';
     position: absolute;
     inset: 0;
-    bottom: calc(-1 * var(--space-4));
     background-color: var(--bg-overlay);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);

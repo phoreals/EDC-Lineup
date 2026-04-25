@@ -26,6 +26,9 @@ const nextInList = (list, currentId) => {
   return list[(idx + 1) % list.length].id;
 };
 
+// Mobile short names for stage filter pills (only exceptions to first-word rule)
+const SHORT_STAGES = { 'Stereobloom': 'Stereo' };
+
 const DAY_FILTERS = [
   { id: 'FRIDAY',    label: 'Friday' },
   { id: 'SATURDAY',  label: 'Saturday' },
@@ -103,6 +106,7 @@ export function Controls({
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const controlsRef  = useStickyHeight();
   const mobileInputRef = useRef(null);
+  const mobileSearchRef = useRef(null);
 
   const tabsScrollRef  = useRef(null);
   const tabIndicatorRef = useRef(null);
@@ -148,6 +152,22 @@ export function Controls({
     setMobileSearchOpen(false);
     onQueryChange('');
   }, [onQueryChange]);
+
+  // Close mobile search on tap outside
+  useEffect(() => {
+    if (!mobileSearchOpen) return;
+    const onDown = e => {
+      if (mobileSearchRef.current && !mobileSearchRef.current.contains(e.target)) {
+        closeMobileSearch();
+      }
+    };
+    document.addEventListener('mousedown', onDown);
+    document.addEventListener('touchstart', onDown);
+    return () => {
+      document.removeEventListener('mousedown', onDown);
+      document.removeEventListener('touchstart', onDown);
+    };
+  }, [mobileSearchOpen, closeMobileSearch]);
 
   const handleTabClick = useCallback(day => {
     onDayChange(day === activeDay ? nextInList(TABS, activeDay) : day);
@@ -205,7 +225,7 @@ export function Controls({
         </div>
 
         {/* Search mode: back button + search input — always in DOM, mobile only */}
-        <div className={styles.topRowSearchGroup} aria-hidden={!mobileSearchOpen || undefined}>
+        <div className={styles.topRowSearchGroup} ref={mobileSearchRef} aria-hidden={!mobileSearchOpen || undefined}>
           <button className={styles.backBtn} onClick={closeMobileSearch} aria-label="Close search" title="Close search" tabIndex={mobileSearchOpen ? 0 : -1}>
             <IconBack />
           </button>
@@ -241,7 +261,7 @@ export function Controls({
                 <button
                   key={id}
                   className={`${styles.dayPill} ${isActive ? styles.active : ''}`}
-                  onClick={() => onFilterDayToggle(isActive ? nextInList(DAY_FILTERS, id) : id, true)}
+                  onClick={() => onFilterDayToggle(id, true)}
                 >
                   {label}
                 </button>
@@ -255,7 +275,7 @@ export function Controls({
               <button
                 key={id}
                 className={`${styles.modePill} ${listMode === id ? styles.active : ''}`}
-                onClick={() => onListModeChange(id === listMode ? nextInList(LIST_MODES, listMode) : id)}
+                onClick={() => onListModeChange(id)}
                 aria-label={label}
               >
                 <span>{label}</span>
@@ -291,7 +311,7 @@ export function Controls({
                 <button
                   key={id}
                   className={`${styles.colSizeBtn} ${colSize === id ? styles.active : ''}`}
-                  onClick={() => onColSizeChange(id === colSize ? nextInList(COL_SIZES, colSize) : id)}
+                  onClick={() => onColSizeChange(id)}
                   aria-label={label}
                   title={label}
                 >
@@ -314,7 +334,7 @@ export function Controls({
                       <button
                         key={id}
                         className={`${styles.dropdownItem} ${colSize === id ? styles.active : ''}`}
-                        onClick={() => { onColSizeChange(id === colSize ? nextInList(COL_SIZES, colSize) : id); sizeDropdown.toggle(false); }}
+                        onClick={() => { onColSizeChange(id); sizeDropdown.toggle(false); }}
                       >
                         <span className={styles.sizeLabel}><Icon size={14} strokeColor={colSize === id ? 'url(#pill-grad)' : 'currentColor'} />{label}</span>
                         <span className={styles.checkmark}>{colSize === id && <IconCheck size={12} />}</span>
@@ -427,19 +447,25 @@ export function Controls({
                 )}
                 {favOnly && (
                   <button className={styles.activeFilterPill} onClick={onFavToggle} title="Remove Favorited">
-                    <span className={styles.pillIcon}><IconHeart size={10} filled /></span><span>Favorited</span><span className={styles.pillIcon}><IconClose size={12} /></span>
+                    <span className={styles.pillIcon}><IconHeart size={10} filled /></span><span className={styles.pillLabelFull}>Favorited</span><span className={styles.pillIcon}><IconClose size={12} /></span>
                   </button>
                 )}
-                {activeDaysList.map(({ id, label }) => (
-                  <button key={id} className={styles.activeFilterPill} onClick={() => onFilterDayToggle(id, false)} title={`Remove ${label}`}>
-                    <span>{label}</span><span className={styles.pillIcon}><IconClose size={12} /></span>
-                  </button>
-                ))}
-                {activeStagesList.map(stage => (
-                  <button key={stage} className={styles.activeFilterPill} onClick={() => onStageToggle(stage)} title={`Remove ${stage}`}>
-                    <span>{stage}</span><span className={styles.pillIcon}><IconClose size={12} /></span>
-                  </button>
-                ))}
+                {activeDaysList.map(({ id, label }) => {
+                  const short = label.slice(0, 3);
+                  return (
+                    <button key={id} className={styles.activeFilterPill} onClick={() => onFilterDayToggle(id, false)} title={`Remove ${label}`}>
+                      <span className={styles.pillLabelFull}>{label}</span><span className={styles.pillLabelShort}>{short}</span><span className={styles.pillIcon}><IconClose size={12} /></span>
+                    </button>
+                  );
+                })}
+                {activeStagesList.map(stage => {
+                  const short = SHORT_STAGES[stage] || stage.split(' ')[0];
+                  return (
+                    <button key={stage} className={styles.activeFilterPill} onClick={() => onStageToggle(stage)} title={`Remove ${stage}`}>
+                      <span className={styles.pillLabelFull}>{stage}</span><span className={styles.pillLabelShort}>{short}</span><span className={styles.pillIcon}><IconClose size={12} /></span>
+                    </button>
+                  );
+                })}
               </div>
               <div className={styles.activeFiltersFadeRight} />
               <button className={styles.clearBtn} onClick={onClearFilters} aria-label="Clear all filters" title="Clear all filters">

@@ -60,19 +60,18 @@ Clicking an already-active option cycles to the next one. This applies to:
 
 | Control | Options | Cycle order |
 |---------|---------|-------------|
-| Tabs | Schedule, Browse | Schedule -> Browse -> Schedule |
-| Day pills | Friday, Saturday, Sunday | Fri -> Sat -> Sun -> Fri |
-| Mode pills | A to Z, By Day, By Stage | A to Z -> By Day -> By Stage -> A to Z |
-| Column size (desktop) | S, M, L | S -> M -> L -> S |
-| Column size (mobile dropdown) | S, M, L | Same (when tapping active item) |
-| Layout toggle | Grid, List | Grid -> List -> Grid |
+| Tabs (2 options) | Schedule, Browse | Schedule -> Browse -> Schedule |
+| Layout toggle (2 options) | Grid, List | Grid -> List -> Grid |
+| Day pills (3 options) | Friday, Saturday, Sunday | No-op (click inactive to select) |
+| Mode pills (3 options) | A to Z, By Day, By Stage | No-op (click inactive to select) |
+| Column size (3 options) | S, M, L | No-op (click inactive to select) |
 
 Clicking an **inactive** option always selects it directly.
 
 ### Search
 
 - **Desktop**: type in the persistent input; clear with X button; Enter blurs.
-- **Mobile**: tap search icon to open overlay. Back button closes and clears. Enter submits and closes.
+- **Mobile**: tap search icon to open overlay. Closes on: back button, Enter with text, or tap outside the search area. Closing clears the query.
 - Filters artist names in real time (case-insensitive substring match).
 - Applied across all grid views.
 
@@ -98,6 +97,7 @@ When filters are active, a summary row appears below the controls bar:
 - "Filtering by" label with pills for each active filter
 - Each pill has an X button to remove that filter
 - Horizontal scroll with fade gradient on mobile
+- Mobile pill labels are shortened: "Favorited" shows heart icon only, days show 3-letter abbreviations (Fri/Sat/Sun), stages show first word (exception: "Stereobloom" -> "Stereo")
 - "Clear All" button to reset everything
 
 ### Favorites

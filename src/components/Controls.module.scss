@@ -561,31 +561,16 @@
   height: 100%;
   pointer-events: none;
   overflow: visible;
-
-  // Mask: cut a gap in the top border where the label sits.
-  // Top strip has a horizontal gap; rest is fully visible.
-  -webkit-mask-image:
-    linear-gradient(to right,
-      #fff var(--_label-left),
-      transparent var(--_label-left),
-      transparent calc(var(--_label-left) + var(--_label-w)),
-      #fff calc(var(--_label-left) + var(--_label-w))
-    ),
-    linear-gradient(#fff, #fff);
-  -webkit-mask-size: 100% 1px, 100% calc(100% - 1px);
-  -webkit-mask-position: top, bottom;
-  -webkit-mask-repeat: no-repeat;
-  mask-image:
-    linear-gradient(to right,
-      #fff var(--_label-left),
-      transparent var(--_label-left),
-      transparent calc(var(--_label-left) + var(--_label-w)),
-      #fff calc(var(--_label-left) + var(--_label-w))
-    ),
-    linear-gradient(#fff, #fff);
-  mask-size: 100% 1px, 100% calc(100% - 1px);
-  mask-position: top, bottom;
-  mask-repeat: no-repeat;
+  clip-path: polygon(
+    0 0,
+    var(--_label-left) 0,
+    var(--_label-left) 2px,
+    calc(var(--_label-left) + var(--_label-w)) 2px,
+    calc(var(--_label-left) + var(--_label-w)) 0,
+    100% 0,
+    100% 100%,
+    0 100%
+  );
 }
 
 .activeFiltersBody {
@@ -624,7 +609,7 @@
   @media (max-width: p.$bp-mobile) {
     display: block;
     position: absolute;
-    right: calc(var(--space-1) + var(--control-height-sm-mobile)); // clear btn width + body gap
+    right: calc(var(--control-height-sm-mobile) + var(--space-1) + 1px); // +1px to close sub-pixel gap
     top: 0;
     bottom: 0;
     width: var(--space-8);
@@ -734,6 +719,15 @@
   }
 }
 
+.pillLabelFull {
+  @media (max-width: p.$bp-mobile) { display: none; }
+}
+
+.pillLabelShort {
+  display: none;
+  @media (max-width: p.$bp-mobile) { display: inline; }
+}
+
 .clearBtn {
   font-family: var(--font-primary);
   font-size: var(--text-sm);
@@ -771,6 +765,7 @@
     height: var(--control-height-sm-mobile);
     width: var(--control-height-sm-mobile);
     padding: 0;
+    border-radius: var(--radius-sm);
   }
 
   @include tap-target;
