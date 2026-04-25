@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from 'react';
-import { DAYS, DAY_DATES } from './data/lineup';
+import { DAYS } from './data/lineup';
 import { useFavorites } from './hooks/useFavorites';
 import { Header } from './components/Header';
 import { Controls } from './components/Controls';

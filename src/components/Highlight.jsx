@@ -25,7 +25,7 @@ function addBreakHints(text) {
 
     // Split this segment's words to check for long-word breaks
     const words = part.split(/(\s+)/);
-    words.forEach((word, j) => {
+    words.forEach((word) => {
       if (WORD_BREAKS[word]) {
         const segs = WORD_BREAKS[word];
         result.push(segs.join('\u00AD'));
