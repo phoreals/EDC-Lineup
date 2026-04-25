@@ -28,7 +28,11 @@ function addBreakHints(text) {
     words.forEach((word) => {
       if (WORD_BREAKS[word]) {
         const segs = WORD_BREAKS[word];
-        result.push(segs.join('\u00AD'));
+        result.push(
+          <span key={`hyph-${i}-${word}`} style={{ display: 'inline-block', maxWidth: '100%', overflowWrap: 'break-word' }}>
+            {segs.join('\u00AD')}
+          </span>
+        );
       } else {
         result.push(word);
       }
