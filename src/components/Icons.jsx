@@ -93,35 +93,35 @@ export function IconHeart({ size = 14, filled = false }) {
 
 
 // Column size icons — rounded rectangles side by side (square canvas, 2px inset)
-export function IconColNarrow({ size = 14 }) {
+export function IconColNarrow({ size = 14, strokeColor = 'currentColor' }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-      stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+      strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
       aria-hidden="true">
-      <rect x="2" y="2" width="5" height="20" rx="1.5" />
-      <rect x="9.5" y="2" width="5" height="20" rx="1.5" />
-      <rect x="17" y="2" width="5" height="20" rx="1.5" />
+      <rect x="2" y="2" width="5" height="20" rx="1.5" fill="none" stroke={strokeColor} />
+      <rect x="9.5" y="2" width="5" height="20" rx="1.5" fill="none" stroke={strokeColor} />
+      <rect x="17" y="2" width="5" height="20" rx="1.5" fill="none" stroke={strokeColor} />
     </svg>
   );
 }
 
-export function IconColMedium({ size = 14 }) {
+export function IconColMedium({ size = 14, strokeColor = 'currentColor' }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-      stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+      strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
       aria-hidden="true">
-      <rect x="2" y="2" width="8.5" height="20" rx="1.5" />
-      <rect x="13.5" y="2" width="8.5" height="20" rx="1.5" />
+      <rect x="2" y="2" width="8.5" height="20" rx="1.5" fill="none" stroke={strokeColor} />
+      <rect x="13.5" y="2" width="8.5" height="20" rx="1.5" fill="none" stroke={strokeColor} />
     </svg>
   );
 }
 
-export function IconColWide({ size = 14 }) {
+export function IconColWide({ size = 14, strokeColor = 'currentColor' }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-      stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+      strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
       aria-hidden="true">
-      <rect x="2" y="2" width="20" height="20" rx="1.5" />
+      <rect x="2" y="2" width="20" height="20" rx="1.5" fill="none" stroke={strokeColor} />
     </svg>
   );
 }

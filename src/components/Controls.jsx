@@ -269,7 +269,6 @@ export function Controls({
                 title="Grid layout"
               >
                 <IconCompact size={14} />
-                <span className={styles.btnLabel}>Grid</span>
               </button>
               <button
                 className={`${styles.listLayoutBtn} ${listLayout === 'list' ? styles.active : ''}`}
@@ -278,7 +277,6 @@ export function Controls({
                 title="List layout"
               >
                 <IconList size={14} />
-                <span className={styles.btnLabel}>List</span>
               </button>
             </div>
           )}
@@ -293,7 +291,6 @@ export function Controls({
                   title={label}
                 >
                   <Icon size={14} />
-                  <span className={styles.btnLabel}>{label}</span>
                 </button>
               ))}
               <div className={styles.colSizeDropWrap} ref={sizeDropdown.ref}>
@@ -314,7 +311,7 @@ export function Controls({
                         className={`${styles.dropdownItem} ${colSize === id ? styles.active : ''}`}
                         onClick={() => { onColSizeChange(id); sizeDropdown.toggle(false); }}
                       >
-                        <span className={styles.sizeLabel}><Icon size={14} />{label}</span>
+                        <span className={styles.sizeLabel}><Icon size={14} strokeColor={colSize === id ? 'url(#pill-grad)' : 'currentColor'} />{label}</span>
                         <span className={styles.checkmark}>{colSize === id && <IconCheck size={12} />}</span>
                       </button>
                     ))}
@@ -333,7 +330,6 @@ export function Controls({
             title="Filters"
           >
             <IconFilter />
-            <span className={styles.btnLabel}>Filter</span>
             {filterCount > 0 && (
               <span className={styles.badge}>{filterCount}</span>
             )}
