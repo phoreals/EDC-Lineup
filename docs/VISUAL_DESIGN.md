@@ -296,7 +296,7 @@ backdrop-filter: blur(8px);
 ```
 Applied to: controls bar, schedule header.
 
-**Sticky section headers** (browse views) use a `::before` pseudo-element for the backdrop, with a `mask-image` gradient that fades from opaque at top to transparent at bottom. This creates a soft fade-out when content scrolls behind the stuck header.
+**Sticky section headers** (browse views) use a `::before` pseudo-element for the backdrop, with a `mask-image` gradient that fades from opaque at top (solid through 60%) to transparent at bottom. This creates a soft fade-out when content scrolls behind the stuck header.
 
 ### Schedule Column Sizing
 

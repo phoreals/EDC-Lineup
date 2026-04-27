@@ -5,8 +5,8 @@
 
 // ── Section sub-header (sticky with rule) ─────────────────────────
 @mixin section-header {
-  padding: var(--space-1) 0;
-  margin-bottom: var(--space-1);
+  padding: var(--space-1) 0 calc(var(--space-1) + var(--space-1));
+  margin-bottom: 0;
   border-top: 1px solid var(--border-default);
   position: sticky;
   top: calc(var(--sticky-top) - 1px);
@@ -19,8 +19,8 @@
     background-color: var(--bg-overlay);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent);
-    mask-image: linear-gradient(to bottom, black 40%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent);
+    mask-image: linear-gradient(to bottom, black 60%, transparent);
     z-index: -1;
     pointer-events: none;
   }
