@@ -142,7 +142,7 @@ Artists grouped by day, then by stage within each day.
   ...
 ```
 
-Card shows: name, time, favorite toggle (stage is in column header).
+Card shows: name, time, favorite toggle (stage is in column header). In list layout, name and time appear inline on a single row.
 
 ### By Stage View (ByStageGrid)
 
@@ -160,7 +160,7 @@ Artists grouped by stage, then by day within each stage.
   ...
 ```
 
-Card shows: name, time, favorite toggle (stage + day in headers).
+Card shows: name, time, favorite toggle (stage + day in headers). In list layout, name and time appear inline on a single row.
 
 ---
 

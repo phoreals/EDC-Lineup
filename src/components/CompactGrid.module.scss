@@ -40,6 +40,32 @@
 
   &.singleCol {
     @include lc.single-col;
+
+    .info {
+      flex-wrap: nowrap;
+
+      .name {
+        min-width: 0;
+        width: auto;
+        flex-shrink: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        span {
+          display: inline !important;
+          overflow-wrap: normal !important;
+        }
+
+        wbr {
+          display: none;
+        }
+      }
+    }
+
+    .time {
+      flex-shrink: 0;
+    }
   }
 }
 

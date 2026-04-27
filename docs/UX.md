@@ -27,7 +27,7 @@ Three sub-modes selected via **mode pills**:
 | **By Day** | Day columns, each with stage sub-columns |
 | **By Stage** | Stage sections, each with day sub-columns |
 
-A **layout toggle** (grid / list) switches between auto-fill columns and single-column list.
+A **layout toggle** (grid / list) switches between auto-fill columns and single-column list. In list mode, By Day and By Stage cards display artist name and set time inline on a single row (name truncates with ellipsis if needed). A to Z keeps name and time on separate lines since it also displays the stage name.
 
 ---
 

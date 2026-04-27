@@ -298,6 +298,8 @@ Applied to: controls bar, schedule header.
 
 **Sticky section headers** (browse views) use a `::before` pseudo-element for the backdrop, with a `mask-image` gradient that fades from opaque at top (solid through 60%) to transparent at bottom. This creates a soft fade-out when content scrolls behind the stuck header.
 
+**List view card layout** (By Day, By Stage): in single-column list mode, artist name and set time display inline on one row. The name truncates with `text-overflow: ellipsis` when space is tight, while the time never shrinks. Word break hints (`<wbr>`, soft hyphens) from `Highlight.jsx` are neutralized via `wbr { display: none }` and `span { display: inline !important }` to prevent unwanted line breaks. A to Z retains the default stacked layout since it also shows the stage name.
+
 ### Schedule Column Sizing
 
 Fluid widths via `clamp()` with container query units:
