@@ -21,7 +21,7 @@ export const STAGE_ORDER = [
   'Wasteland',
   'Bionic Jungle',
   'Quantum Valley',
-  'Smaller Stages',
+  // 'Smaller Stages', — hidden pending design decision
 ];
 
 export const DAYS = ['FRIDAY', 'SATURDAY', 'SUNDAY'];

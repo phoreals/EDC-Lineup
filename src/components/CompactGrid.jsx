@@ -1,5 +1,5 @@
 import { STAGE_ORDER, DAYS, getArtistsByStage, toTitle } from '../data/lineup';
-import { getSetTime, getSubStage } from '../data/schedule';
+import { SCHEDULE, getSetTime, getSubStage } from '../data/schedule';
 import { IconHeart } from './Icons';
 import { HighlightMatch } from './Highlight';
 import styles from './CompactGrid.module.scss';
@@ -67,11 +67,18 @@ export function CompactGrid({ query, activeStages, favOnly, favorites, onToggle,
             let names = byStage[stage];
             if (favOnly) names = names.filter(a => favorites.has(a));
             if (query)   names = names.filter(a => a.toLowerCase().includes(query));
-            const artists = names.map(name => ({
-              name,
-              time: getSetTime(day, stage, name),
-              substage: stage === 'Smaller Stages' ? getSubStage(day, name) : null,
-            }));
+            const stageSlots = SCHEDULE[day]?.[stage] || [];
+            const artists = names.map(name => {
+              const slot = stageSlots.find(s => s.artist === name);
+              const [h, m] = (slot?.start || '0:0').split(':').map(Number);
+              return {
+                name,
+                time: getSetTime(day, stage, name),
+                substage: stage === 'Smaller Stages' ? getSubStage(day, name) : null,
+                startMin: h * 60 + m,
+              };
+            });
+            artists.sort((a, b) => a.startMin - b.startMin);
             return { stage, artists };
           })
           .filter(({ artists }) => artists.length > 0);

@@ -1,7 +1,7 @@
 # EDC Lineup - Information Architecture
 
 > Content model, navigation structure, data relationships, and user flows.
-> Last updated: 2026-04-27
+> Last updated: 2026-05-01
 
 ---
 
@@ -145,7 +145,7 @@ Artists grouped by day, then by stage within each day.
   ...
 ```
 
-Card shows: name, time, favorite toggle (stage is in column header). In list layout, name and time appear inline on a single row.
+Card shows: name, time, favorite toggle (stage is in column header). In list layout, name and time appear inline on a single row. Artists are sorted by set start time within each stage column.
 
 ### By Stage View (ByStageGrid)
 
@@ -163,7 +163,7 @@ Artists grouped by stage, then by day within each stage.
   ...
 ```
 
-Card shows: name, time, favorite toggle (stage + day in headers). In list layout, name and time appear inline on a single row.
+Card shows: name, time, favorite toggle (stage + day in headers). In list layout, name and time appear inline on a single row. Artists are sorted by set start time within each day column.
 
 ---
 
