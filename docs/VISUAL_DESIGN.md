@@ -1,7 +1,7 @@
 # EDC Lineup - Visual Design System
 
 > Design tokens, color system, typography, spacing, and component styling reference.
-> Last updated: 2026-04-25
+> Last updated: 2026-04-27
 
 ---
 
@@ -35,7 +35,7 @@ All colors use HSLA format. Primitives (Layer 1) are raw values; semantic tokens
 |-------|-------|
 | `--color-red-500` | `hsla(0,84%,60%,1)` |
 
-### Stage Palette (9 stages)
+### Stage Palette (10 stages)
 
 Each stage has three tokens: `bg`, `border`, `text`. All follow the same pattern: dark desaturated background, vibrant border, light tinted text.
 
@@ -50,6 +50,9 @@ Each stage has three tokens: `bg`, `border`, `text`. All follow the same pattern
 | Quantum Valley | 165 (Teal) | `hsla(165,82%,50%,1)` |
 | Circuit Grounds | 280 (Purple) | `hsla(280,90%,70%,1)` |
 | Cosmic Meadow | 200 (Cyan) | `hsla(200,92%,66%,1)` |
+| Smaller Stages | 45 (Amber) | `hsla(45,88%,55%,1)` |
+
+Smaller Stages is a combined column representing Forest House, Art Cars, YeeDC!, Casa Bacardí, Insomniac Fridays, Electrolit Hydration House, and Takis Rave Hangar. Each set block shows the real venue name below the artist name.
 
 ---
 

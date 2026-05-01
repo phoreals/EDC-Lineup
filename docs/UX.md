@@ -1,7 +1,7 @@
 # EDC Lineup - UX Documentation
 
 > Complete interaction reference for the EDC Lineup web app.
-> Last updated: 2026-04-25
+> Last updated: 2026-04-27
 
 ---
 
@@ -81,7 +81,7 @@ Opened by the filter button (funnel icon). Contains:
 
 1. **Favorites toggle** -- heart icon, checkbox-style
 2. **Day filters** (Browse view only) -- multi-select checkboxes
-3. **Stage filters** -- multi-select, all 9 stages listed
+3. **Stage filters** -- multi-select, all 10 stages listed
 4. **Clear All** button at bottom
 
 Closes on: click outside, Escape key, or selecting an item (stays open for multi-select items; closes on Clear All).
@@ -197,8 +197,8 @@ When filters are active, a summary row appears below the controls bar:
 ### Sources
 
 - `LINEUP[day]` -- array of artist names per day
-- `SCHEDULE[day][stage]` -- array of `{ artist, start, duration }` per stage per day
-- `STAGE_ORDER` -- canonical ordering of 9 stages
+- `SCHEDULE[day][stage]` -- array of `{ artist, start, duration[, stage] }` per stage per day; Smaller Stages entries include a `stage` sub-stage name
+- `STAGE_ORDER` -- canonical ordering of 10 stages
 - `STAGE_COLORS` -- `{ bg, border, text }` per stage
 
 ### Filter Pipeline

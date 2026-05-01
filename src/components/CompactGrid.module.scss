@@ -109,8 +109,9 @@
     font-size: var(--text-sm);
   }
 }
-.time  { @include lc.card-meta; }
-.heart { @include lc.card-heart; }
+.time     { @include lc.card-meta; }
+.substage { @include lc.card-meta; }
+.heart    { @include lc.card-heart; }
 
 .favorited .heart {
   visibility: visible;

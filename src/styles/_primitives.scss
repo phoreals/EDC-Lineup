@@ -94,6 +94,10 @@ $bp-mobile: 768px; // SCSS-only: used in @media queries
   --stage-cosmic-border:         hsla(200, 92%, 66%, 1);
   --stage-cosmic-text:           hsla(200, 94%, 92%, 1);
 
+  --stage-smaller-bg:            hsla(45, 15%, 12%, 1);
+  --stage-smaller-border:        hsla(45, 60%, 55%, 1);
+  --stage-smaller-text:          hsla(45, 50%, 80%, 1);
+
   // ── Spacing — 8pt grid (with 4pt sub-grid) ─────────────────
   --space-0-5:  2px;
   --space-1:    4px;

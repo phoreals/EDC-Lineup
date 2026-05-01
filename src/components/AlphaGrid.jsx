@@ -1,5 +1,5 @@
 import { DAYS, LINEUP, STAGES } from '../data/lineup';
-import { getSetTime } from '../data/schedule';
+import { getSetTime, getSubStage } from '../data/schedule';
 import { IconHeart } from './Icons';
 import { HighlightMatch } from './Highlight';
 import styles from './AlphaGrid.module.scss';
@@ -43,7 +43,10 @@ export function AlphaGrid({ query, activeStages, favOnly, favorites, onToggle, v
       if (query && !name.toLowerCase().includes(query)) continue;
 
       const time = getSetTime(day, stage, name);
-      allArtists.push({ name, stage, day, time });
+      const displayStage = stage === 'Smaller Stages'
+        ? `${getSubStage(day, name) || stage} (Smaller Stage)`
+        : stage;
+      allArtists.push({ name, stage: displayStage, day, time });
     }
   }
 

@@ -79,6 +79,7 @@ function SetBlock({ slot, stage, isFav, onToggle, compact, query }) {
       aria-label={[slot.artist, stage, `${fmtLabel(startAbsMin)} to ${fmtLabel(endAbsMin)}`, isFav ? 'favorited' : ''].filter(Boolean).join(' — ')}
     >
       <span className={styles.blockName}><HighlightMatch text={slot.artist} query={query} /></span>
+      {slot.stage && <span className={styles.blockStage}>{slot.stage}</span>}
       <span className={styles.blockTime}><span className={styles.noWrap}>{fmtLabel(startAbsMin, omitStart)}&thinsp;–</span>&thinsp;{fmtLabel(endAbsMin)}</span>
       {isFav && <span className={styles.blockStar}><IconHeart size={8} filled /></span>}
     </div>

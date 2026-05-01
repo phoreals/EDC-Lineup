@@ -8,4 +8,5 @@ export const STAGE_COLORS = {
   'Quantum Valley':  { bg: 'var(--stage-quantum-bg)',   border: 'var(--stage-quantum-border)',   text: 'var(--stage-quantum-text)' },
   'Stereobloom':     { bg: 'var(--stage-stereo-bg)',    border: 'var(--stage-stereo-border)',    text: 'var(--stage-stereo-text)' },
   'Bionic Jungle':   { bg: 'var(--stage-bionic-bg)',    border: 'var(--stage-bionic-border)',    text: 'var(--stage-bionic-text)' },
+  'Smaller Stages':  { bg: 'var(--stage-smaller-bg)',   border: 'var(--stage-smaller-border)',   text: 'var(--stage-smaller-text)' },
 };

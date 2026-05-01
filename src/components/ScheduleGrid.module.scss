@@ -256,6 +256,16 @@ $header-h:       clamp(32px, 5cqi + 16px, 48px);
   white-space: nowrap;
 }
 
+.blockStage {
+  font-family: var(--font-primary);
+  font-size: clamp(var(--text-2xs), 1cqi + 2px, var(--text-xs));
+  font-weight: var(--font-weight-normal);
+  opacity: 0.5;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .blockTime {
   font-family: var(--font-primary);
   font-size: clamp(var(--text-2xs), 1cqi + 3px, var(--text-xs));

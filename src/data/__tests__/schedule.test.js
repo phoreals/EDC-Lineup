@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { formatTime, getSetTime } from '../schedule';
+import { formatTime, getSetTime, getSubStage } from '../schedule';
 
 describe('formatTime', () => {
   it('converts afternoon time', () => {
@@ -28,6 +28,20 @@ describe('formatTime', () => {
 
   it('converts time with minutes and >24h', () => {
     expect(formatTime('25:30')).toBe('1:30am');
+  });
+});
+
+describe('getSubStage', () => {
+  it('returns the real sub-stage name for a Smaller Stages artist', () => {
+    expect(getSubStage('FRIDAY', 'Big Daddy Kess')).toBe('Forest House');
+  });
+
+  it('returns null for an unknown artist', () => {
+    expect(getSubStage('FRIDAY', 'Nonexistent')).toBeNull();
+  });
+
+  it('returns null for an unknown day', () => {
+    expect(getSubStage('MONDAY', 'Big Daddy Kess')).toBeNull();
   });
 });
 

@@ -1,7 +1,7 @@
 # EDC Lineup - Information Architecture
 
 > Content model, navigation structure, data relationships, and user flows.
-> Last updated: 2026-04-25
+> Last updated: 2026-04-27
 
 ---
 
@@ -12,11 +12,12 @@
 ```
 Festival
  └─ 3 Days (Friday 5/15, Saturday 5/16, Sunday 5/17)
-     └─ 9 Stages per day
+     └─ 10 Stages per day (9 main + "Smaller Stages" combined)
          └─ ~11 Sets per stage (artist + start time + duration)
 
-Artist (global namespace, ~200 unique names)
- └─ Performs on 1 stage per day (no double-booking)
+Artist (global namespace, ~200+ unique names)
+ └─ Performs on 1 stage per day, with possible multiple appearances across days
+ └─ Smaller Stages artists also carry a sub-stage name (e.g., "Forest House")
  └─ Can be marked as favorite (persisted to localStorage)
 ```
 
@@ -25,15 +26,17 @@ Artist (global namespace, ~200 unique names)
 | File | Contains | Structure |
 |------|----------|-----------|
 | `src/data/lineup.js` | `LINEUP[day]` | Array of artist names per day |
-| `src/data/schedule.js` | `SCHEDULE[day][stage]` | Array of `{ artist, start, duration }` |
+| `src/data/schedule.js` | `SCHEDULE[day][stage]` | Array of `{ artist, start, duration[, stage] }` |
 | `src/data/stageColors.js` | `STAGE_COLORS[stage]` | `{ bg, border, text }` CSS var references |
-| `src/data/lineup.js` | `STAGE_ORDER` | Canonical display order of 9 stages |
+| `src/data/lineup.js` | `STAGE_ORDER` | Canonical display order of 10 stages |
 | `src/data/lineup.js` | `DAYS`, `DAY_DATES` | Day constants and date display strings |
+
+Smaller Stages entries include an optional `stage` field for the real venue name (e.g., `"Forest House"`, `"Art Cars"`). The helper `getSubStage(day, artist)` in `schedule.js` returns this sub-stage name.
 
 ### Relationships
 
-- **Artist → Stage**: 1:1 per day (an artist plays one stage each day)
-- **Artist → Day**: 1:many (an artist can appear on multiple days)
+- **Artist → Stage**: 1:1 per day for main stages; Smaller Stages artists carry an additional sub-stage name
+- **Artist → Day**: 1:many (an artist can appear on multiple days, including b2b appearances)
 - **Stage → Day**: present on all 3 days
 - **Favorite → Artist**: many:many (user selects from any artist)
 
@@ -172,7 +175,7 @@ Card shows: name, time, favorite toggle (stage + day in headers). In list layout
 |-----------|------|-------|------------|
 | Search query | Text substring | All views | Search input |
 | Favorites | Boolean toggle | All views | Filter dropdown |
-| Stages | Multi-select (9) | All views | Filter dropdown |
+| Stages | Multi-select (10) | All views | Filter dropdown |
 | Days | Single-select (Schedule) / Multi-select (Browse) | Contextual | Day pills + filter dropdown |
 
 ### Filter Logic

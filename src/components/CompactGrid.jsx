@@ -1,23 +1,24 @@
 import { STAGE_ORDER, DAYS, getArtistsByStage, toTitle } from '../data/lineup';
-import { getSetTime } from '../data/schedule';
+import { getSetTime, getSubStage } from '../data/schedule';
 import { IconHeart } from './Icons';
 import { HighlightMatch } from './Highlight';
 import styles from './CompactGrid.module.scss';
 
-function CompactCard({ name, stage, time, isFav, onToggle, query }) {
+function CompactCard({ name, stage, time, substage, isFav, onToggle, query }) {
   return (
     <div
       className={`${styles.card} ${isFav ? styles.favorited : ''}`}
       onClick={() => onToggle(name)}
-      title={[name, stage, time, isFav ? 'favorited' : ''].filter(Boolean).join(' — ')}
+      title={[name, substage || stage, time, isFav ? 'favorited' : ''].filter(Boolean).join(' — ')}
       role="button"
       tabIndex={0}
       onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onToggle(name)}
       aria-pressed={isFav}
-      aria-label={[name, stage, time, isFav ? 'favorited' : ''].filter(Boolean).join(' — ')}
+      aria-label={[name, substage || stage, time, isFav ? 'favorited' : ''].filter(Boolean).join(' — ')}
     >
       <div className={styles.info}>
         <span className={styles.name}><HighlightMatch text={name} query={query} /></span>
+        {substage && <span className={styles.substage}>{substage}</span>}
         {time && <span className={styles.time}>{time}</span>}
       </div>
       <span className={styles.heart} aria-hidden="true"><IconHeart size={8} filled={isFav} /></span>
@@ -34,12 +35,13 @@ function CompactStageColumn({ stage, artists, favorites, onToggle, query }) {
         <span className={styles.sectionTitle}>{stage}</span>
       </div>
       <div className={styles.list}>
-        {artists.map(({ name, time }) => (
+        {artists.map(({ name, time, substage }) => (
           <CompactCard
             key={name}
             name={name}
             stage={stage}
             time={time}
+            substage={substage}
             isFav={favorites.has(name)}
             onToggle={onToggle}
             query={query}
@@ -65,7 +67,11 @@ export function CompactGrid({ query, activeStages, favOnly, favorites, onToggle,
             let names = byStage[stage];
             if (favOnly) names = names.filter(a => favorites.has(a));
             if (query)   names = names.filter(a => a.toLowerCase().includes(query));
-            const artists = names.map(name => ({ name, time: getSetTime(day, stage, name) }));
+            const artists = names.map(name => ({
+              name,
+              time: getSetTime(day, stage, name),
+              substage: stage === 'Smaller Stages' ? getSubStage(day, name) : null,
+            }));
             return { stage, artists };
           })
           .filter(({ artists }) => artists.length > 0);

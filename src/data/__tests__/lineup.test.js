@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { STAGES, DAYS, LINEUP, getArtistsByStage, toTitle } from '../lineup';
 
 describe('constants', () => {
-  it('has 9 stages', () => {
-    expect(STAGES).toHaveLength(9);
+  it('has 10 stages', () => {
+    expect(STAGES).toHaveLength(10);
   });
 
   it('has 3 days', () => {
