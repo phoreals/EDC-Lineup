@@ -5,7 +5,7 @@ import { IconSearch, IconBack, IconFilter, IconCompact, IconList, IconClose, Ico
 import styles from './Controls.module.scss';
 
 const TABS = [
-  { id: 'SCHEDULE',  label: 'Schedule' },
+  { id: 'SCHEDULE',  label: 'Timetable' },
   { id: 'LIST',      label: 'Browse' },
 ];
 

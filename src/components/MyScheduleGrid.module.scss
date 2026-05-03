@@ -1,0 +1,156 @@
+@use '../styles/primitives' as p;
+@use '../styles/list-card' as lc;
+
+// ── Page wrapper ──────────────────────────────────────────────────
+.page {
+  padding: 0 var(--page-gutter);
+
+  @media (max-width: p.$bp-mobile) {
+    padding: 0 var(--page-gutter-mobile);
+  }
+}
+
+// ── Sticky top bar ────────────────────────────────────────────────
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) 0;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky-section);
+  background-color: var(--bg-overlay);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.backBtn, .copyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  background: none;
+  border: none;
+  font-family: var(--font-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  padding: var(--space-1) 0;
+  transition: color var(--duration-base) var(--ease-default);
+
+  @media (hover: hover) {
+    &:hover {
+      color: var(--text-primary);
+    }
+
+    &:active {
+      transform: scale(var(--scale-press));
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: var(--radius-xs);
+  }
+}
+
+.backBtn {
+  color: var(--text-muted);
+}
+
+.copyBtn {
+  color: var(--text-accent);
+}
+
+// ── Artist list ───────────────────────────────────────────────────
+.list {
+  display: flex;
+  flex-direction: column;
+  max-width: 560px;
+  padding-bottom: var(--space-grid-bottom);
+}
+
+// ── Day section header ────────────────────────────────────────────
+.dayHeader {
+  font-size: var(--text-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  padding: var(--space-8) 0 var(--space-3);
+  margin: 0;
+
+  &:first-child {
+    padding-top: var(--space-6);
+  }
+
+  @media (max-width: p.$bp-mobile) {
+    font-size: var(--text-lg);
+    padding: var(--space-6) 0 var(--space-2);
+  }
+}
+
+// ── Card (non-interactive) ─────────────────────────────────────────
+.card {
+  display: flex;
+  align-items: flex-start;
+  padding: var(--space-1-5) var(--space-2);
+  gap: var(--space-2);
+  border-radius: var(--radius-xs);
+  margin-left: calc(-1 * var(--space-2));
+}
+.info     { @include lc.card-info; }
+.name     { @include lc.card-name; }
+
+// ── Meta row (stage · time on one line) ───────────────────────────
+.meta {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1);
+}
+
+.stage { @include lc.card-meta; }
+.time  { @include lc.card-meta; }
+
+.dot {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  opacity: 0.5;
+  user-select: none;
+
+  @media (max-width: p.$bp-mobile) {
+    font-size: var(--text-xs);
+  }
+}
+
+// ── Empty state ───────────────────────────────────────────────────
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-16) var(--page-gutter);
+  text-align: center;
+  color: var(--text-muted);
+
+  p {
+    margin: 0;
+    font-size: var(--text-base);
+  }
+}
+
+.emptyHeart {
+  color: var(--color-heart-active);
+  opacity: 0.4;
+  display: flex;
+  align-items: center;
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+.emptyHint {
+  font-size: var(--text-sm) !important;
+  opacity: 0.7;
+}

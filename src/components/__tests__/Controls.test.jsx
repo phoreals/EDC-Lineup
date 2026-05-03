@@ -35,7 +35,7 @@ beforeEach(() => {
 describe('Controls', () => {
   it('renders all tabs', () => {
     render(<Controls {...defaultProps} />);
-    expect(screen.getByText('Schedule')).toBeInTheDocument();
+    expect(screen.getByText('Timetable')).toBeInTheDocument();
     expect(screen.getByText('Browse')).toBeInTheDocument();
   });
 

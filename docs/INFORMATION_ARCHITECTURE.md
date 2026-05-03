@@ -1,7 +1,7 @@
 # EDC Lineup - Information Architecture
 
 > Content model, navigation structure, data relationships, and user flows.
-> Last updated: 2026-05-01
+> Last updated: 2026-05-03
 
 ---
 
@@ -48,15 +48,15 @@ Smaller Stages entries include an optional `stage` field for the real venue name
 
 ```
 ┌─────────────┬──────────────┐
-│  Schedule   │   Browse     │
+│  Timetable  │   Browse     │
 └─────────────┴──────────────┘
 ```
 
-Two top-level tabs. Animated indicator bar slides between them.
+Two top-level tabs. Animated indicator bar slides between them. A third view ("My Schedule") is accessible via a toast prompt when the Favorited filter is active, but is not a tab — it replaces the entire controls bar with a minimal back/copy toolbar.
 
 ### Sub-Navigation (contextual)
 
-**Schedule view:**
+**Timetable view:**
 ```
 [ Friday ] [ Saturday ] [ Sunday ]     ...     [ S ][ M ][ L ]
    day pills (single-select)              column size toggle
@@ -72,25 +72,31 @@ Two top-level tabs. Animated indicator bar slides between them.
 
 ```
 Root
-├─ SCHEDULE
+├─ TIMETABLE (activeDay='SCHEDULE')
 │  ├─ Day: Friday | Saturday | Sunday
 │  ├─ Column size: Small | Medium | Large
 │  └─ Content: ScheduleGrid (time-based stage columns)
 │
-└─ BROWSE
-   ├─ Mode
-   │  ├─ A to Z → AlphaGrid (letter sections)
-   │  ├─ By Day → CompactGrid (day → stage sections)
-   │  └─ By Stage → ByStageGrid (stage → day sections)
-   ├─ Layout: Grid | List
-   └─ Day filter: Friday, Saturday, Sunday (multi-select)
+├─ BROWSE (activeDay='LIST')
+│  ├─ Mode
+│  │  ├─ A to Z → AlphaGrid (letter sections)
+│  │  ├─ By Day → CompactGrid (day → stage sections)
+│  │  └─ By Stage → ByStageGrid (stage → day sections)
+│  ├─ Layout: Grid | List
+│  └─ Day filter: Friday, Saturday, Sunday (multi-select)
+│
+└─ MY SCHEDULE (activeDay='MY_SCHEDULE')
+   ├─ Entry: toast prompt when Favorited filter is toggled on
+   ├─ Content: MyScheduleGrid (flat chronological list, favorites only)
+   ├─ Toolbar: Back button + Copy to clipboard
+   └─ No controls bar, no filters, no search
 ```
 
 ---
 
 ## View Structure
 
-### Schedule View (ScheduleGrid)
+### Timetable View (ScheduleGrid)
 
 Time-based grid. Each column is a stage; vertical position = time.
 
@@ -165,6 +171,29 @@ Artists grouped by stage, then by day within each stage.
 
 Card shows: name, time, favorite toggle (stage + day in headers). In list layout, name and time appear inline on a single row. Artists are sorted by set start time within each day column.
 
+### My Schedule View (MyScheduleGrid)
+
+Read-only flat list of favorited artist sets, sorted chronologically across all 3 days with day section headers.
+
+```
+  ← Back                                    Copy
+
+── Friday ──────────────────────────────
+  Artist A      Kinetic Field · 7:00pm – 8:00pm
+  Artist B      Circuit Grounds · 8:30pm – 9:30pm
+
+── Saturday ────────────────────────────
+  Artist C      Neon Garden · 10:00pm – 11:30pm
+  ...
+```
+
+- Cards are non-interactive (no favorite toggle, no heart icon)
+- Each card shows: artist name, then stage and time on the same line separated by a dot
+- Sticky top bar with Back button (returns to Browse) and Copy button
+- Copy exports a text summary of the full schedule to clipboard
+- No controls bar, no search, no filters — standalone page
+- Entry point: "Try My Schedule" toast that appears when the Favorited filter is toggled on
+
 ---
 
 ## Filter & Search System
@@ -176,7 +205,7 @@ Card shows: name, time, favorite toggle (stage + day in headers). In list layout
 | Search query | Text substring | All views | Search input |
 | Favorites | Boolean toggle | All views | Filter dropdown |
 | Stages | Multi-select (10) | All views | Filter dropdown |
-| Days | Single-select (Schedule) / Multi-select (Browse) | Contextual | Day pills + filter dropdown |
+| Days | Single-select (Timetable) / Multi-select (Browse) | Contextual | Day pills + filter dropdown |
 
 ### Filter Logic
 
@@ -208,8 +237,10 @@ visible = artists
 
 | When switching... | Filters... |
 |-------------------|-----------|
-| Schedule → Browse | Preserved |
-| Browse → Schedule | Preserved (day filter becomes single-select) |
+| Timetable → Browse | Preserved |
+| Browse → Timetable | Preserved (day filter becomes single-select) |
+| Any → My Schedule | N/A (no filters on My Schedule page) |
+| My Schedule → Browse | Preserved (returns to previous state) |
 | Between browse modes | Preserved |
 | Tab cycle (reselect) | Preserved |
 
@@ -223,7 +254,7 @@ All state lives in `App.jsx` and flows down via props.
 
 ```
 App.jsx
-├── activeDay          'SCHEDULE' | 'LIST'
+├── activeDay          'SCHEDULE' | 'LIST' | 'MY_SCHEDULE'
 ├── query              string
 ├── activeStages       Set<string>
 ├── favOnly            boolean
@@ -244,7 +275,7 @@ App.jsx
 | `favOnly` | Favorite-only filter in all grids |
 | `activeFilterDays` | Day selection (schedule) / day filter (browse) |
 | `listMode` | Which browse grid renders |
-| `colSize` | Schedule column widths |
+| `colSize` | Timetable column widths |
 | `listLayout` | Grid vs single-column in browse views |
 | `favorites` | Heart icon fill, card highlight, filter eligibility |
 
@@ -255,7 +286,7 @@ App.jsx
 ### 1. Explore the Lineup
 
 ```
-Land on app (Schedule, Friday)
+Land on app (Timetable, Friday)
   → Scroll horizontally to see all stages
   → Click day pills to switch days
   → OR switch to Browse tab
@@ -266,11 +297,14 @@ Land on app (Schedule, Friday)
 ### 2. Build a Personal Schedule
 
 ```
-Schedule view → scan stages
+Timetable view → scan stages
   → Click artist cards to favorite
   → Switch days, repeat
-  → Toggle "Favorited" filter to see selections only
-  → Check for time conflicts in schedule grid
+  → Toggle "Favorited" filter → toast appears: "Try My Schedule"
+  → Click toast → navigate to My Schedule page
+  → View all favorites chronologically
+  → Copy schedule to clipboard via Copy button
+  → Back button returns to main view
 ```
 
 ### 3. Find a Specific Artist
@@ -300,5 +334,5 @@ Browse → By Day mode
   → All 3 days visible with stage sub-columns
   → Filter to favorites only
   → See which day has most favorites
-  → Switch to Schedule for time-slot detail
+  → Switch to Timetable for time-slot detail
 ```

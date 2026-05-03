@@ -1,14 +1,14 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { DAYS } from './data/lineup';
 import { useFavorites } from './hooks/useFavorites';
 import { Header } from './components/Header';
 import { Controls } from './components/Controls';
-// Copy-to-clipboard toast for favorites — hidden for now, see FavToast.jsx
-// import { FavToast } from './components/FavToast';
+import { MyScheduleToast } from './components/MyScheduleToast';
 import { AlphaGrid } from './components/AlphaGrid';
 import { ByStageGrid } from './components/ByStageGrid';
 import { CompactGrid } from './components/CompactGrid';
 import { ScheduleGrid } from './components/ScheduleGrid';
+import { MyScheduleGrid } from './components/MyScheduleGrid';
 
 export default function App() {
   const [activeDay, setActiveDayRaw] = useState('SCHEDULE');
@@ -29,9 +29,8 @@ export default function App() {
   const [colSize, setColSize] = useState('md');
   const [listLayout, setListLayout] = useState('grid');
   const { favorites, toggle: toggleFavorite } = useFavorites();
-  // Copy-to-clipboard toast state — hidden for now, see FavToast.jsx
-  // const [toastDismissed, setToastDismissed] = useState(false);
-  // useEffect(() => { if (!favOnly) setToastDismissed(false); }, [favOnly]);
+  const [mySchedToastDismissed, setMySchedToastDismissed] = useState(false);
+  useEffect(() => { if (!favOnly) setMySchedToastDismissed(false); }, [favOnly]);
 
   const handleStageToggle = useCallback(stage => {
     setActiveStages(prev => {
@@ -57,8 +56,10 @@ export default function App() {
     setQuery('');
     setActiveStages(new Set());
     setFavOnly(false);
-    setActiveFilterDays(new Set());
-  }, []);
+    if (activeDay !== 'SCHEDULE') {
+      setActiveFilterDays(new Set());
+    }
+  }, [activeDay]);
 
   const normalizedQuery = query.toLowerCase().trim();
 
@@ -74,11 +75,10 @@ export default function App() {
     ? DAYS.filter(d => activeFilterDays.has(d))
     : DAYS;
 
-  // const isScheduleView = activeDay === 'SCHEDULE';
-  // const showFavToast = favOnly && !toastDismissed &&
-  //   (isScheduleView || (activeDay === 'LIST' && listMode === 'compact'));
+  const isMySchedule = activeDay === 'MY_SCHEDULE';
 
   const tagline = useMemo(() => {
+    if (isMySchedule) return 'My Schedule';
     if (activeDay === 'SCHEDULE') {
       const scheduleDay = activeFilterDays.size === 1
         ? [...activeFilterDays][0]
@@ -88,46 +88,53 @@ export default function App() {
         SATURDAY: 'Saturday, May 16, 2026',
         SUNDAY:   'Sunday, May 17, 2026',
       };
-      return `Schedule for ${verbose[scheduleDay]}`;
+      return `Timetable for ${verbose[scheduleDay]}`;
     }
     const browseMode = { list: 'alphabetically', compact: 'by day', byStage: 'by stage' };
     return `Browse the lineup ${browseMode[listMode]}`;
-  }, [activeDay, activeFilterDays, listMode]);
+  }, [activeDay, isMySchedule, activeFilterDays, listMode]);
 
   return (
     <>
       <Header tagline={tagline} />
 
-      <Controls
-        activeDay={activeDay}
-        onDayChange={setActiveDay}
-        query={query}
-        onQueryChange={setQuery}
-        activeStages={activeStages}
-        onStageToggle={handleStageToggle}
-        favOnly={favOnly}
-        onFavToggle={() => setFavOnly(v => !v)}
-        onClearFilters={handleClearFilters}
-        activeFilterDays={activeFilterDays}
-        onFilterDayToggle={handleFilterDayToggle}
-        listMode={listMode}
-        onListModeChange={setListMode}
-        colSize={colSize}
-        onColSizeChange={setColSize}
-        listLayout={listLayout}
-        onListLayoutChange={setListLayout}
-      />
+      {!isMySchedule && (
+        <>
+          <Controls
+            activeDay={activeDay}
+            onDayChange={setActiveDay}
+            query={query}
+            onQueryChange={setQuery}
+            activeStages={activeStages}
+            onStageToggle={handleStageToggle}
+            favOnly={favOnly}
+            onFavToggle={() => setFavOnly(v => !v)}
+            onClearFilters={handleClearFilters}
+            activeFilterDays={activeFilterDays}
+            onFilterDayToggle={handleFilterDayToggle}
+            listMode={listMode}
+            onListModeChange={setListMode}
+            colSize={colSize}
+            onColSizeChange={setColSize}
+            listLayout={listLayout}
+            onListLayoutChange={setListLayout}
+          />
 
-      {/* Copy-to-clipboard toast — hidden for now, see FavToast.jsx
-      <FavToast
-        visible={showFavToast}
-        favorites={favorites}
-        activeFilterDays={activeFilterDays}
-        onDismiss={() => setToastDismissed(true)}
-      /> */}
+          <MyScheduleToast
+            visible={favOnly && !mySchedToastDismissed}
+            onSwitch={() => { setActiveDayRaw('MY_SCHEDULE'); setFavOnly(false); setMySchedToastDismissed(true); }}
+            onDismiss={() => setMySchedToastDismissed(true)}
+          />
+        </>
+      )}
 
       <main>
-        {activeDay === 'SCHEDULE' ? (
+        {isMySchedule ? (
+          <MyScheduleGrid
+            favorites={favorites}
+            onBack={() => setActiveDayRaw('LIST')}
+          />
+        ) : activeDay === 'SCHEDULE' ? (
           <ScheduleGrid activeFilterDays={activeFilterDays} colSize={colSize} {...gridProps} />
         ) : listMode === 'byStage' ? (
           <ByStageGrid visibleDays={visibleDays} listLayout={listLayout} {...gridProps} />

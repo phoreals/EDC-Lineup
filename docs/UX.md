@@ -1,15 +1,15 @@
 # EDC Lineup - UX Documentation
 
 > Complete interaction reference for the EDC Lineup web app.
-> Last updated: 2026-05-01
+> Last updated: 2026-05-03
 
 ---
 
 ## Views
 
-The app has two top-level views, toggled via the **Schedule / Browse** tabs in the sticky controls bar.
+The app has two top-level views, toggled via the **Timetable / Browse** tabs in the sticky controls bar. A third view ("My Schedule") is accessible via a toast prompt and replaces the controls bar with a minimal toolbar.
 
-### Schedule View
+### Timetable View
 
 Time-based grid showing artist sets across stages. Each column is a stage; rows are time slots (1.2 px/min). A sticky time gutter on the left shows hour labels.
 
@@ -31,6 +31,15 @@ A **layout toggle** (grid / list) switches between auto-fill columns and single-
 
 Artists within each stage column are sorted by set start time (earliest first).
 
+### My Schedule View
+
+A standalone, read-only page showing only favorited artist sets in chronological order across all 3 days. Reached via a "Try My Schedule" toast banner that appears below the controls bar when the Favorited filter is toggled on.
+
+- **No controls bar** — Header (title + "My Schedule" tagline) only
+- **Sticky toolbar** with Back button (returns to Browse) and Copy button (copies text schedule to clipboard)
+- **Non-interactive cards** — no hearts, no click handlers; just artist name with stage and time on the same line (e.g., "Kinetic Field · 7:00pm – 8:00pm")
+- **Day section headers** — Friday, Saturday, Sunday
+
 ---
 
 ## Controls Bar
@@ -41,7 +50,7 @@ Sticky bar at the top with two rows.
 
 | Element | Desktop | Mobile |
 |---------|---------|--------|
-| **Tabs** (Schedule / Browse) | Horizontal tabs with animated indicator | Same, narrower |
+| **Tabs** (Timetable / Browse) | Horizontal tabs with animated indicator | Same, narrower |
 | **Search** | Always-visible input with clear button | Hidden; search icon opens full-width overlay |
 | **Filter button** | Icon button with badge count | Same, smaller tap target |
 
@@ -49,7 +58,7 @@ Sticky bar at the top with two rows.
 
 | Context | Left side | Right side |
 |---------|-----------|------------|
-| Schedule view | Day pills (Fri / Sat / Sun) | Column size toggle (S / M / L) |
+| Timetable view | Day pills (Fri / Sat / Sun) | Column size toggle (S / M / L) |
 | Browse view | Mode pills (A to Z / By Day / By Stage) | Layout toggle (grid / list) |
 
 ---
@@ -62,7 +71,7 @@ Clicking an already-active option cycles to the next one. This applies to:
 
 | Control | Options | Cycle order |
 |---------|---------|-------------|
-| Tabs (2 options) | Schedule, Browse | Schedule -> Browse -> Schedule |
+| Tabs (2 options) | Timetable, Browse | Timetable -> Browse -> Timetable |
 | Layout toggle (2 options) | Grid, List | Grid -> List -> Grid |
 | Day pills (3 options) | Friday, Saturday, Sunday | No-op (click inactive to select) |
 | Mode pills (3 options) | A to Z, By Day, By Stage | No-op (click inactive to select) |
@@ -191,6 +200,8 @@ When filters are active, a summary row appears below the controls bar:
 | Filter button (dropdown open) | Gradient border + gradient stroke icon |
 | Artist card (favorited) | Gradient background, brand border, bold name |
 | Schedule set block (favorited) | Radial gradient background |
+| My Schedule toast | Blur background, rounded, accent text |
+| My Schedule card | Non-interactive, no heart, no hover |
 
 ---
 
@@ -218,7 +229,7 @@ Raw data
 
 | State | Type | Default | Persistence |
 |-------|------|---------|-------------|
-| `activeDay` | `'SCHEDULE' \| 'LIST'` | `'SCHEDULE'` | -- |
+| `activeDay` | `'SCHEDULE' \| 'LIST' \| 'MY_SCHEDULE'` | `'SCHEDULE'` | -- |
 | `query` | `string` | `''` | -- |
 | `activeStages` | `Set<string>` | empty | -- |
 | `favOnly` | `boolean` | `false` | -- |

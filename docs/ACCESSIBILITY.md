@@ -283,6 +283,6 @@ All SVG icons, gradient definitions, mask SVGs, heart spans, and tab indicators 
 ## Known Limitations
 
 1. **No live regions**: filter count badge updates and active filter summary changes are not announced via `aria-live`. Screen reader users must navigate to the badge to discover the count.
-2. **No tablist pattern**: Schedule/Browse tabs use individual buttons rather than `role="tablist"` + `role="tab"` + arrow key navigation.
+2. **No tablist pattern**: Timetable/Browse tabs use individual buttons rather than `role="tablist"` + `role="tab"` + arrow key navigation.
 3. **Section headers**: grid section headers (letter groups, day headers, stage headers) use styled `<span>` elements rather than heading elements (`<h2>`-`<h6>`).
-4. **Toast notification**: FavToast (currently hidden) lacks `role="alert"` or `aria-live="polite"` for automatic announcement.
+4. **Toast notification**: MyScheduleToast lacks `role="alert"` or `aria-live="polite"` for automatic announcement.
