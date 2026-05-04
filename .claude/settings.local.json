@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E \"\\(package\\\\.json|App|Control|\\\\.jsx$\\)\")",
+      "Bash(npm run:*)",
+      "Bash(npx vite:*)",
+      "Bash(npm install:*)",
+      "Bash(npx vitest:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Read(//Users/dvu40/test-dev/**)",
+      "Bash(zip -r EDC-Lineup.zip EDC-Lineup/ --exclude \"EDC-Lineup/node_modules/*\")",
+      "Bash(zipinfo EDC-Lineup.zip)"
+    ]
+  }
+}
