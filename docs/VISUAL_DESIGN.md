@@ -305,7 +305,7 @@ Applied to: controls bar, schedule header.
 
 **List view card layout** (By Day, By Stage): in single-column list mode, artist name and set time display inline on one row. The name truncates with `text-overflow: ellipsis` when space is tight, while the time never shrinks. Word break hints (`<wbr>`, soft hyphens) from `Highlight.jsx` are neutralized via `wbr { display: none }` and `span { display: inline !important }` to prevent unwanted line breaks. A to Z retains the default stacked layout since it also shows the stage name. A to Z defaults to list layout.
 
-**Toast sizing**: `--toast-height: 44px` is declared on `.banner` and drives both the banner height and the dismiss button size. The dismiss button uses `align-self: stretch` + `aspect-ratio: 1` so it is always square and exactly as tall as the toast. No separate height/width declaration needed on the button.
+**Toast sizing**: `--toast-height` is declared on `.banner` — 52 px on desktop, 44 px on mobile — and drives both the banner height and the dismiss button size. The dismiss button uses `align-self: stretch` + `aspect-ratio: 1` so it is always square and exactly as tall as the toast. No separate height/width declaration needed on the button. Desktop toast is fixed bottom-right (480 px max-width); mobile toast is full-width bottom.
 
 ### Schedule Column Sizing
 

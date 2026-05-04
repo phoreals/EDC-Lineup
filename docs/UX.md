@@ -33,13 +33,13 @@ Artists within each stage column are sorted by set start time (earliest first).
 
 ### My Schedule View
 
-A standalone, read-only page showing only favorited artist sets in chronological order across all 3 days. Reached via a "View My Schedule (List)" toast that appears below the controls bar when the Favorited filter is toggled on.
+A standalone, read-only page showing only favorited artist sets in chronological order. Reached via a "View My Schedule (List)" toast that appears when the Favorited filter is toggled on.
 
 - **No controls bar** — Header (title + "My Schedule" tagline) only
 - **Back button** — outlined pill with back arrow icon ("Return to Favorited View"), non-sticky, at top of page
-- **Copy toast** — fixed bottom toast ("Copy to Clipboard") with copy icon; dismissable; shows "Copied!" with a check icon on success
-- **Non-interactive cards** — no hearts, no click handlers; just artist name with stage and time on the same line (e.g., "Kinetic Field · 7:00pm – 8:00pm")
-- **Day section headers** — Friday, Saturday, Sunday
+- **Layout** — up to 3 columns side by side, one per day (Friday / Saturday / Sunday); only days with favorites render a column; collapses to 1 column on mobile
+- **Non-interactive cards** — no hearts, no click handlers; artist name with stage and time on the same line (e.g., "Kinetic Field · 7:00pm – 8:00pm")
+- **Copy toast** — "Copy to Clipboard" with copy icon; shows "Copied!" + check icon on success; dismissable
 
 ---
 
@@ -156,6 +156,8 @@ When filters are active, a summary row appears below the controls bar:
 | Search box focus | gradient ring + glow via `::before` / `::after` | 150 ms |
 | Toast enter | fade in + translateY(14 px -> 0), ease-out-expo | 520 ms (120 ms delay) |
 | Toast exit | fade out + translateY(0 -> 14 px) | 300 ms |
+| Toast position (desktop) | Fixed bottom-right, 480 px max-width, 52 px tall | — |
+| Toast position (mobile) | Fixed bottom full-width, 44 px tall | — |
 
 ---
 
@@ -203,7 +205,7 @@ When filters are active, a summary row appears below the controls bar:
 | Filter button (dropdown open) | Gradient border + gradient stroke icon |
 | Artist card (favorited) | Gradient background, brand border, bold name |
 | Schedule set block (favorited) | Radial gradient background |
-| My Schedule toast | Blur background, rounded, accent text, icon left of label, square X button flush right (44 × 44 px) |
+| My Schedule toast | Blur background, rounded, accent text, icon left of label; square X button flush right sized to toast height; 52 px desktop / 44 px mobile; bottom-right on desktop, full-width bottom on mobile |
 | My Schedule card | Non-interactive, no heart, no hover |
 
 ---

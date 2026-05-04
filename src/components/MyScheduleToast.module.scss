@@ -1,49 +1,52 @@
 @use '../styles/primitives' as p;
 
-@keyframes toastIn {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@keyframes toastInUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-
-@keyframes toastOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(14px);
-  }
+@keyframes toastOutDown {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(14px); }
+}
+@keyframes toastInDown {
+  from { opacity: 0; transform: translateY(-14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes toastOutUp {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-14px); }
 }
 
 .wrapper {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
   z-index: var(--z-toast);
-  padding: var(--space-3) var(--page-gutter);
   pointer-events: none;
 
+  // Desktop: bottom right
+  bottom: 0;
+  right: 0;
+  padding: var(--space-3) var(--page-gutter);
+
+  // Mobile: full-width bottom
   @media (max-width: p.$bp-mobile) {
+    left: 0;
     padding: var(--space-3) var(--page-gutter-mobile);
   }
 }
 
 .banner {
-  --toast-height: 44px;
+  --toast-height: 52px;
 
   display: flex;
   align-items: stretch;
   height: var(--toast-height);
   gap: var(--space-2);
-  padding: 0 0 0 var(--space-3);
+  padding: 0 0 0 var(--space-4);
+
+  @media (max-width: p.$bp-mobile) {
+    --toast-height: 44px;
+    padding: 0 0 0 var(--space-3);
+  }
   background-color: var(--bg-overlay);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -51,9 +54,13 @@
   border-radius: var(--radius-sm);
   cursor: pointer;
   pointer-events: auto;
-  animation: toastIn 520ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+  animation: toastInUp 520ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
   transition: background var(--duration-base) var(--ease-default);
   overflow: hidden;
+
+  @media (min-width: calc(p.$bp-mobile + 1px)) {
+    max-width: 480px;
+  }
 
   @media (hover: hover) {
     &:hover {
@@ -63,7 +70,7 @@
 }
 
 .bannerExit {
-  animation: toastOut 300ms var(--ease-default) forwards;
+  animation: toastOutDown 300ms var(--ease-default) forwards;
 }
 
 .icon {

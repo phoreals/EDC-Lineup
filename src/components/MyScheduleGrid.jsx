@@ -1,4 +1,4 @@
-import { Fragment, useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { DAYS, STAGE_ORDER, toTitle } from '../data/lineup';
 import { SCHEDULE, getSetTime } from '../data/schedule';
 import { IconHeart, IconBack, IconCopy, IconCheck } from './Icons';
@@ -94,6 +94,12 @@ export function MyScheduleGrid({ favorites, onBack }) {
 
   sets.sort((a, b) => a.dayIdx - b.dayIdx || a.startMin - b.startMin);
 
+  // Group into day columns
+  const dayColumns = DAYS.map(day => ({
+    day,
+    sets: sets.filter(s => s.day === day),
+  })).filter(col => col.sets.length > 0);
+
   return (
     <div className={styles.page}>
       <button className={styles.backBtn} onClick={onBack}>
@@ -101,29 +107,29 @@ export function MyScheduleGrid({ favorites, onBack }) {
         Return to Favorited View
       </button>
 
-      {sets.length === 0 ? (
+      {dayColumns.length === 0 ? (
         <div className={styles.empty}>
           <span className={styles.emptyHeart}><IconHeart size={32} filled /></span>
           <p>No favorites yet</p>
           <p className={styles.emptyHint}>Tap the heart on any artist to add them here.</p>
         </div>
       ) : (
-        <div className={styles.list}>
-          {sets.map((set, i) => {
-            const showDayHeader = i === 0 || set.day !== sets[i - 1].day;
-            return (
-              <Fragment key={`${set.day}-${set.artist}`}>
-                {showDayHeader && (
-                  <div className={styles.dayHeader}>{toTitle(set.day)}</div>
-                )}
-                <MyScheduleCard
-                  artist={set.artist}
-                  stage={set.stage}
-                  time={set.time}
-                />
-              </Fragment>
-            );
-          })}
+        <div className={styles.dayGrid}>
+          {dayColumns.map(({ day, sets: daySets }) => (
+            <div key={day} className={styles.dayCol}>
+              <div className={styles.dayHeader}>{toTitle(day)}</div>
+              <div className={styles.cardList}>
+                {daySets.map(set => (
+                  <MyScheduleCard
+                    key={set.artist}
+                    artist={set.artist}
+                    stage={set.stage}
+                    time={set.time}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       )}
 

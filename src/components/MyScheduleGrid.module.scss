@@ -47,30 +47,47 @@
   }
 }
 
-// ── Artist list ───────────────────────────────────────────────────
-.list {
-  display: flex;
-  flex-direction: column;
-  max-width: 560px;
-  padding-bottom: calc(var(--space-grid-bottom) + 60px); // extra room for bottom toast
+// ── Day columns grid ──────────────────────────────────────────────
+.dayGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--grid-min-col), 1fr));
+  gap: var(--space-6);
+  padding-top: var(--space-4);
+  padding-bottom: calc(var(--space-grid-bottom) + 60px);
+
+  @media (max-width: p.$bp-mobile) {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    padding-top: var(--space-3);
+  }
 }
 
-// ── Day section header ────────────────────────────────────────────
+// ── Day column ────────────────────────────────────────────────────
+.dayCol {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+// ── Day header ────────────────────────────────────────────────────
 .dayHeader {
   font-size: var(--text-xl);
   font-weight: var(--font-weight-bold);
   color: var(--text-primary);
-  padding: var(--space-8) 0 var(--space-3);
+  padding: var(--space-4) 0 var(--space-2);
   margin: 0;
-
-  &:first-child {
-    padding-top: var(--space-6);
-  }
 
   @media (max-width: p.$bp-mobile) {
     font-size: var(--text-lg);
-    padding: var(--space-6) 0 var(--space-2);
   }
+}
+
+// ── Card list within a day column ─────────────────────────────────
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-left: calc(-1 * var(--space-2));
 }
 
 // ── Card (non-interactive) ─────────────────────────────────────────
@@ -80,7 +97,6 @@
   padding: var(--space-1-5) var(--space-2);
   gap: var(--space-2);
   border-radius: var(--radius-xs);
-  margin-left: calc(-1 * var(--space-2));
 }
 .info     { @include lc.card-info; }
 .name     { @include lc.card-name; }
