@@ -229,6 +229,8 @@ Schedule grid and header use `clamp()` for fluid sizing:
 **Dropdown exit**: reverse of enter
 **Tab indicator**: `transform` + `width` over `--duration-slow`
 **Search overlay (mobile)**: `opacity` + `translateX` over `--duration-base`
+**Toast enter**: `opacity 0 → 1, translateY(14px → 0)` over 520 ms with 120 ms delay, `cubic-bezier(0.16, 1, 0.3, 1)` (ease-out-expo); applied to `.banner`, not `.wrapper`, to avoid compositor isolation breaking `backdrop-filter`
+**Toast exit**: `opacity 1 → 0, translateY(0 → 14px)` over 300 ms; component stays mounted for 320 ms after `visible` goes false
 
 ### Reduced Motion
 
@@ -301,7 +303,9 @@ Applied to: controls bar, schedule header.
 
 **Sticky section headers** (browse views) use a `::before` pseudo-element for the backdrop, with a `mask-image` gradient that fades from opaque at top (solid through 60%) to transparent at bottom. This creates a soft fade-out when content scrolls behind the stuck header.
 
-**List view card layout** (By Day, By Stage): in single-column list mode, artist name and set time display inline on one row. The name truncates with `text-overflow: ellipsis` when space is tight, while the time never shrinks. Word break hints (`<wbr>`, soft hyphens) from `Highlight.jsx` are neutralized via `wbr { display: none }` and `span { display: inline !important }` to prevent unwanted line breaks. A to Z retains the default stacked layout since it also shows the stage name.
+**List view card layout** (By Day, By Stage): in single-column list mode, artist name and set time display inline on one row. The name truncates with `text-overflow: ellipsis` when space is tight, while the time never shrinks. Word break hints (`<wbr>`, soft hyphens) from `Highlight.jsx` are neutralized via `wbr { display: none }` and `span { display: inline !important }` to prevent unwanted line breaks. A to Z retains the default stacked layout since it also shows the stage name. A to Z defaults to list layout.
+
+**Toast sizing**: `--toast-height: 44px` is declared on `.banner` and drives both the banner height and the dismiss button size. The dismiss button uses `align-self: stretch` + `aspect-ratio: 1` so it is always square and exactly as tall as the toast. No separate height/width declaration needed on the button.
 
 ### Schedule Column Sizing
 

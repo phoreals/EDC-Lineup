@@ -189,10 +189,10 @@ Read-only flat list of favorited artist sets, sorted chronologically across all 
 
 - Cards are non-interactive (no favorite toggle, no heart icon)
 - Each card shows: artist name, then stage and time on the same line separated by a dot
-- Sticky top bar with Back button (returns to Browse) and Copy button
-- Copy exports a text summary of the full schedule to clipboard
+- Back button ("Return to Favorited View") at top of page — outlined pill with back arrow icon, non-sticky
+- Copy toast fixed to bottom — "Copy to Clipboard" with copy icon; shows "Copied!" + check icon on success; dismissable
 - No controls bar, no search, no filters — standalone page
-- Entry point: "Try My Schedule" toast that appears when the Favorited filter is toggled on
+- Entry point: "View My Schedule (List)" toast that appears when the Favorited filter is toggled on
 
 ---
 
@@ -300,7 +300,7 @@ Land on app (Timetable, Friday)
 Timetable view → scan stages
   → Click artist cards to favorite
   → Switch days, repeat
-  → Toggle "Favorited" filter → toast appears: "Try My Schedule"
+  → Toggle "Favorited" filter → toast appears: "View My Schedule (List)"
   → Click toast → navigate to My Schedule page
   → View all favorites chronologically
   → Copy schedule to clipboard via Copy button

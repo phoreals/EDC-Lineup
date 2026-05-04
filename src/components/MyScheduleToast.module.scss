@@ -1,55 +1,87 @@
 @use '../styles/primitives' as p;
 
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toastOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
 .wrapper {
-  position: sticky;
-  top: var(--sticky-top);
-  z-index: var(--z-sticky-section);
-  padding: var(--space-2) var(--page-gutter) 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-toast);
+  padding: var(--space-3) var(--page-gutter);
+  pointer-events: none;
 
   @media (max-width: p.$bp-mobile) {
-    padding: var(--space-2) var(--page-gutter-mobile) 0;
+    padding: var(--space-3) var(--page-gutter-mobile);
   }
 }
 
 .banner {
+  --toast-height: 44px;
+
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: stretch;
+  height: var(--toast-height);
   gap: var(--space-2);
-  padding: var(--space-1-5) var(--space-3);
+  padding: 0 0 0 var(--space-3);
   background-color: var(--bg-overlay);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
+  cursor: pointer;
+  pointer-events: auto;
+  animation: toastIn 520ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+  transition: background var(--duration-base) var(--ease-default);
+  overflow: hidden;
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--bg-hover);
+    }
+  }
 }
 
-.action {
-  background: none;
-  border: none;
+.bannerExit {
+  animation: toastOut 300ms var(--ease-default) forwards;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  color: var(--text-accent);
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.label {
   color: var(--text-accent);
   font-family: var(--font-primary);
   font-size: var(--text-sm);
   font-weight: var(--font-weight-bold);
-  cursor: pointer;
-  padding: 0;
   white-space: nowrap;
-  transition: color var(--duration-base) var(--ease-default);
-
-  @media (hover: hover) {
-    &:hover {
-      color: var(--text-primary);
-    }
-
-    &:active {
-      transform: scale(var(--scale-press));
-    }
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-brand);
-    outline-offset: 1px;
-  }
+  flex: 1;
+  align-self: center;
 }
 
 .dismiss {
@@ -60,22 +92,22 @@
   border: none;
   color: var(--text-muted);
   cursor: pointer;
-  padding: var(--space-0-5);
+  padding: 0;
   flex-shrink: 0;
-  transition: color var(--duration-base) var(--ease-default);
+  aspect-ratio: 1;
+  align-self: stretch;
+  transition: color var(--duration-base) var(--ease-default),
+              background var(--duration-base) var(--ease-default);
 
   @media (hover: hover) {
     &:hover {
       color: var(--text-primary);
-    }
-
-    &:active {
-      transform: scale(var(--scale-press));
+      background: var(--bg-hover);
     }
   }
 
   &:focus-visible {
     outline: 2px solid var(--color-brand);
-    outline-offset: 1px;
+    outline-offset: -2px;
   }
 }

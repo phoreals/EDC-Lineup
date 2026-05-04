@@ -33,10 +33,11 @@ Artists within each stage column are sorted by set start time (earliest first).
 
 ### My Schedule View
 
-A standalone, read-only page showing only favorited artist sets in chronological order across all 3 days. Reached via a "Try My Schedule" toast banner that appears below the controls bar when the Favorited filter is toggled on.
+A standalone, read-only page showing only favorited artist sets in chronological order across all 3 days. Reached via a "View My Schedule (List)" toast that appears below the controls bar when the Favorited filter is toggled on.
 
 - **No controls bar** — Header (title + "My Schedule" tagline) only
-- **Sticky toolbar** with Back button (returns to Browse) and Copy button (copies text schedule to clipboard)
+- **Back button** — outlined pill with back arrow icon ("Return to Favorited View"), non-sticky, at top of page
+- **Copy toast** — fixed bottom toast ("Copy to Clipboard") with copy icon; dismissable; shows "Copied!" with a check icon on success
 - **Non-interactive cards** — no hearts, no click handlers; just artist name with stage and time on the same line (e.g., "Kinetic Field · 7:00pm – 8:00pm")
 - **Day section headers** — Friday, Saturday, Sunday
 
@@ -153,6 +154,8 @@ When filters are active, a summary row appears below the controls bar:
 | Tab indicator slide | transform + width | 200 ms |
 | Mobile search toggle | opacity + translateX | 150 ms |
 | Search box focus | gradient ring + glow via `::before` / `::after` | 150 ms |
+| Toast enter | fade in + translateY(14 px -> 0), ease-out-expo | 520 ms (120 ms delay) |
+| Toast exit | fade out + translateY(0 -> 14 px) | 300 ms |
 
 ---
 
@@ -200,7 +203,7 @@ When filters are active, a summary row appears below the controls bar:
 | Filter button (dropdown open) | Gradient border + gradient stroke icon |
 | Artist card (favorited) | Gradient background, brand border, bold name |
 | Schedule set block (favorited) | Radial gradient background |
-| My Schedule toast | Blur background, rounded, accent text |
+| My Schedule toast | Blur background, rounded, accent text, icon left of label, square X button flush right (44 × 44 px) |
 | My Schedule card | Non-interactive, no heart, no hover |
 
 ---
@@ -236,7 +239,7 @@ Raw data
 | `activeFilterDays` | `Set<string>` | empty | -- |
 | `listMode` | `'list' \| 'compact' \| 'byStage'` | `'list'` | -- |
 | `colSize` | `'sm' \| 'md' \| 'lg'` | `'md'` | -- |
-| `listLayout` | `'grid' \| 'list'` | `'grid'` | -- |
+| `listLayout` | `'grid' \| 'list'` | `'list'` | -- |
 | `favorites` | `Set<string>` | empty | `localStorage` |
 
 ---

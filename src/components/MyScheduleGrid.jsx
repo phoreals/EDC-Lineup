@@ -1,7 +1,8 @@
 import { Fragment, useState, useCallback } from 'react';
 import { DAYS, STAGE_ORDER, toTitle } from '../data/lineup';
 import { SCHEDULE, getSetTime } from '../data/schedule';
-import { IconHeart, IconBack, IconCopy } from './Icons';
+import { IconHeart, IconBack, IconCopy, IconCheck } from './Icons';
+import { MyScheduleToast } from './MyScheduleToast';
 import styles from './MyScheduleGrid.module.scss';
 
 function fmt24to12(time24) {
@@ -59,6 +60,7 @@ function MyScheduleCard({ artist, stage, time }) {
 
 export function MyScheduleGrid({ favorites, onBack }) {
   const [copied, setCopied] = useState(false);
+  const [copyDismissed, setCopyDismissed] = useState(false);
 
   const handleCopy = useCallback(async () => {
     const text = buildCopyText(favorites);
@@ -94,18 +96,10 @@ export function MyScheduleGrid({ favorites, onBack }) {
 
   return (
     <div className={styles.page}>
-      <div className={styles.topBar}>
-        <button className={styles.backBtn} onClick={onBack}>
-          <IconBack size={16} />
-          <span>Back</span>
-        </button>
-        {sets.length > 0 && (
-          <button className={styles.copyBtn} onClick={handleCopy}>
-            <IconCopy size={14} />
-            <span>{copied ? 'Copied!' : 'Copy'}</span>
-          </button>
-        )}
-      </div>
+      <button className={styles.backBtn} onClick={onBack}>
+        <IconBack size={15} />
+        Return to Favorited View
+      </button>
 
       {sets.length === 0 ? (
         <div className={styles.empty}>
@@ -132,6 +126,14 @@ export function MyScheduleGrid({ favorites, onBack }) {
           })}
         </div>
       )}
+
+      <MyScheduleToast
+        visible={sets.length > 0 && !copyDismissed}
+        icon={copied ? <IconCheck size={15} /> : <IconCopy size={15} />}
+        label={copied ? 'Copied!' : 'Copy to Clipboard'}
+        onAction={handleCopy}
+        onDismiss={() => setCopyDismissed(true)}
+      />
     </div>
   );
 }

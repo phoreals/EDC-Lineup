@@ -13,6 +13,8 @@ React + Vite app for browsing the EDC 2026 festival lineup. Filter by day or sta
 - **Stage Filters** — dropdown checklist to filter by stage or favorites; animated enter/exit transitions
 - **Search** — instant artist search across all views; mobile search bar slides in/out with animation
 - **Favorites** — star artists to highlight them; persisted to localStorage
+- **My Schedule** — standalone page showing all favorited sets in chronological order with stage info; accessible via "View My Schedule (List)" toast when Favorited filter is active; copy-to-clipboard via bottom toast
+- **Toast notifications** — fixed bottom banners with slide-up entrance animation, exit animation, icon, and full-height square dismiss button; used for "View My Schedule (List)" and "Copy to Clipboard"
 - **Dynamic Header** — tagline updates per view: "Schedule for Friday, May 15, 2026" or "Browse the lineup alphabetically"
 
 ## Stack
@@ -58,10 +60,11 @@ src/
 │   ├── ByStageGrid.jsx / .module.scss   # By Stage view with day columns per stage
 │   ├── CompactGrid.jsx / .module.scss   # By Day view (compact artist list)
 │   ├── Controls.jsx / .module.scss      # Nav tabs, day filters, dropdowns
-│   ├── FavToast.jsx / .module.scss      # Copy-to-clipboard toast (hidden)
 │   ├── Header.jsx / .module.scss        # Page header
 │   ├── Highlight.jsx                    # Search highlighting + word break hints (soft hyphens)
-│   ├── Icons.jsx                        # SVG icon components
+│   ├── Icons.jsx                        # SVG icon components (Search, Back, Filter, List, Copy, Check, Heart, Close, Calendar, ColSize)
+│   ├── MyScheduleGrid.jsx / .module.scss  # My Schedule standalone page
+│   ├── MyScheduleToast.jsx / .module.scss # Reusable fixed-bottom toast (enter/exit animation, icon, square dismiss)
 │   ├── ScheduleGrid.jsx / .module.scss  # Timeline schedule view
 │   ├── StageColumn.jsx / .module.scss   # Stage column in list view
 │   └── __tests__/                       # Component tests

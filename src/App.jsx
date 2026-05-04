@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { DAYS } from './data/lineup';
 import { useFavorites } from './hooks/useFavorites';
+import { IconList } from './components/Icons';
 import { Header } from './components/Header';
 import { Controls } from './components/Controls';
 import { MyScheduleToast } from './components/MyScheduleToast';
@@ -27,7 +28,7 @@ export default function App() {
   const [activeFilterDays, setActiveFilterDays] = useState(new Set());
   const [listMode, setListMode] = useState('list');
   const [colSize, setColSize] = useState('md');
-  const [listLayout, setListLayout] = useState('grid');
+  const [listLayout, setListLayout] = useState('list');
   const { favorites, toggle: toggleFavorite } = useFavorites();
   const [mySchedToastDismissed, setMySchedToastDismissed] = useState(false);
   useEffect(() => { if (!favOnly) setMySchedToastDismissed(false); }, [favOnly]);
@@ -122,7 +123,9 @@ export default function App() {
 
           <MyScheduleToast
             visible={favOnly && !mySchedToastDismissed}
-            onSwitch={() => { setActiveDayRaw('MY_SCHEDULE'); setFavOnly(false); setMySchedToastDismissed(true); }}
+            icon={<IconList size={15} />}
+            label="View My Schedule (List)"
+            onAction={() => { setActiveDayRaw('MY_SCHEDULE'); setFavOnly(false); setMySchedToastDismissed(true); }}
             onDismiss={() => setMySchedToastDismissed(true)}
           />
         </>
