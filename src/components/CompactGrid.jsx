@@ -1,18 +1,18 @@
 import { STAGE_ORDER, DAYS, getArtistsByStage, toTitle } from '../data/lineup';
-import { SCHEDULE, getSetTime, getSubStageNames } from '../data/schedule';
+import { SCHEDULE, getSetTime, getSubStageNames, formatSlotTime, makeSetKey } from '../data/schedule';
 import { IconHeart } from './Icons';
 import { HighlightMatch } from './Highlight';
 import styles from './CompactGrid.module.scss';
 
-function CompactCard({ name, stage, time, substage, isFav, onToggle, query }) {
+function CompactCard({ name, stage, time, substage, setKey, isFav, onToggle, query }) {
   return (
     <div
       className={`${styles.card} ${isFav ? styles.favorited : ''}`}
-      onClick={() => onToggle(name)}
+      onClick={() => onToggle(setKey)}
       title={[name, substage || stage, time, isFav ? 'favorited' : ''].filter(Boolean).join(' — ')}
       role="button"
       tabIndex={0}
-      onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onToggle(name)}
+      onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onToggle(setKey)}
       aria-pressed={isFav}
       aria-label={[name, substage || stage, time, isFav ? 'favorited' : ''].filter(Boolean).join(' — ')}
     >
@@ -35,14 +35,15 @@ function CompactStageColumn({ stage, artists, favorites, onToggle, query }) {
         <span className={styles.sectionTitle}>{stage}</span>
       </div>
       <div className={styles.list}>
-        {artists.map(({ name, time, substage }) => (
+        {artists.map(({ name, time, substage, setKey }) => (
           <CompactCard
-            key={name}
+            key={setKey}
             name={name}
             stage={stage}
             time={time}
             substage={substage}
-            isFav={favorites.has(name)}
+            setKey={setKey}
+            isFav={favorites.has(setKey)}
             onToggle={onToggle}
             query={query}
           />
@@ -65,14 +66,13 @@ export function CompactGrid({ query, activeStages, favOnly, favorites, onToggle,
         const columns = stageList
           .flatMap(stage => {
             if (stage !== 'Smaller Stages') {
-              let names = byStage[stage];
-              if (favOnly) names = names.filter(a => favorites.has(a));
-              if (query)   names = names.filter(a => a.toLowerCase().includes(query));
               const stageSlots = SCHEDULE[day]?.[stage] || [];
-              const artists = names.map(name => {
-                const slot = stageSlots.find(s => s.artist === name);
-                const [h, m] = (slot?.start || '0:0').split(':').map(Number);
-                return { name, time: getSetTime(day, stage, name), substage: null, startMin: h * 60 + m };
+              let slots = stageSlots;
+              if (favOnly) slots = slots.filter(s => favorites.has(makeSetKey(s.artist, day, s.start)));
+              if (query)   slots = slots.filter(s => s.artist.toLowerCase().includes(query));
+              const artists = slots.map(slot => {
+                const [h, m] = slot.start.split(':').map(Number);
+                return { name: slot.artist, time: getSetTime(day, stage, slot.artist), substage: null, startMin: h * 60 + m, setKey: makeSetKey(slot.artist, day, slot.start) };
               });
               artists.sort((a, b) => a.startMin - b.startMin);
               return [{ stage, artists }];
@@ -81,11 +81,11 @@ export function CompactGrid({ query, activeStages, favOnly, favorites, onToggle,
             const smallerSlots = SCHEDULE[day]?.['Smaller Stages'] || [];
             return getSubStageNames(day).map(subStage => {
               let slots = smallerSlots.filter(s => s.stage === subStage);
-              if (favOnly) slots = slots.filter(s => favorites.has(s.artist));
+              if (favOnly) slots = slots.filter(s => favorites.has(makeSetKey(s.artist, day, s.start)));
               if (query)   slots = slots.filter(s => s.artist.toLowerCase().includes(query));
               const artists = slots.map(slot => {
                 const [h, m] = slot.start.split(':').map(Number);
-                return { name: slot.artist, time: getSetTime(day, 'Smaller Stages', slot.artist), substage: null, startMin: h * 60 + m };
+                return { name: slot.artist, time: formatSlotTime(slot), substage: null, startMin: h * 60 + m, setKey: makeSetKey(slot.artist, day, slot.start) };
               });
               artists.sort((a, b) => a.startMin - b.startMin);
               return { stage: subStage, artists };

@@ -2,6 +2,12 @@
 // Times in HH:MM (24h; hours >23 wrap to next day, e.g. 25:00 = 1:00am)
 // Duration in minutes: 60 | 75 | 90 | 120
 
+/** Returns a formatted time range string directly from a slot object */
+export function formatSlotTime(slot) {
+  const end = addMinutes(slot.start, slot.duration);
+  return `${formatTime(slot.start)}\u2009–\u2009${formatTime(end)}`;
+}
+
 /** Convert "19:30" → "7:30pm", handles >24h wrapping */
 export function formatTime(time24) {
   const [h, m] = time24.split(':').map(Number);
@@ -14,6 +20,11 @@ function addMinutes(time24, minutes) {
   const [h, m] = time24.split(':').map(Number);
   const total = h * 60 + m + minutes;
   return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, '0')}`;
+}
+
+/** Creates a unique key for a specific set: "Artist::DAY::HH:MM" */
+export function makeSetKey(artist, day, start) {
+  return `${artist}::${day}::${start}`;
 }
 
 /** Returns formatted time range string or null */

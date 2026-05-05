@@ -1,6 +1,6 @@
 import { useMemo, useRef, useEffect, useState } from 'react';
 import { STAGE_ORDER, STAGE_ABBR } from '../data/lineup';
-import { SCHEDULE, getSubStageNames } from '../data/schedule';
+import { SCHEDULE, getSubStageNames, makeSetKey } from '../data/schedule';
 import { IconHeart } from './Icons';
 import { HighlightMatch } from './Highlight';
 import { STAGE_COLORS } from '../data/stageColors';
@@ -47,7 +47,7 @@ const TICKS = Array.from({ length: TOTAL_MIN / 30 + 1 }, (_, i) => {
 });
 
 // ── SetBlock ──────────────────────────────────────────────────
-function SetBlock({ slot, stage, isFav, onToggle, compact, query }) {
+function SetBlock({ slot, stage, setKey, isFav, onToggle, compact, query }) {
   const startAbsMin = parseTime(slot.start);
   const offsetMin   = startAbsMin - FESTIVAL_START_MIN;
   const top         = offsetMin * PX_PER_MIN;
@@ -72,10 +72,10 @@ function SetBlock({ slot, stage, isFav, onToggle, compact, query }) {
           : `color-mix(in srgb, ${color.border} 53%, transparent)`,
         color:       color.text,
       }}
-      onClick={() => onToggle(slot.artist)}
+      onClick={() => onToggle(setKey)}
       role="button"
       tabIndex={0}
-      onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onToggle(slot.artist)}
+      onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onToggle(setKey)}
       aria-label={[slot.artist, stage, `${fmtLabel(startAbsMin)} to ${fmtLabel(endAbsMin)}`, isFav ? 'favorited' : ''].filter(Boolean).join(' — ')}
     >
       <span className={styles.blockName}><HighlightMatch text={slot.artist} query={query} /></span>
@@ -166,7 +166,7 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
 
     visibleStages.filter(s => s !== 'Smaller Stages').forEach(stage => {
       result[stage] = (dayData[stage] || []).filter(slot => {
-        if (favOnly && !favorites.has(slot.artist)) return false;
+        if (favOnly && !favorites.has(makeSetKey(slot.artist, scheduleDay, slot.start))) return false;
         if (query  && !slot.artist.toLowerCase().includes(query)) return false;
         return true;
       });
@@ -178,7 +178,7 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
       result[subStage] = smallerSlots
         .filter(slot => {
           if (slot.stage !== subStage) return false;
-          if (favOnly && !favorites.has(slot.artist)) return false;
+          if (favOnly && !favorites.has(makeSetKey(slot.artist, scheduleDay, slot.start))) return false;
           if (query  && !slot.artist.toLowerCase().includes(query)) return false;
           return true;
         })
@@ -265,7 +265,8 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
                   key={slot.artist + slot.start}
                   slot={slot}
                   stage={stage}
-                  isFav={favorites.has(slot.artist)}
+                  setKey={makeSetKey(slot.artist, scheduleDay, slot.start)}
+                  isFav={favorites.has(makeSetKey(slot.artist, scheduleDay, slot.start))}
                   onToggle={onToggle}
                   compact={isNarrow}
                   query={query}

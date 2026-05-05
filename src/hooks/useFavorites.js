@@ -4,7 +4,10 @@ const STORAGE_KEY = 'edc-lineup-favorites';
 
 function readStorage() {
   try {
-    return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+    const arr = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    // Migrate: old format was plain artist names (no '::'); clear stale data
+    if (arr.some(item => !item.includes('::'))) return new Set();
+    return new Set(arr);
   } catch {
     return new Set();
   }

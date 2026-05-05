@@ -1,18 +1,19 @@
-import { DAYS, LINEUP, STAGES } from '../data/lineup';
-import { getSetTime, getSubStage } from '../data/schedule';
+import { DAYS, LINEUP, STAGES, STAGE_ORDER } from '../data/lineup';
+import { SCHEDULE, getSetTime, getSubStage, makeSetKey } from '../data/schedule';
 import { IconHeart } from './Icons';
 import { HighlightMatch } from './Highlight';
 import styles from './AlphaGrid.module.scss';
 
-function CompactCard({ name, stage, time, isFav, onToggle, query }) {
+function CompactCard({ name, stage, time, setKeys, isFav, onToggle, query }) {
+  const handleToggle = () => setKeys.forEach(k => onToggle(k));
   return (
     <div
       className={`${styles.card} ${isFav ? styles.favorited : ''}`}
-      onClick={() => onToggle(name)}
+      onClick={handleToggle}
       title={[name, stage, time, isFav ? 'favorited' : ''].filter(Boolean).join(' — ')}
       role="button"
       tabIndex={0}
-      onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onToggle(name)}
+      onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && handleToggle()}
       aria-pressed={isFav}
       aria-label={[name, stage, time, isFav ? 'favorited' : ''].filter(Boolean).join(' — ')}
     >
@@ -25,6 +26,22 @@ function CompactCard({ name, stage, time, isFav, onToggle, query }) {
     </div>
   );
 }
+
+  // Build a map of artist → all set keys across all days/stages
+  function getArtistSetKeys(artistName) {
+    const keys = [];
+    for (const day of DAYS) {
+      for (const stage of STAGE_ORDER) {
+        const slots = SCHEDULE[day]?.[stage] || [];
+        for (const slot of slots) {
+          if (slot.artist === artistName) {
+            keys.push(makeSetKey(artistName, day, slot.start));
+          }
+        }
+      }
+    }
+    return keys;
+  }
 
 export function AlphaGrid({ query, activeStages, favOnly, favorites, onToggle, visibleDays, listLayout }) {
   const seen = new Set();
@@ -39,14 +56,17 @@ export function AlphaGrid({ query, activeStages, favOnly, favorites, onToggle, v
 
       const stage = STAGES[i % STAGES.length];
       if (activeStages.size > 0 && !activeStages.has(stage)) continue;
-      if (favOnly && !favorites.has(name)) continue;
       if (query && !name.toLowerCase().includes(query)) continue;
+
+      const setKeys = getArtistSetKeys(name);
+      const isFav = setKeys.some(k => favorites.has(k));
+      if (favOnly && !isFav) continue;
 
       const time = getSetTime(day, stage, name);
       const displayStage = stage === 'Smaller Stages'
         ? (getSubStage(day, name) || stage)
         : stage;
-      allArtists.push({ name, stage: displayStage, day, time });
+      allArtists.push({ name, stage: displayStage, day, time, setKeys, isFav });
     }
   }
 
@@ -77,13 +97,14 @@ export function AlphaGrid({ query, activeStages, favOnly, favorites, onToggle, v
             <span className={styles.sectionTitle}>{letter}</span>
           </div>
           <div className={`${styles.grid} ${listLayout === 'list' ? styles.singleCol : ''}`}>
-            {groups[letter].map(({ name, stage, time }) => (
+            {groups[letter].map(({ name, stage, time, setKeys, isFav }) => (
               <CompactCard
                 key={name}
                 name={name}
                 stage={stage}
                 time={time}
-                isFav={favorites.has(name)}
+                setKeys={setKeys}
+                isFav={isFav}
                 onToggle={onToggle}
                 query={query}
               />

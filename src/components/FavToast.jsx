@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { DAYS, STAGE_ORDER, toTitle } from '../data/lineup';
-import { SCHEDULE } from '../data/schedule';
+import { SCHEDULE, makeSetKey } from '../data/schedule';
 import { IconCopy, IconClose } from './Icons';
 import styles from './FavToast.module.scss';
 
@@ -30,7 +30,7 @@ function buildFavText(favorites, activeFilterDays) {
     for (const stage of STAGE_ORDER) {
       const sets = dayData[stage] || [];
       for (const slot of sets) {
-        if (!favorites.has(slot.artist)) continue;
+        if (!favorites.has(makeSetKey(slot.artist, day, slot.start))) continue;
         const end = addMin(slot.start, slot.duration);
         const time = `${fmt24to12(slot.start)}-${fmt24to12(end)}`;
         const shortStage = stage.split(' ')[0];

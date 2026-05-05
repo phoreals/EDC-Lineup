@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { DAYS, STAGE_ORDER, toTitle } from '../data/lineup';
-import { SCHEDULE, getSetTime } from '../data/schedule';
+import { SCHEDULE, formatSlotTime, makeSetKey } from '../data/schedule';
 import { IconHeart, IconBack, IconCopy, IconCheck } from './Icons';
 import { MyScheduleToast } from './MyScheduleToast';
 import styles from './MyScheduleGrid.module.scss';
@@ -26,7 +26,7 @@ function buildCopyText(favorites) {
     for (const stage of STAGE_ORDER) {
       const sets = dayData[stage] || [];
       for (const slot of sets) {
-        if (!favorites.has(slot.artist)) continue;
+        if (!favorites.has(makeSetKey(slot.artist, day, slot.start))) continue;
         const end = addMin(slot.start, slot.duration);
         const time = `${fmt24to12(slot.start)}-${fmt24to12(end)}`;
         const displayStage = slot.stage || stage.split(' ')[0];
@@ -78,7 +78,7 @@ export function MyScheduleGrid({ favorites, onBack }) {
   DAYS.forEach((day, dayIdx) => {
     STAGE_ORDER.forEach(stage => {
       (SCHEDULE[day]?.[stage] || []).forEach(slot => {
-        if (!favorites.has(slot.artist)) return;
+        if (!favorites.has(makeSetKey(slot.artist, day, slot.start))) return;
         const [h, m] = slot.start.split(':').map(Number);
         sets.push({
           day,
@@ -86,7 +86,8 @@ export function MyScheduleGrid({ favorites, onBack }) {
           artist: slot.artist,
           stage: slot.stage || stage,
           startMin: h * 60 + m,
-          time: getSetTime(day, stage, slot.artist),
+          time: formatSlotTime(slot),
+          setKey: makeSetKey(slot.artist, day, slot.start),
         });
       });
     });
@@ -121,7 +122,7 @@ export function MyScheduleGrid({ favorites, onBack }) {
               <div className={styles.cardList}>
                 {daySets.map(set => (
                   <MyScheduleCard
-                    key={set.artist}
+                    key={set.setKey}
                     artist={set.artist}
                     stage={set.stage}
                     time={set.time}
