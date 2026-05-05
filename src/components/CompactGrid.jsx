@@ -1,5 +1,5 @@
 import { STAGE_ORDER, DAYS, getArtistsByStage, toTitle } from '../data/lineup';
-import { SCHEDULE, getSetTime, getSubStage } from '../data/schedule';
+import { SCHEDULE, getSetTime, getSubStageNames } from '../data/schedule';
 import { IconHeart } from './Icons';
 import { HighlightMatch } from './Highlight';
 import styles from './CompactGrid.module.scss';
@@ -63,23 +63,33 @@ export function CompactGrid({ query, activeStages, favOnly, favorites, onToggle,
         const byStage = getArtistsByStage(day);
 
         const columns = stageList
-          .map(stage => {
-            let names = byStage[stage];
-            if (favOnly) names = names.filter(a => favorites.has(a));
-            if (query)   names = names.filter(a => a.toLowerCase().includes(query));
-            const stageSlots = SCHEDULE[day]?.[stage] || [];
-            const artists = names.map(name => {
-              const slot = stageSlots.find(s => s.artist === name);
-              const [h, m] = (slot?.start || '0:0').split(':').map(Number);
-              return {
-                name,
-                time: getSetTime(day, stage, name),
-                substage: stage === 'Smaller Stages' ? getSubStage(day, name) : null,
-                startMin: h * 60 + m,
-              };
+          .flatMap(stage => {
+            if (stage !== 'Smaller Stages') {
+              let names = byStage[stage];
+              if (favOnly) names = names.filter(a => favorites.has(a));
+              if (query)   names = names.filter(a => a.toLowerCase().includes(query));
+              const stageSlots = SCHEDULE[day]?.[stage] || [];
+              const artists = names.map(name => {
+                const slot = stageSlots.find(s => s.artist === name);
+                const [h, m] = (slot?.start || '0:0').split(':').map(Number);
+                return { name, time: getSetTime(day, stage, name), substage: null, startMin: h * 60 + m };
+              });
+              artists.sort((a, b) => a.startMin - b.startMin);
+              return [{ stage, artists }];
+            }
+            // Expand Smaller Stages into individual sub-stage columns
+            const smallerSlots = SCHEDULE[day]?.['Smaller Stages'] || [];
+            return getSubStageNames(day).map(subStage => {
+              let slots = smallerSlots.filter(s => s.stage === subStage);
+              if (favOnly) slots = slots.filter(s => favorites.has(s.artist));
+              if (query)   slots = slots.filter(s => s.artist.toLowerCase().includes(query));
+              const artists = slots.map(slot => {
+                const [h, m] = slot.start.split(':').map(Number);
+                return { name: slot.artist, time: getSetTime(day, 'Smaller Stages', slot.artist), substage: null, startMin: h * 60 + m };
+              });
+              artists.sort((a, b) => a.startMin - b.startMin);
+              return { stage: subStage, artists };
             });
-            artists.sort((a, b) => a.startMin - b.startMin);
-            return { stage, artists };
           })
           .filter(({ artists }) => artists.length > 0);
 

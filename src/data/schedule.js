@@ -34,6 +34,20 @@ export function getSubStage(day, artist) {
   return set?.stage ?? null;
 }
 
+/** Returns ordered list of unique sub-stage names for a given day */
+export function getSubStageNames(day) {
+  const sets = SCHEDULE[day]?.['Smaller Stages'] || [];
+  const seen = new Set();
+  const names = [];
+  for (const s of sets) {
+    if (s.stage && !seen.has(s.stage)) {
+      seen.add(s.stage);
+      names.push(s.stage);
+    }
+  }
+  return names;
+}
+
 export const SCHEDULE = {
   FRIDAY: {
     'Kinetic Field': [

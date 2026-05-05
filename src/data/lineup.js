@@ -21,7 +21,7 @@ export const STAGE_ORDER = [
   'Wasteland',
   'Bionic Jungle',
   'Quantum Valley',
-  // 'Smaller Stages', — hidden pending design decision
+  'Smaller Stages',
 ];
 
 export const DAYS = ['FRIDAY', 'SATURDAY', 'SUNDAY'];
@@ -493,3 +493,12 @@ export function getArtistsByStage(day) {
 
 export const toTitle = str =>
   str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+// Short labels for stage headers that would otherwise wrap to 2+ rows
+export const STAGE_ABBR = {
+  'Picnic Party Art Car':       'Picnic',
+  'Electrolit Hydration House': 'Electrolit',
+  'Insomniac Fridays':          'Insomniac',
+  'BeatBox Art Car':            'BeatBox',
+  'Takis Rave Hangar':          'Takis',
+};

@@ -1,6 +1,6 @@
 import { useMemo, useRef, useEffect, useState } from 'react';
-import { STAGE_ORDER } from '../data/lineup';
-import { SCHEDULE } from '../data/schedule';
+import { STAGE_ORDER, STAGE_ABBR } from '../data/lineup';
+import { SCHEDULE, getSubStageNames } from '../data/schedule';
 import { IconHeart } from './Icons';
 import { HighlightMatch } from './Highlight';
 import { STAGE_COLORS } from '../data/stageColors';
@@ -52,7 +52,7 @@ function SetBlock({ slot, stage, isFav, onToggle, compact, query }) {
   const offsetMin   = startAbsMin - FESTIVAL_START_MIN;
   const top         = offsetMin * PX_PER_MIN;
   const height      = slot.duration * PX_PER_MIN;
-  const color       = STAGE_COLORS[stage];
+  const color       = STAGE_COLORS[stage] ?? STAGE_COLORS['Smaller Stages'];
   const endAbsMin   = startAbsMin + slot.duration;
   const samePeriod  = getPeriod(startAbsMin) === getPeriod(endAbsMin);
   const omitStart   = compact && samePeriod;
@@ -151,22 +151,47 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
     [activeStages]
   );
 
+  // Sub-stage names for the current day (e.g. Forest House, BeatBox Art Car, etc.)
+  const subStageNames = useMemo(() => getSubStageNames(scheduleDay), [scheduleDay]);
+
+  // Expand 'Smaller Stages' into individual sub-stage columns
+  const expandedStages = useMemo(() => visibleStages.flatMap(s =>
+    s === 'Smaller Stages' ? subStageNames : [s]
+  ), [visibleStages, subStageNames]);
+
   const filteredSlots = useMemo(() => {
     const result = {};
-    visibleStages.forEach(stage => {
+    const hasSmallerStages = visibleStages.includes('Smaller Stages');
+    const smallerSlots = hasSmallerStages ? (dayData['Smaller Stages'] || []) : [];
+
+    visibleStages.filter(s => s !== 'Smaller Stages').forEach(stage => {
       result[stage] = (dayData[stage] || []).filter(slot => {
         if (favOnly && !favorites.has(slot.artist)) return false;
         if (query  && !slot.artist.toLowerCase().includes(query)) return false;
         return true;
       });
     });
+
+    // Each sub-stage gets its own column with its own filtered slots
+    subStageNames.forEach(subStage => {
+      if (!hasSmallerStages) return;
+      result[subStage] = smallerSlots
+        .filter(slot => {
+          if (slot.stage !== subStage) return false;
+          if (favOnly && !favorites.has(slot.artist)) return false;
+          if (query  && !slot.artist.toLowerCase().includes(query)) return false;
+          return true;
+        })
+        .map(slot => ({ ...slot, stage: undefined })); // suppress redundant sub-stage label inside block
+    });
+
     return result;
-  }, [dayData, visibleStages, favOnly, favorites, query]);
+  }, [dayData, visibleStages, subStageNames, favOnly, favorites, query]);
 
   // When filtering, hide stages with no matching slots
   const displayStages = (favOnly || query)
-    ? visibleStages.filter(s => (filteredSlots[s] || []).length > 0)
-    : visibleStages;
+    ? expandedStages.filter(s => (filteredSlots[s] || []).length > 0)
+    : expandedStages;
 
   return (
     <div className={styles.wrapper} ref={wrapperRef} data-col-size={colSize}>
@@ -176,18 +201,23 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
         <div className={styles.headerGutter} />
         <div className={styles.headerScroll} ref={headerScrollRef}>
           {displayStages.map(stage => {
-            const color = STAGE_COLORS[stage];
+            const isSideStage = !STAGE_COLORS[stage];
+            const color = isSideStage ? STAGE_COLORS['Smaller Stages'] : STAGE_COLORS[stage];
             return (
               <div
                 key={stage}
                 className={styles.stageHeader}
-                style={{
+                style={isSideStage ? {
+                  borderBottomColor: color.border,
+                  color: color.text,
+                  background: `radial-gradient(ellipse at 50% 100%, color-mix(in srgb, ${color.border} 25%, var(--color-neutral-950)), var(--color-neutral-950))`,
+                } : {
                   borderBottomColor: color.border,
                   color: color.text,
                   background: `radial-gradient(ellipse at 50% 100%, color-mix(in srgb, ${color.border} 25%, var(--color-neutral-950)), transparent)`,
                 }}
               >
-                {stage}
+                {colSize === 'lg' ? stage : (STAGE_ABBR[stage] ?? stage)}
               </div>
             );
           })}

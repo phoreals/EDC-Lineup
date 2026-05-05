@@ -44,7 +44,7 @@ export function AlphaGrid({ query, activeStages, favOnly, favorites, onToggle, v
 
       const time = getSetTime(day, stage, name);
       const displayStage = stage === 'Smaller Stages'
-        ? `${getSubStage(day, name) || stage} (Smaller Stage)`
+        ? (getSubStage(day, name) || stage)
         : stage;
       allArtists.push({ name, stage: displayStage, day, time });
     }
