@@ -1,7 +1,7 @@
 # EDC Lineup - UX Documentation
 
 > Complete interaction reference for the EDC Lineup web app.
-> Last updated: 2026-05-03
+> Last updated: 2026-05-05
 
 ---
 
@@ -15,6 +15,8 @@ Time-based grid showing artist sets across stages. Each column is a stage; rows 
 
 **Column sizes** (S / M / L) control stage column widths using `clamp()` for fluid scaling. A `data-narrow` attribute triggers compact time formatting when the container is < 600 px.
 
+The "Smaller Stages" entry in `STAGE_ORDER` expands into individual sub-stage columns (Forest House, Picnic Party Art Car, Electrolit Hydration House, etc.). Headers show abbreviated names in S/M column sizes (via `STAGE_ABBR`) and full names in L size. Sub-stage columns share the same neutral white color palette.
+
 The schedule runs from 5:00 PM Friday through ~6:00 AM Sunday. Times > 24:00 wrap correctly (25:00 = 1:00 AM next day).
 
 ### Browse View
@@ -23,9 +25,9 @@ Three sub-modes selected via **mode pills**:
 
 | Mode | Description |
 |------|-------------|
-| **A to Z** | Artists grouped by first letter, deduplicated across days |
-| **By Day** | Day columns, each with stage sub-columns |
-| **By Stage** | Stage sections, each with day sub-columns |
+| **A to Z** | Artists grouped by first letter, deduplicated across days; Smaller Stages entries show real sub-stage name (e.g., "BeatBox Art Car") |
+| **By Day** | Day columns, each with stage sub-columns; "Smaller Stages" expands into individual sub-stage columns |
+| **By Stage** | Stage sections, each with day sub-columns; "Smaller Stages" expands into individual sub-stage sections |
 
 A **layout toggle** (grid / list) switches between auto-fill columns and single-column list. In list mode, By Day and By Stage cards display artist name and set time inline on a single row (name truncates with ellipsis if needed). A to Z keeps name and time on separate lines since it also displays the stage name.
 
@@ -118,6 +120,9 @@ When filters are active, a summary row appears below the controls bar:
 - Keyboard: Enter or Space on focused card.
 - Persisted to `localStorage` (`edc-lineup-favorites`).
 - Visual feedback: filled heart, gradient background, bold name, accent text color.
+- Favorites are **per set**, not per artist. An artist playing two stages (e.g., Kelland on BeatBox Art Car and Electrolit Hydration House) has independently togglable hearts. Set key format: `"Artist::DAY::HH:MM"`.
+- **A to Z view**: clicking the heart on an artist card toggles all of that artist's sets at once (since the A-Z view deduplicates by artist name).
+- **Migration**: old artist-name favorites (pre-per-set format) are cleared automatically on load.
 
 ---
 
@@ -242,7 +247,7 @@ Raw data
 | `listMode` | `'list' \| 'compact' \| 'byStage'` | `'list'` | -- |
 | `colSize` | `'sm' \| 'md' \| 'lg'` | `'md'` | -- |
 | `listLayout` | `'grid' \| 'list'` | `'list'` | -- |
-| `favorites` | `Set<string>` | empty | `localStorage` |
+| `favorites` | `Set<string>` | empty | `localStorage` (keys = `"Artist::DAY::HH:MM"`) |
 
 ---
 

@@ -1,7 +1,7 @@
 # EDC Lineup - Information Architecture
 
 > Content model, navigation structure, data relationships, and user flows.
-> Last updated: 2026-05-03
+> Last updated: 2026-05-05
 
 ---
 
@@ -12,13 +12,15 @@
 ```
 Festival
  └─ 3 Days (Friday 5/15, Saturday 5/16, Sunday 5/17)
-     └─ 10 Stages per day (9 main + "Smaller Stages" combined)
+     └─ 10 Stage groups per day (9 main + "Smaller Stages" combined key)
+         └─ Smaller Stages expands into 8 individual sub-stage columns
          └─ ~11 Sets per stage (artist + start time + duration)
 
 Artist (global namespace, ~200+ unique names)
- └─ Performs on 1 stage per day, with possible multiple appearances across days
- └─ Smaller Stages artists also carry a sub-stage name (e.g., "Forest House")
- └─ Can be marked as favorite (persisted to localStorage)
+ └─ Can perform on multiple stages and/or days (e.g., Kelland plays
+    BeatBox Art Car and Electrolit Hydration House on Friday)
+ └─ Smaller Stages artists carry a sub-stage name (e.g., "Forest House")
+ └─ Each individual set can be favorited independently (persisted to localStorage)
 ```
 
 ### Data Sources
@@ -26,19 +28,26 @@ Artist (global namespace, ~200+ unique names)
 | File | Contains | Structure |
 |------|----------|-----------|
 | `src/data/lineup.js` | `LINEUP[day]` | Array of artist names per day |
+| `src/data/lineup.js` | `STAGE_ORDER` | Canonical display order of 10 stage groups |
+| `src/data/lineup.js` | `STAGE_ABBR` | Short display names for long sub-stage names |
+| `src/data/lineup.js` | `DAYS`, `DAY_DATES` | Day constants and date display strings |
 | `src/data/schedule.js` | `SCHEDULE[day][stage]` | Array of `{ artist, start, duration[, stage] }` |
 | `src/data/stageColors.js` | `STAGE_COLORS[stage]` | `{ bg, border, text }` CSS var references |
-| `src/data/lineup.js` | `STAGE_ORDER` | Canonical display order of 10 stages |
-| `src/data/lineup.js` | `DAYS`, `DAY_DATES` | Day constants and date display strings |
 
-Smaller Stages entries include an optional `stage` field for the real venue name (e.g., `"Forest House"`, `"Art Cars"`). The helper `getSubStage(day, artist)` in `schedule.js` returns this sub-stage name.
+Smaller Stages entries include an optional `stage` field for the real venue name (e.g., `"Forest House"`, `"BeatBox Art Car"`). Each view expands the `"Smaller Stages"` key into individual sub-stage columns/sections.
+
+Key helpers in `schedule.js`:
+- `getSubStageNames(day)` — returns ordered unique sub-stage venue names for a day
+- `getSubStage(day, artist)` — returns the sub-stage name for a given artist
+- `formatSlotTime(slot)` — computes time range directly from a slot object (avoids `.find()` bug for artists with multiple sets)
+- `makeSetKey(artist, day, start)` — returns `"Artist::DAY::HH:MM"`, the unique key for a specific set
 
 ### Relationships
 
 - **Artist → Stage**: 1:1 per day for main stages; Smaller Stages artists carry an additional sub-stage name
-- **Artist → Day**: 1:many (an artist can appear on multiple days, including b2b appearances)
+- **Artist → Day**: 1:many (an artist can appear on multiple days or multiple sub-stages on the same day)
 - **Stage → Day**: present on all 3 days
-- **Favorite → Artist**: many:many (user selects from any artist)
+- **Favorite → Set**: many:many; favorites are keyed per set (`"Artist::DAY::HH:MM"`) so an artist with multiple sets can be favorited independently per set
 
 ---
 
@@ -263,7 +272,7 @@ App.jsx
 ├── listMode           'list' | 'compact' | 'byStage'
 ├── colSize            'sm' | 'md' | 'lg'
 ├── listLayout         'grid' | 'list'
-└── favorites          Set<string>  (localStorage)
+└── favorites          Set<string>  (localStorage, keys = "Artist::DAY::HH:MM")
 ```
 
 ### State → View Mapping
@@ -278,7 +287,7 @@ App.jsx
 | `listMode` | Which browse grid renders |
 | `colSize` | Timetable column widths |
 | `listLayout` | Grid vs single-column in browse views |
-| `favorites` | Heart icon fill, card highlight, filter eligibility |
+| `favorites` | Heart icon fill, card highlight, filter eligibility (matched per set key) |
 
 ---
 
