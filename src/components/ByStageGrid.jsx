@@ -1,4 +1,4 @@
-import { STAGE_ORDER, DAYS, getArtistsByStage, toTitle } from '../data/lineup';
+import { STAGE_ORDER, DAYS, toTitle } from '../data/lineup';
 import { SCHEDULE, getSetTime, getSubStageNames, formatSlotTime, makeSetKey } from '../data/schedule';
 import { IconHeart } from './Icons';
 import { HighlightMatch } from './Highlight';

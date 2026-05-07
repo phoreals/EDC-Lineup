@@ -186,7 +186,7 @@ export function ScheduleGrid({ activeFilterDays, query, activeStages, favOnly, f
     });
 
     return result;
-  }, [dayData, visibleStages, subStageNames, favOnly, favorites, query]);
+  }, [dayData, visibleStages, subStageNames, favOnly, favorites, query, scheduleDay]);
 
   // When filtering, hide stages with no matching slots
   const displayStages = (favOnly || query)
