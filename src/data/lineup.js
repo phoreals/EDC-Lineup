@@ -45,7 +45,7 @@ export const LINEUP = {
     'MPH', 'Eli Brown', 'Cyclops', 'DYEN',
     'Darude', 'Luuk van Dijk', 'Paramida', 'JRuiz',
     'Fisher', 'Levity', 'Notion', 'Joseph Capriati',
-    'Deathpact ∞ Deathpact', 'GRAVEDGR', 'Gareth Emery', 'Max Dean',
+    'The Masquerade', 'GRAVEDGR', 'Gareth Emery', 'Max Dean',
     'Robert Hood', 'The Kandyman', 'Korolova', 'Nico Moreno',
     'Roddy Lima', 'Mëstiza', 'Ghengar', 'Johannes Schuster',
     'Ilan Bluestone', 'Obskür', 'Salute b2b Chloé Caillet', 'Not Not',
